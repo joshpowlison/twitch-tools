@@ -25,202 +25,137 @@
 	</style>
 </head>
 <body>
+
+<script src="../core/main.js"></script>
 <div id="frame-holder"></div>
 <script>
 'use strict';
 
-var CHANNEL_NAME	= null;
-var CHANNEL_ID		= null;
-var OAUTH_TOKEN		= null;
-var TRIGGERS		= null;
-
-var SOCKET_CHAT		= null;
-
+var TRIGGERS				= null;
 var hecklesLastUseUser		= [];
 var hecklesLastUseGlobal	= [];
 
-const AUDIO_CONTEXT = new AudioContext();
+const AUDIO_CONTEXT			= new AudioContext();
 
-// On start
-(function(){
-	// Load in keys
-	var requestKeys = new XMLHttpRequest();
-	requestKeys.addEventListener('load', function(e){
-	
-		// Save the keys
-		var json		= JSON.parse(this.responseText);
-		CHANNEL_NAME	= json.channels[0];
-		CHANNEL_ID		= json.userId;
-		OAUTH_TOKEN		= json.oauthToken;
-
-		// Load triggers after loading the required keys
-		var requestTriggers = new XMLHttpRequest();
-		requestTriggers.addEventListener('load', function(e){
-			TRIGGERS = JSON.parse(this.responseText);
-			
-			socketInit();
-		});
-		requestTriggers.open('GET','triggers.json');
-		requestTriggers.send();
+function loadTriggers(){
+	// Load triggers after loading the required keys
+	var requestTriggers = new XMLHttpRequest();
+	requestTriggers.addEventListener('load', function(e){
+		TRIGGERS = JSON.parse(this.responseText);
+		console.log('Updated triggers');
 	});
-	requestKeys.open('GET','../secret.json');
-	requestKeys.send();
-})();
-
-function socketInit(keys){
-	const MAIN		= document.getElementsByTagName('main')[0];
-	const SOCKET	= new WebSocket('wss://pubsub-edge.twitch.tv');
-
-	SOCKET.addEventListener('open',function(){
-		SOCKET.send(JSON.stringify({
-			type:'LISTEN',
-			data:{
-				topics:[
-					'channel-points-channel-v1.' + CHANNEL_ID
-					,'channel-bits-events-v2.' + CHANNEL_ID
-					,'channel-subscribe-events-v1.' + CHANNEL_ID
-				],
-				auth_token:OAUTH_TOKEN.replace(/^oauth:?/i,'')
-			}
-		}));
-		
-		// PING regularly
-		setInterval(function(){
-			SOCKET.send(JSON.stringify({type:'PING'}));
-		},60 * 1000 * 3);
-	});
-
-	SOCKET.addEventListener('close', function() {
-		console.log('Connection Closed');
-	});
-
-	SOCKET.addEventListener('error', function(error) {
-		console.log('Connection Error: ' + error.toString());
-	});
-
-	// Receiving a message
-	SOCKET.addEventListener('message', function(message) {
-		var json = JSON.parse(message.data);
-		console.log('MESSAGE RECEIVED',json);
-		
-		switch(json.type){
-			// Server reacted to our PING
-			case 'PONG':
-				console.log('PUBSUB: Pong');
-				break;
-			// Server is asking us to reconnect
-			case 'RECONNECT':
-				console.log('PUBSUB: Requested to reconnect');
-				break;
-			case 'RESPONSE':
-				console.log('PUBSUB: Responded');
-				
-				// If there's an error, let the user know
-				if(json.error) document.getElementById('frame-holder').innerHTML = '<h1 style="color:red;">' + json.error + '</h1>';
-				break;
-			case 'MESSAGE':
-				readPubSubMessage(JSON.parse(json.data.message));
-				// runHeckle
-				break;
-			default:
-				console.log(json);
-				break;
-		}
-	});
-	
-	// Connect to web chat via socket
-	SOCKET_CHAT = new WebSocket('wss://irc-ws.chat.twitch.tv:443/', 'irc');
-	SOCKET_CHAT.addEventListener('open',socketChatOpen);
-	SOCKET_CHAT.addEventListener('message',function(message){
-		console.log('testing',message);
-		socketChatMessage(message);
-	});
+	requestTriggers.open('GET','triggers.json');
+	requestTriggers.send();
 }
 
-// Alerts from Pubsub include bits, subscriptions, and points
-function readPubSubMessage(message){
-	console.log(message);
+// Get the triggers every 10 seconds, in case the file has been changed
+setInterval(loadTriggers,10000);
 
-	// Channel Reward
-	if(message.type === 'reward-redeemed'){
-		for(var i = 0, l = TRIGGERS.points.length; i < l; i ++){
-			console.log(TRIGGERS.points[i]);
-			if(TRIGGERS.points[i].title !== message.data.redemption.reward.title) continue;
-			
-			if(TRIGGERS.points[i].user_input !== '' && TRIGGERS.points[i].user_input !== message.data.redemption.user_input) continue;
-			
-			runHeckle(TRIGGERS.points[i].heckle);
+async function readChatMessage(event){
+	var data = event.detail;
+
+	console.log(event);
+	for(var i = 0, l = TRIGGERS.chat.length; i < l; i ++){
+		// If chat message contains the phrase, run it; otherwise, continue over it. This will automatically support regex as a result.
+		if(new RegExp(TRIGGERS.chat[i].contains,'i').test(data.message) === false) continue;
+		
+		// Check if is from a user
+		if(TRIGGERS.chat[i].from !== '' && new RegExp('(?:^|,)' + data.display_name + '(?:$|,)','i').test(TRIGGERS.chat[i].from) === false) continue;
+		
+		// Check user type
+		if(
+			!(data.badges && data.badges.broadcaster) // Always allow the broadcaster in
+		){
+			if(TRIGGERS.chat[i].userType == 'sub' && data.subscriber == '0') continue;
+			if(TRIGGERS.chat[i].userType == 'vip' && !(data.badges && data.badges.vip)) continue;
+			if(TRIGGERS.chat[i].userType == 'mod' && data.mod == '0') continue;
 		}
-		return;
-	}
-	
-	// Bits
-	if(message.message_type === 'bits_event'){
-		/*
-		/// SAMPLE DATA ///
-		{
-			is_anonymous: false
-			,data:{
-				user_name: "Name"
-				,chat_message: "LUL"
-				,bits_used: 10000
+		
+		// See if global cooldown has waited long enough
+		if(hecklesLastUseGlobal[i]
+			&& Date.now() - hecklesLastUseGlobal[i] < parseInt(TRIGGERS.chat[i].cooldown) * 1000
+		){
+			console.log('So far for global cooldown we\'ve waited ',Date.now() - hecklesLastUseGlobal[i],' milliseconds');
+			continue;
+		}
+		
+		// See if user cooldown has waited long enough
+		if(hecklesLastUseUser[i] && hecklesLastUseUser[i][data.user_id]
+			&& Date.now() - hecklesLastUseUser[i][data.user_id] < parseInt(TRIGGERS.chat[i].cooldown) * 1000
+		){
+			console.log('So far for user cooldown we\'ve waited ',Date.now() - hecklesLastUseUser[i][data.user_id],' milliseconds');
+			continue;
+		}
+		
+		runHeckle(TRIGGERS.chat[i].heckle);
+		
+		// Trigger cooldown values
+		if(TRIGGERS.chat[i].cooldownType === 'global') hecklesLastUseGlobal[i] = Date.now();
+		else if(TRIGGERS.chat[i].cooldownType === 'user'){
+			if(!hecklesLastUseUser[i]){
+				console.log('creating heckles user object');
+				hecklesLastUseUser[i] = {};
 			}
-			,message_type:"bits_event"
+			hecklesLastUseUser[i][data.user_id] = Date.now();
 		}
-		*/
-			
-		for(var i = 0, l = TRIGGERS.bits.length; i < l; i ++){
-			console.log(TRIGGERS.bits[i]);
-			
-			if(TRIGGERS.bits[i].is_anonymous !== 'Any'
-			&& String(TRIGGERS.bits[i].is_anonymous) !== String(message.is_anonymous)) continue;
-			
-			if(TRIGGERS.bits[i].bits_min > message.data.bits_used) continue;
-			
-			if(TRIGGERS.bits[i].bits_max < message.data.bits_used) continue;
-			
-			/*if(TRIGGERS.bits[i].chat_message_includes !== null
-			&& TRIGGERS.bits[i].is_anonymous !== message.data.is_anonymous) continue;*/
-			
-			runHeckle(TRIGGERS.bits[i].heckle);
-		}
-		return;
 	}
+}
+
+function onRedemption(event){
+	console.log(event);
+	var message = event.detail;
 	
-	// Subscriptions
-	if(typeof(message.sub_plan) !== 'undefined'){
-		/*
-		/// SAMPLE DATA ///
-		{
-			"sub_plan": "1000",
-			"months": 9,
-			"context": "subgift", // ???, "resub", "subgift", "anonsubgift"
-			"sub_message": {
-				"message": ""
-			}
-		}
-		*/
-			
-		for(var i = 0, l = TRIGGERS.subscriptions.length; i < l; i ++){
-			console.log(TRIGGERS.subscriptions[i]);
-			
-			if(TRIGGERS.subscriptions[i].sub_plan !== 'Any'
-			&& TRIGGERS.subscriptions[i].sub_plan != message.sub_plan) continue;
-			
-			if(TRIGGERS.subscriptions[i].months_min > message.months) continue;
-			
-			if(TRIGGERS.subscriptions[i].months_max < message.months) continue;
-			
-			// Check the subscription context (sub, resub, subgift, anonsubgift, resubgift, anonresubgift), and ignore "re"; that doesn't seem important
-			if(TRIGGERS.subscriptions[i].context !== 'Any'
-			&& TRIGGERS.subscriptions[i].context !== message.context.replace('re','')) continue;
-			
-			/*if(TRIGGERS.subscriptions[i].message_includes !== null
-			&& TRIGGERS.subscriptions[i].message_includes !== message.sub_message.message) continue;*/
-			
-			runHeckle(TRIGGERS.subscriptions[i].heckle);
-		}
-		return;
+	for(var i = 0, l = TRIGGERS.points.length; i < l; i ++){
+		console.log(TRIGGERS.points[i]);
+		if(TRIGGERS.points[i].title !== message.redemption.reward.title) continue;
+		
+		if(TRIGGERS.points[i].user_input !== '' && TRIGGERS.points[i].user_input !== message.redemption.user_input) continue;
+		
+		runHeckle(TRIGGERS.points[i].heckle);
+	}
+}
+
+function onCheer(event){
+	var message = event.detail;
+	
+	for(var i = 0, l = TRIGGERS.bits.length; i < l; i ++){
+		console.log(TRIGGERS.bits[i]);
+		
+		if(TRIGGERS.bits[i].is_anonymous !== 'Any'
+		&& String(TRIGGERS.bits[i].is_anonymous) !== String(message.is_anonymous)) continue;
+		
+		if(TRIGGERS.bits[i].bits_min > message.data.bits_used) continue;
+		
+		if(TRIGGERS.bits[i].bits_max < message.data.bits_used) continue;
+		
+		/*if(TRIGGERS.bits[i].chat_message_includes !== null
+		&& TRIGGERS.bits[i].is_anonymous !== message.data.is_anonymous) continue;*/
+		
+		runHeckle(TRIGGERS.bits[i].heckle);
+	}
+}
+
+function onSubscription(event){
+	var message = event.detail;
+	
+	for(var i = 0, l = TRIGGERS.subscriptions.length; i < l; i ++){
+		console.log(TRIGGERS.subscriptions[i]);
+		
+		if(TRIGGERS.subscriptions[i].sub_plan !== 'Any'
+		&& TRIGGERS.subscriptions[i].sub_plan != message.sub_plan) continue;
+		
+		if(TRIGGERS.subscriptions[i].months_min > message.months) continue;
+		
+		if(TRIGGERS.subscriptions[i].months_max < message.months) continue;
+		
+		// Check the subscription context (sub, resub, subgift, anonsubgift, resubgift, anonresubgift), and ignore "re"; that doesn't seem important
+		if(TRIGGERS.subscriptions[i].context !== 'Any'
+		&& TRIGGERS.subscriptions[i].context !== message.context.replace('re','')) continue;
+		
+		/*if(TRIGGERS.subscriptions[i].message_includes !== null
+		&& TRIGGERS.subscriptions[i].message_includes !== message.sub_message.message) continue;*/
+		
+		runHeckle(TRIGGERS.subscriptions[i].heckle);
 	}
 }
 
@@ -275,140 +210,11 @@ function runHeckle(heckle){
 	request.send();
 }
 
-// Get the triggers every 10 seconds, in case the file has been changed
-setInterval(function(){
-	// Load triggers after loading the required keys
-	var requestTriggers = new XMLHttpRequest();
-	requestTriggers.addEventListener('load', function(e){
-		TRIGGERS = JSON.parse(this.responseText);
-		console.log('Updated triggers');
-	});
-	requestTriggers.open('GET','triggers.json');
-	requestTriggers.send();
-},10000);
-
-
-
-
-//////// CHAT SOCKET //////////
-
-function socketChatOpen(){
-	console.log('Twitch Chat connecting and authenticating...');
-
-	SOCKET_CHAT.send('CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership');
-	SOCKET_CHAT.send('PASS ' + OAUTH_TOKEN);
-	SOCKET_CHAT.send('NICK #' + CHANNEL_NAME);
-	SOCKET_CHAT.send('JOIN #' + CHANNEL_NAME);
-}
-
-function socketChatMessage(message){
-	var rawMessage = message.data;
-	console.log(rawMessage);
-	
-	// Reply to "PING"s with "PONG" so we stay connected
-	if(/^PING\s*/i.test(rawMessage)){
-		console.log('sending back PONG for Twitch Chat!');
-		SOCKET_CHAT.send('PONG :tmi.twitch.tv');
-		return;
-	}
-	
-	// Chat message
-	if(rawMessage[0] === '@'){
-		
-		var regex = /[@;]([^=]+)=([^;]*)/g;
-		var response;
-		var data = {};
-		
-		while(response = regex.exec(rawMessage)){
-			data[response[1]] = response[2];
-		}
-		
-		var messageData = /(PRIVMSG|NOTICE|USERNOTICE)\s(#[^\s]+)\s?:?(.*)/.exec(data['user-type']);
-		
-		// Ignore messages that aren't of the above type
-		if(!messageData) return;
-		
-		data.type		= messageData[1];
-		data.channel	= messageData[2];
-		data.message	= messageData[3];
-		
-		// Only look at PRIVMSGs here- these are user posts in chat
-		if(
-			data.type !== 'PRIVMSG'
-			|| typeof(data['custom-reward-id']) !== 'undefined'
-		) return;
-		
-		// Update user data
-		var userData = /\s:([^!]+)!/.exec(data['user-type']);
-		data['username'] = userData[1];
-		
-		// Update badge data
-		regex = /([^\/]+)\/([^,]+)/g;
-		var badgeText = data['badges'];
-		data['badges'] = {};
-		while(response = regex.exec(badgeText)){
-			data['badges'][response[1]] = response[2];
-		}
-		
-		// Convert dashes to underscores for this
-		data['badge_info']		= data['badge-info'];
-		data['display_name']	= data['display-name'];
-		data['room_id']			= data['room-id'];
-		data['tmi_sent_ts']		= data['tmi-sent-ts'];
-		data['user_id']			= data['user-id'];
-		data['user_type']		= data['user-type'];
-		
-		readChatMessage(data);
-	}
-}
-
-async function readChatMessage(data){
-	console.log(data);
-	for(var i = 0, l = TRIGGERS.chat.length; i < l; i ++){
-		// If chat message contains the phrase, run it; otherwise, continue over it. This will automatically support regex as a result.
-		if(new RegExp(TRIGGERS.chat[i].contains,'i').test(data.message) === false) continue;
-		
-		// Check if is from a user
-		if(TRIGGERS.chat[i].from !== '' && new RegExp('(?:^|,)' + data.display_name + '(?:$|,)','i').test(TRIGGERS.chat[i].from) === false) continue;
-		
-		// Check user type
-		if(
-			!(data.badges && data.badges.broadcaster) // Always allow the broadcaster in
-		){
-			if(TRIGGERS.chat[i].userType == 'sub' && data.subscriber == '0') continue;
-			if(TRIGGERS.chat[i].userType == 'vip' && !(data.badges && data.badges.vip)) continue;
-			if(TRIGGERS.chat[i].userType == 'mod' && data.mod == '0') continue;
-		}
-		
-		// See if global cooldown has waited long enough
-		if(hecklesLastUseGlobal[i]
-			&& Date.now() - hecklesLastUseGlobal[i] < parseInt(TRIGGERS.chat[i].cooldown) * 1000
-		){
-			console.log('So far for global cooldown we\'ve waited ',Date.now() - hecklesLastUseGlobal[i],' milliseconds');
-			continue;
-		}
-		
-		// See if user cooldown has waited long enough
-		if(hecklesLastUseUser[i] && hecklesLastUseUser[i][data.user_id]
-			&& Date.now() - hecklesLastUseUser[i][data.user_id] < parseInt(TRIGGERS.chat[i].cooldown) * 1000
-		){
-			console.log('So far for user cooldown we\'ve waited ',Date.now() - hecklesLastUseUser[i][data.user_id],' milliseconds');
-			continue;
-		}
-		
-		runHeckle(TRIGGERS.chat[i].heckle);
-		
-		// Trigger cooldown values
-		if(TRIGGERS.chat[i].cooldownType === 'global') hecklesLastUseGlobal[i] = Date.now();
-		else if(TRIGGERS.chat[i].cooldownType === 'user'){
-			if(!hecklesLastUseUser[i]){
-				console.log('creating heckles user object');
-				hecklesLastUseUser[i] = {};
-			}
-			hecklesLastUseUser[i][data.user_id] = Date.now();
-		}
-	}
-}
+loadTriggers();
+document.addEventListener('livestreamredemption',onRedemption);
+document.addEventListener('livestreamcheer',onCheer);
+document.addEventListener('livestreamsubscription',onSubscription);
+document.addEventListener('livestreamchatmessage',readChatMessage);
 
 </script>
 </body>
