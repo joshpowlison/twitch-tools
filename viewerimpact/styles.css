@@ -1,0 +1,460 @@
+/**************/
+/** SETTINGS **/
+/**************/
+
+/*
+
+Colors:
+	Light Green		: #ecf8ee
+	Text/Outlines	: #050706
+	Medium Green	: #75f7b1
+	Dark Green		: #2c582e
+	Purple			: #6a77d2
+*/
+
+@font-face {
+	font-family: "Advent Pro";
+	src: url("advent-pro/adventpro-regular.ttf");
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: "Advent Pro";
+	src: url("advent-pro/adventpro-bold.ttf");
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: "Advent Pro";
+	src: url("advent-pro/adventpro-light.ttf");
+	font-weight: light;
+}
+
+#body{
+	margin				: 0;
+	padding				: 0;
+	font-family			: "Advent Pro";
+	background-color:#ecf8ee;
+	color: #050706;
+	width:100vw;
+	height:1080px;
+	position:relative;
+}
+
+/**************/
+/*** HEADER ***/
+/**************/
+
+
+header{
+	width: 63rem;
+	height:10em;
+	top:0;
+	/* left:40%; */
+	margin: auto;
+	z-index:10;
+	/* position:absolute; */
+	display: flex;
+	align-items: center;
+}
+
+header > div{
+	margin: auto;
+	display: block;
+	height: 80%;
+	width: 30%;
+}
+
+h1{
+	font-size: 4em;
+	font-weight:bold;
+	margin:0;
+}
+
+#project-creator{
+	display:block;
+	font-size: 0.69em;
+	font-weight:normal;
+	transform: translate(.1em,-.33em);
+}
+
+#project-version{
+	margin:none;
+	transform: translate(14.6em,-3.72em);
+	/* display: inline; */
+	font-size: 1.5em;
+	width: 2.5em;
+	margin: 0;
+}
+
+#project-options{
+	border:none;
+	text-align:right;
+	width: 25%;
+	margin-left: 20%;
+	font-size:1.5em;
+	border-collapse:collapse;
+}
+
+#project-options td:first-child{
+	/* font-weight:bold; */
+	/* width:60%; */
+}
+
+.option-name{
+	width: 20%;
+	padding-right:3%;
+}
+
+.option-value{
+	width: 80%;
+}
+
+.option-value > select{
+	width:100%;
+	text-align-last:right;
+	font-family:"Advent Pro";
+	font-size:1em;
+	
+	color:#050706;
+	border:2px solid #050706;
+	border-radius:0px;
+	
+	background-color:#ecf8ee;
+}
+
+.option-value option{
+	text-align:right;
+	direction:rtl;
+	background-color:#ecf8ee;
+	color:#050706;
+}
+
+/* Heckles */
+#tabs{
+	height: 5em;
+	background-color: #ecf8ee;
+	border: 1px solid #050706;
+	overflow: auto;
+	width: 25%;
+}
+
+#tabs > button{	width: 100%;	display: block;	text-align: right;	border: none;	color: #050706;	background-color: #ecf8ee;	cursor: pointer;	font-family: "Advent Pro";	font-size: 1.5em;	/* overflow: auto; */
+}
+
+#tabs > button:hover{
+	background-color:#75f7b1;
+}
+
+#tabs > button.active{
+	background-color: #2c582e;
+	color: #ecf8ee;
+}
+
+/**************/
+/** TIMELINE **/
+/**************/
+
+#controls{
+	display: flex;
+	justify-content: space-between;
+	width:62rem;
+	margin:auto;
+	font-size:3em;
+}
+
+#controls button{
+	height:2.5em;
+	width:2.5em;
+	display:block;
+	float:left;
+	margin:.5em 0;
+
+	border:1px solid #050706;
+	background-color:none;
+	background-color:#ecf8ee;
+	background-image:url("icons.svg");
+	background-size:200%;
+	background-position-x:0%;
+}
+
+#controls button:hover{
+	background-color:#75f7b1;
+}
+
+#controls button:active{
+	background-color:#2c582e;
+	background-position-x:100%;
+}
+
+#control-save{
+	background-position-y:33.5%;
+}
+
+#control-play{
+	background-position-y:17%;
+}
+
+.paused #control-play{
+	background-position-y:0%;
+}
+
+#control-transform{
+	margin:0;
+	display: flex;
+}
+
+.control-transform-group{
+	margin:0;
+	display:flex;
+	flex-direction:column;
+	font-size:1.5rem;
+	
+	text-align:center;
+	margin:0 .25em;
+}
+
+#control-transform input{
+	font-family:"Advent Pro";
+	font-size:.8em;
+	padding:0;
+	
+	height:1.5em;
+	width:4em;
+	
+	border:1px solid #050706;
+	border-radius:0px;
+	
+	color:#050706;
+	background-color:#ecf8ee;
+}
+
+#control-transform input:focus{
+	background-color:#75f7b1;
+}
+
+#control-time{
+	/* float:right; */
+	/* text-align: right; */
+	font-family:monospace;
+	margin:0;
+	float:right;
+}
+
+/**************/
+/** PREVIEW ***/
+/**************/
+
+main{
+	border:1px solid #050706;
+	width:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	width:100vw;
+	height:100vh;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	z-index: 10;
+	pointer-events: none;
+}
+
+.paused * {
+	animation-play-state: paused !important;
+}
+
+#frame-holder{
+	width:1920px;
+	height:1080px;
+	border:5px solid #050706;
+	position:absolute;
+	transform:scale(.25,.25);
+	z-index: 1000;
+	/* background: red; */
+}
+
+#frame-holder > img:hover{
+	box-shadow: 0px 0px 0px 10px #28890061;
+}
+
+#frame-holder > img{
+	position			: absolute;
+	height				: 100%;
+	width				: 100%;
+	object-fit			: contain;
+	animation-duration	: 10s;
+	animation-fill-mode	: forwards;
+	animation-timing-function: linear;
+	
+	/* We override visibility here, but we want those settings applied for the read thing */
+	visibility:visible !important;
+	z-index: 20;
+	cursor:pointer;
+	pointer-events: auto;
+}
+
+#frame-background{
+	width:1920px;
+	height:1080px;
+	border: .5em solid #050706;
+	position:absolute;
+	transform:scale(.25,.25);
+	z-index: 0;
+	/* background: red; */
+}
+
+#frame-background.default{
+	background-image:url("default.png");
+}
+#frame-background.clear{}
+#frame-background.image{
+	background-image:url("background.jpg");
+}
+#frame-background.webcam
+,#frame-background.screen{
+	background-image:url("loading.png");
+}
+
+#control-slider{
+	width:100%;
+}
+
+#scrubber{
+	/* border:1px solid #050706; */
+	margin: auto;
+	display: block;
+	cursor:pointer;
+}
+
+/**************/
+/*** FOOTER ***/
+/**************/
+
+footer{
+	width: 100%;
+	height: 24%;
+	border-top:1px solid #050706;
+	/* left:40%; */
+	bottom:0;
+	margin:auto;
+	z-index: 5;
+	position: absolute;
+	overflow:auto;
+	
+	/* background-color:#75f7b1; */
+}
+
+#triggers-chat-heading
+,#triggers-points-heading
+,#triggers-bits-heading
+,#triggers-subscriptions-heading{
+	margin:0;
+	padding:.5em;
+	box-sizing:border-box;
+	color:#ecf8ee;
+}
+
+#triggers-chat-heading{
+	background-color:#6a77d2;
+}
+
+#triggers-points-heading{
+	background-color:#6a77d2;
+}
+
+#triggers-bits-heading{
+	background-color:#6a77d2;
+}
+
+#triggers-subscriptions-heading{
+	background-color:#6a77d2;
+}
+
+#triggers-chat input[name="contains"]{
+	max-width:5em;
+}
+
+#triggers-chat input[name="from"]{
+	max-width:7em;
+}
+
+.triggers-add{
+	display: block;
+	text-align: right;
+	border: 1px solid #050706;
+	color: #050706;
+	background-color: #ecf8ee;
+	cursor: pointer;
+	font-family: "Advent Pro";
+	font-size: 1.5em;
+	/* overflow: auto; */
+	margin: 0 auto 1em auto;
+}
+
+.triggers-add:hover{
+	background-color:#75f7b1;
+}
+
+.triggers-add.active{
+	background-color: #2c582e;
+	color: #ecf8ee;
+}
+
+.triggers-delete-button{
+	display: block;
+	text-align: right;
+	border: 1px solid #050706;
+	color: #050706;
+	background-color: #ecf8ee;
+	cursor: pointer;
+	font-family: "Advent Pro";
+	font-size: 1em;
+	
+	float:right;
+}
+
+.triggers-delete-button:hover{
+	background-color:#75f7b1;
+}
+
+.triggers-delete-button.active{
+	background-color: #2c582e;
+	color: #ecf8ee;
+}
+
+footer > div{
+	margin:auto;
+	display: block;
+	width: 97rem;
+	max-width: 100%;
+	font-size:1.5em;
+	padding: .5em;
+	box-sizing: border-box;
+}
+
+footer > div > p{
+	margin:0;
+}
+
+footer select, footer input{
+	font-family:"Advent Pro";
+	font-size:1em;
+	
+	border:1px solid #050706;
+	border-radius:0px;
+	
+	color:#050706;
+	background-color:#ecf8ee;
+}
+
+footer select:focus,footer input:focus{
+	background-color:#75f7b1;
+}
+
+footer option{
+	background-color:#ecf8ee;
+	color:#050706;
+}

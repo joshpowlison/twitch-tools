@@ -1,0 +1,79 @@
+.textfx{
+	opacity:1;
+	
+	/* user-select:none; */
+	/* -webkit-user-select:none; */
+	/* -ms-user-select:none; */
+	/* -moz-user-select:none; */
+	
+	word-wrap:break-word;
+	word-break:normal;
+	break-word:normal;
+	overflow-wrap:break-word;
+	white-space:nowrap;
+}
+
+.textfx-letter-container{
+	visibility:hidden;
+	position:relative;
+}
+
+.textfx-letter{
+	position:absolute;
+	bottom:0;
+	display:inline-block;
+	animation:textfx-display 1s linear forwards;
+}
+
+.textfx-letter-animation{
+	position:relative;
+	display:inline-block;
+}
+
+@keyframes textfx-display{
+	0% {visibility:visible;}
+	100% {visibility:visible;}
+}
+
+/* CUSTOM LETTER ANIMATIONS */
+
+.shout .textfx-letter{
+	animation:shout 1s linear infinite;
+}
+
+@keyframes shout{
+	0% {visibility:visible;transform:scale(3);}
+	10% {visibility:visible;transform:scale(1);}
+	100% {visibility:visible;transform:scale(1);}
+}
+
+.fade .textfx-letter{
+	animation:fade .1s linear forwards;
+}
+
+@keyframes fade{
+	0% {visibility:visible;opacity:0;}
+	100% {visibility:visible;opacity:1;}
+}
+
+.sing .textfx-letter-animation{
+	animation:sing 1.5s ease-in-out infinite;
+}
+
+@keyframes sing{
+	0%{transform:translate(0,-.2em);}
+	50%{transform:translate(0,.2em);}
+	100%{transform:translate(0,-.2em);}
+}
+
+.shake .textfx-letter-animation{
+	animation:shake .2s linear infinite;
+}
+
+@keyframes shake{
+	0%{transform:translate(.05em,.125em);}
+	25%{transform:translate(-.05em,-.125em);}
+	50%{transform:translate(-.05em,.125em);}
+	75%{transform:translate(.05em,-.125em);}
+	100%{transform:translate(.05em,.125em);}
+}

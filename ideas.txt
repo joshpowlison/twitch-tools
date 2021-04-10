@@ -1,0 +1,55 @@
+/////// NEXT STEPS
+
+
+
+///////////////////
+
+- Track what your role is in channels you're tracking:
+	- Are you a mod?
+	- Are you a broadcaster?
+	- Are you a subscriber?
+	- Are you a follower?
+	etc
+- Track viewer data locally
+	- Allow streamer to save notes on viewers to review
+	- Add notes on strikes to viewers
+- Add automodding capability
+	- Put in block words and swears
+	- Autoban people from a master ban list in all affiliated channels
+- Add bot command abilities
+	- Would be best if I could tie these in to JS functions somehow, letting people create commands for anything
+		- I could have it so that it reads window[chatMessage] and checks for functions, allowing mods to run anything. That could go horrendously wrong, or be extremely powerful. I could also tag functions somehow so that only certain people can access them, and push off other functions to the side.
+
+///
+
+Next steps:
+
+1. Every app uses 1 series of tokens and data
+	- Get them all to use save.json
+	
+Recommend https://sqlitebrowser.org/dl/#windows
+
+///////
+///////
+///////
+
+index.php
+- Contains the packets, each of which are 500px wide at most and can be toggled on or off
+- Runs events based on common happenings
+	- Events are, generally, all lowercase with no dashes or spaces
+	- livestreamchatmessage
+	- livestreamredemption
+	- livestreamcheer
+	- livestreamsubscription
+
+packages
+- Each package contains the following:
+	- index.php: the file that contains the packet files
+	- browser-source.html: the source to put into Streamlabs
+		- Contains all JS, HTML, and CSS needed; one self-contained file
+	- save.json: a save file for all relevant package data
+	- script.js
+		- Listens for events run by the home page
+	- styles.cs
+
+Need a base JS file that connects to everything I want to; can call that JS file from everything, and it runs events that every other package just listens for.

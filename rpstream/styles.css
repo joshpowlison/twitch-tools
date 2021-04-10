@@ -1,0 +1,44 @@
+h1,p{
+	text-align:center;
+}
+
+table{
+	border-collapse:collapse;
+	margin:1em auto;
+}
+
+table,th,td{
+	border:1px solid black;
+}
+
+td:first-child{
+	font-weight:bold;
+}
+
+input{
+	/* width:40em; */
+}
+
+.points{
+	width:5em;
+}
+
+#scenarios-container{
+	max-width:100%;
+}
+
+.option{
+	width:100%;
+}
+
+#scenario-add{
+	display:block;
+	margin:auto;
+	background-color:green;
+	color:white;
+	font-size:1.5em;
+}
+
+#display-time{
+	font-weight:bold;
+}

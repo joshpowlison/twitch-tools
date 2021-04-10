@@ -1,0 +1,14 @@
+.user{
+	width:15em;
+	display:block;
+	text-align:left;
+	width:15em;
+}
+
+.lurker{
+	background-color:#c6c6c6;
+}
+
+.chatter{
+	background-color:#7fff7f;
+}

@@ -1,0 +1,187 @@
+
+/*#chat{
+	position:absolute;
+	top: 51%;
+	right:0.8%;
+	width:25.4%;
+	bottom: 0;
+	overflow:hidden;
+	font-size:1rem;
+	box-sizing:border-box;
+	padding:.5em;
+	padding-bottom:1em;
+	color:#fff;
+	background-color:rgba(0,0,0,.4);
+	z-index: 10;
+	transition: all .2s;
+}*/
+/* #chat::-webkit-scrollbar {display:none;} */
+
+.chat-me{
+	height:6px;
+	width:6px;
+	display:inline-block;
+	
+	background-image:url('images/mes.png');
+    background-repeat:no-repeat;
+    image-rendering: pixelated;
+	
+	/* Position the !me correctly */
+	transform: scale(7) translate(3px,-1px)
+}
+
+.display-name{
+    font-weight:bold;
+    /* padding-left:1.5em; */
+	padding-right:.5em;
+    height:1em;
+    margin:0;
+}
+
+.message{
+	word-break: break-all;
+}
+
+p{
+	font-family:'Gadugi';
+	text-align:left;
+	margin:0;
+	padding:0;
+}
+
+.chat-command{
+	font-style:italic;
+	opacity:.7;
+}
+
+.chat-image{
+	width:100%;
+	margin:0;
+	padding:0;
+	max-height: 10em;
+	content-size: inherit;
+	object-fit: contain;
+}
+
+.chat-emote{
+	height:1.3em;
+	margin:0;
+	padding:0;
+	vertical-align:bottom;
+}
+
+.chat-hidden{
+	visibility:hidden;
+}
+
+.chat-reward{
+	animation:autohide .5s ease-out forwards;
+	overflow:hidden;
+	height:2.75em;
+	
+	background-image:linear-gradient(to right, rgba(0,0,0,0),rgba(0,0,0,.4));
+}
+
+@keyframes autohide{
+	from{
+		opacity:1;
+		height:2.5em;
+		margin:.125em 0;
+	}
+	to{
+		opacity:0;
+		height:0em;
+		margin:0em 0;
+	}
+}
+
+.cheermote{
+	height:1.3em;
+	margin:0;
+	padding:0;
+	vertical-align:bottom;
+}
+
+.cheer-amount{
+	background:linear-gradient(to right,rgba(255,255,255,0),rgba(255,255,255,.85) 2em);
+}
+
+.textfx{
+	opacity:1;
+	
+	/* user-select:none; */
+	/* -webkit-user-select:none; */
+	/* -ms-user-select:none; */
+	/* -moz-user-select:none; */
+	
+	word-wrap:break-word;
+	word-break:normal;
+	break-word:normal;
+	overflow-wrap:break-word;
+	white-space:nowrap;
+}
+
+.textfx-letter-container{
+	visibility:hidden;
+	position:relative;
+}
+
+.textfx-letter{
+	position:absolute;
+	bottom:0;
+	display:inline-block;
+	animation:textfx-display 1s linear forwards;
+}
+
+.textfx-letter-animation{
+	position:relative;
+	display:inline-block;
+}
+
+@keyframes textfx-display{
+	0% {visibility:visible;}
+	100% {visibility:visible;}
+}
+
+/* CUSTOM LETTER ANIMATIONS */
+
+.shout .textfx-letter{
+	animation:shout 1s linear infinite;
+}
+
+@keyframes shout{
+	0% {visibility:visible;transform:scale(3);}
+	10% {visibility:visible;transform:scale(1);}
+	100% {visibility:visible;transform:scale(1);}
+}
+
+.fade .textfx-letter{
+	animation:fade .1s linear forwards;
+}
+
+@keyframes fade{
+	0% {visibility:visible;opacity:0;}
+	100% {visibility:visible;opacity:1;}
+}
+
+.sing .textfx-letter-animation{
+	animation:sing 1.5s ease-in-out infinite;
+}
+
+@keyframes sing{
+	0%{transform:translate(0,-.2em);}
+	50%{transform:translate(0,.2em);}
+	100%{transform:translate(0,-.2em);}
+}
+
+.shake .textfx-letter-animation{
+	animation:shake .2s linear infinite;
+}
+
+@keyframes shake{
+	0%{transform:translate(.05em,.125em);}
+	25%{transform:translate(-.05em,-.125em);}
+	50%{transform:translate(-.05em,.125em);}
+	75%{transform:translate(.05em,-.125em);}
+	100%{transform:translate(.05em,.125em);}
+}

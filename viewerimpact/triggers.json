@@ -1,0 +1,38 @@
+{
+	"chat": [
+		{
+			"heckle": "awesome",
+			"contains": "!awesome",
+			"from": "",
+			"userType": "Any",
+			"cooldown": "10",
+			"cooldownType": "user"
+		}
+	],
+	"points": [
+		{
+			"heckle": "yes",
+			"title": "Yes",
+			"user_input": ""
+		}
+	],
+	"bits": [
+		{
+			"heckle": "goatgoat",
+			"is_anonymous": "Any",
+			"chat_message_includes": "",
+			"bits_min": "1",
+			"bits_max": "9999999999"
+		}
+	],
+	"subscriptions": [
+		{
+			"heckle": "yes",
+			"sub_plan": "Any",
+			"months_min": "1",
+			"months_max": "999",
+			"context": "sub",
+			"message_includes": ""
+		}
+	]
+}
