@@ -13,6 +13,7 @@ const LOOP_DELAY			= 500;	// The loop runs every 500 milliseconds
 ///////////////////
 
 var SOCKET_CHAT			= null;
+var SOCKET_PUBSUB		= null;
 var SETTINGS			= {};
 var lastFrameTimestamp	= new Date().getTime();
 
@@ -57,7 +58,7 @@ function dLoadSettings(){
 	}
 }
 
-function dTwitchChatConnectAll(){
+function dTwitchChatConnect(){
 	return function(){
 		SOCKET_CHAT = new WebSocket('wss://irc-ws.chat.twitch.tv:443/', 'irc');
 		
@@ -71,7 +72,7 @@ function dTwitchChatConnectAll(){
 			
 			// Join all chat channels
 			for(var i = 0, l = SETTINGS.channels.length; i < l; i ++){
-				delegateFunctions.push(dTwitchChatConnect(SETTINGS.channels[i]));
+				delegateFunctions.push(dTwitchChatJoinChannel(SETTINGS.channels[i]));
 				
 				// Every JOIN_ATTEMPTS_MAX connects, wait 11 seconds so we don't risk going over the limit. (The limit is 20 join attempts per 10 seconds per user)
 				if(i > 0 && !(i % JOIN_ATTEMPTS_MAX))
@@ -85,7 +86,43 @@ function dTwitchChatConnectAll(){
 	}
 }
 
-function dTwitchChatConnect(channel){
+function dTwitchPubsubConnect(){
+	return function(){
+		SOCKET_PUBSUB = new WebSocket('wss://pubsub-edge.twitch.tv');
+		
+		// Initial connection to the websocket
+		SOCKET_PUBSUB.addEventListener('open',function(){
+			console.log('Twitch Pubsub connecting and authenticating...');
+			
+			SOCKET_PUBSUB.send(JSON.stringify({
+				type:'LISTEN',
+				data:{
+					topics:[
+						'channel-points-channel-v1.' + SETTINGS.userId
+						,'channel-bits-events-v2.' + SETTINGS.userId
+						,'channel-subscribe-events-v1.' + SETTINGS.userId
+					],
+					auth_token:SETTINGS.oauthToken.replace(/^oauth:?/i,'')
+				}
+			}));
+			
+			// PING regularly
+			setInterval(function(){
+				SOCKET_PUBSUB.send(JSON.stringify({type:'PING'}));
+			},60 * 1000 * 3);
+		});
+
+		SOCKET_PUBSUB.addEventListener('close',function(){console.log('Connection Closed');});
+		SOCKET_PUBSUB.addEventListener('error',function(error){console.log('Connection Error: ' + error.toString());});
+
+		// Receiving a message
+		SOCKET_PUBSUB.addEventListener('message',onPubSubMessage);
+		
+		delegateEnd();
+	}
+}
+
+function dTwitchChatJoinChannel(channel){
 	return function(){
 		SOCKET_CHAT.send('JOIN #' + channel);
 		console.log('listening to ' + channel);
@@ -169,6 +206,64 @@ function onChatMessage(message){
 			
 			document.dispatchEvent(new CustomEvent('livestreamchatmessage', {detail: data}));
 		}
+	}
+}
+
+function onPubSubMessage(message){
+	console.log('Pubsub Message',message.data);
+	var json = JSON.parse(message.data);
+	
+	switch(json.type){
+		// Server reacted to our PING
+		case 'PONG':
+			break;
+		// Server is asking us to reconnect
+		case 'RECONNECT':
+			break;
+		case 'RESPONSE':
+			break;
+		case 'MESSAGE':
+			var pubSubMessage = JSON.parse(json.data.message);
+			//document.dispatchEvent(new CustomEvent('livestreampubsub', {detail: data}));
+			
+			// Alerts from Pubsub include bits, subscriptions, and points
+			// Channel Reward
+			if(pubSubMessage.type === 'reward-redeemed')
+				document.dispatchEvent(new CustomEvent('livestreamredemption', { detail: pubSubMessage.data }));
+	
+			// Bits
+			/// SAMPLE DATA ///
+			/*{
+				is_anonymous: false
+				,data:{
+					user_name: "Name"
+					,chat_message: "LUL"
+					,bits_used: 10000
+				}
+				,message_type:"bits_event"
+			}
+			*/
+			if(pubSubMessage.message_type === 'bits_event')
+				document.dispatchEvent(new CustomEvent('livestreamcheer', { detail: pubSubMessage }));
+	
+			// Subscriptions
+			/*
+			/// SAMPLE DATA ///
+			{
+				"sub_plan": "1000",
+				"months": 9,
+				"context": "subgift", // ???, "resub", "subgift", "anonsubgift"
+				"sub_message": {
+					"message": ""
+				}
+			}
+			*/
+			if(typeof(pubSubMessage.sub_plan) !== 'undefined')
+				document.dispatchEvent(new CustomEvent('livestreamsubscription', { detail: pubSubMessage }));
+			
+			break;
+		default:
+			break;
 	}
 }
 
@@ -344,4 +439,5 @@ onChatMessage({data:'@badge-info=subscriber/10;badges=broadcaster/1,subscriber/3
 
 loop();
 delegateFunctions.push(dLoadSettings());
-delegateFunctions.push(dTwitchChatConnectAll());
+delegateFunctions.push(dTwitchChatConnect());
+delegateFunctions.push(dTwitchPubsubConnect());

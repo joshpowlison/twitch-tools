@@ -82,7 +82,7 @@ https://dev.twitch.tv/docs/api/reference#get-custom-reward
 	</style>
 
 	<header>
-		<div id="project-title"><h1>ViewerImpact<span id="project-creator">by Josh Powlison</span></h1><p id="project-version">v0.6.1</p></div>
+		<div id="project-title"><h1>ViewerImpact<span id="project-creator"><a href="#" target="_blank" onClick="window.open('../viewerimpact/browser-source.html','_blank','width=1920,height=1080,top=0,left=0,location=yes,menubar=yes,status=yes,toolbar=yes,titlebar=yes');">Test Browser Source</a></div>
 		<table id="project-options">
 			<!--<tr>
 				<td>Twitch User</td>

@@ -9,23 +9,31 @@ const CLIENT_ID = 'aywfg6aajo5bwx8xewxhk534k5ln4h';
 if(!empty($_POST['username'])){
 	file_put_contents(
 		SECRET_PATH
-		,$_POST['username'] . PHP_EOL
+		,$_POST['username']
 	);
 }
 
 // If received a Twitch ID and OAUTH token (this is received after username, via user input)
 if(!empty($_POST['auth'])){
-	// die($_POST['auth']);
+	$username = file_get_contents(SECRET_PATH);
+	$OAuth = preg_split('/[\\r\\n]+/', $_POST['auth']);
+	
+	// Organize the data cleanly
+	$data = [
+		'username'		=> $username,
+		'userId'		=> $OAuth[0],
+		'oauthToken'	=> 'oauth:' . $OAuth[1],
+		'channels'		=> [$username]
+	];
+	
 	file_put_contents(
 		SECRET_PATH
-		// ,json_encode($_POST)
-		,$_POST['auth']
-		,FILE_APPEND
+		,json_encode($data)
 	);
 }
 
 // If we're starting up, print out the basic page
-if(!file_exists(SECRET_PATH)){ ?>
+if(!file_exists(SECRET_PATH) || !empty($_POST['auth'])){ ?>
 <!DOCTYPE html>
 <head>
 	<title>Get Login Data</title>
@@ -35,7 +43,7 @@ if(!file_exists(SECRET_PATH)){ ?>
 <div id="twitch-authorization">
 	<h2>Welcome to Twitch Tools!</h2>
 	<p>To get started, you'll need to input your Twitch username and authorize Twitch access.</p>
-	<form action="https://id.twitch.tv/oauth2/authorize?client_id=<?php echo CLIENT_ID; ?>&redirect_uri=http://localhost:81/start.php&response_type=token&scope=channel:read:redemptions%20bits:read%20channel:read:hype_train%20channel:read:subscriptions%20chat:read" id="login-form" method="post">
+	<form action="https://id.twitch.tv/oauth2/authorize?client_id=<?php echo CLIENT_ID; ?>&redirect_uri=http://localhost:81/core/index.php&response_type=token&scope=channel:read:redemptions%20bits:read%20channel:read:hype_train%20channel:read:subscriptions%20chat:read" id="login-form" method="post">
 		<input tabindex="0" id="login-username" placeholder="Your Twitch Username">
 		<button>Connect with Account</button>
 	</form>
@@ -48,7 +56,7 @@ if(!file_exists(SECRET_PATH)){ ?>
 		var formdata = new FormData();
 		formdata.append('username',document.getElementById('login-username').value.toLowerCase());
 		
-		await fetch('gui.php',{
+		await fetch('index.php',{
 			method:'POST'
 			,body:formdata
 		})
@@ -59,49 +67,6 @@ if(!file_exists(SECRET_PATH)){ ?>
 		location.href = this.action;
 		return false;
 	});
-
-	// Get token hashes so we can save them to the local file for the user
-	if(document.location.hash) {
-		// Get the hash and remove the hash from the URL
-		var parsedHash = new URLSearchParams(window.location.hash.substr(1));
-		history.pushState('', document.title, window.location.pathname + window.location.search);
-
-		if (parsedHash.get('access_token')) {
-			var access_token = parsedHash.get('access_token');
-
-			// call API
-			fetch('https://api.twitch.tv/helix/users',
-				{
-					'headers': {
-						'Client-ID': <?php echo json_encode(CLIENT_ID); ?>,
-						'Authorization': 'Bearer ' + access_token
-					}
-				}
-			)
-			.then(response => response.json())
-			.then(response => {
-				// Pass the data to PHP we want to save
-				var formdata = new FormData();
-				formdata.append('auth',response.data[0].id + '\n' + access_token);
-				
-				fetch('index.php',{
-					method:'POST'
-					,body:formdata
-				})
-				.then(response => response.text())
-				.then(text => {
-					document.getElementById('welcome-page').remove();
-				}).catch(err => {
-					console.log(err);
-					document.getElementById('twitch-authorization').innerHTML = 'Authorization Failed! Refresh and try again, or contact JoshPowlison.';
-				});
-			})
-			.catch(err => {
-				console.log(err);
-				document.getElementById('twitch-authorization').innerHTML = 'Authorization Failed! Refresh and try again, or contact JoshPowlison.';
-			});
-		}
-	}
 </script>
 </body>
 <?php
@@ -183,6 +148,47 @@ curl -X GET 'https://api.twitch.tv/helix/users?id=141981764' \
 	}
 	?>
 	
+	<script>
+	// Get token hashes so we can save them to the local file for the user
+	if(document.location.hash) {
+		// Get the hash and remove the hash from the URL
+		var parsedHash = new URLSearchParams(window.location.hash.substr(1));
+		history.pushState('', document.title, window.location.pathname + window.location.search);
+
+		if (parsedHash.get('access_token')) {
+			var access_token = parsedHash.get('access_token');
+
+			// call API
+			fetch('https://api.twitch.tv/helix/users',
+				{
+					'headers': {
+						'Client-ID': <?php echo json_encode(CLIENT_ID); ?>,
+						'Authorization': 'Bearer ' + access_token
+					}
+				}
+			)
+			.then(response => response.json())
+			.then(response => {
+				// Pass the data to PHP we want to save
+				var formdata = new FormData();
+				formdata.append('auth',response.data[0].id + '\n' + access_token);
+				
+				fetch('index.php',{
+					method	: 'POST'
+					,body	: formdata
+				})
+				.catch(err => {
+					console.log(err);
+					document.getElementById('twitch-authorization').innerHTML = 'Authorization Failed! Refresh and try again, or contact JoshPowlison.';
+				});
+			})
+			.catch(err => {
+				console.log(err);
+				document.getElementById('twitch-authorization').innerHTML = 'Authorization Failed! Refresh and try again, or contact JoshPowlison.';
+			});
+		}
+	}
+	</script>
 	<script src="main.js"></script>
 	<script src="script.js"></script>
 </body>
