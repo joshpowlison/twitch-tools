@@ -80,7 +80,7 @@ function socketInit(keys){
 					,'channel-bits-events-v2.' + CHANNEL_ID
 					,'channel-subscribe-events-v1.' + CHANNEL_ID
 				],
-				auth_token:OAUTH_TOKEN
+				auth_token:OAUTH_TOKEN.replace(/^oauth:?/i,'')
 			}
 		}));
 		
