@@ -1,0 +1,14 @@
+:host{
+	padding:1em;
+	box-sizing:border-box;
+	background-color:#f0eadf;
+}
+
+h1{
+	text-align:center;
+	margin:0;
+}
+
+#message-form{
+	text-align:center;
+}

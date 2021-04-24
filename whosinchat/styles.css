@@ -1,14 +1,31 @@
+:host{
+	padding:1em;
+	box-sizing:border-box;
+	background-color:#e0f0df;
+}
+
+h1{
+	text-align:center;
+	margin:0;
+}
+
+#settings{
+	text-align:center;
+}
+
+#viewers{
+	margin:auto;
+	width:15em;
+}
+
 .user{
-	width:15em;
 	display:block;
+	padding:.25em;
+	width:100%;
+	margin:0;
+	box-sizing:border-box;
+	
+	color:var(--dark);
+	
 	text-align:left;
-	width:15em;
-}
-
-.lurker{
-	background-color:#c6c6c6;
-}
-
-.chatter{
-	background-color:#7fff7f;
 }

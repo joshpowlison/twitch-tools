@@ -1,3 +1,14 @@
+:host{
+	padding:1em;
+	box-sizing:border-box;
+	background-color:#f0dfdf;
+}
+
+h1{
+	text-align:center;
+	margin:0;
+}
+
 h1,p{
 	text-align:center;
 }
@@ -5,14 +16,20 @@ h1,p{
 table{
 	border-collapse:collapse;
 	margin:1em auto;
-}
-
-table,th,td{
-	border:1px solid black;
+	background-color:var(--medium-dark);
+	color:var(--medium);
 }
 
 td:first-child{
 	font-weight:bold;
+}
+
+tr{
+	border:1px solid var(--medium);
+}
+
+td{
+	padding:.1em .25em;
 }
 
 input{
@@ -31,11 +48,13 @@ input{
 	width:100%;
 }
 
+button{
+	cursor:pointer;
+}
+
 #scenario-add{
 	display:block;
 	margin:auto;
-	background-color:green;
-	color:white;
 	font-size:1.5em;
 }
 

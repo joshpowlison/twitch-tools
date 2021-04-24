@@ -114,8 +114,7 @@ curl -X GET 'https://api.twitch.tv/helix/users?id=141981764' \
 	?>
 		</nav>
 	</header>
-	<main>
-	</main>
+	<main></main>
 	<script>
 	// Get token hashes so we can save them to the local file for the user
 	if(document.location.hash) {

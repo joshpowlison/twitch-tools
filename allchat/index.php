@@ -1,6 +1,6 @@
 <h1>AllChat</h1>
 <p id="note"></p>
-<form id="message-form">
+<form id="message-form" autocomplete="off">
 	<input type="text" id="message">
 	<button>Send</button>
 </form>
