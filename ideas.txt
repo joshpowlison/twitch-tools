@@ -30,4 +30,9 @@ packages
 		- Listens for events run by the home page
 	- styles.cs
 
-Need a base JS file that connects to everything I want to; can call that JS file from everything, and it runs events that every other package just listens for.
+///////
+///////
+///////
+
+- Have buttons at top to load them
+- Have some padding

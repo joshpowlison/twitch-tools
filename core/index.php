@@ -1,4 +1,10 @@
-<?php
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Twitch Tools by Josh Powlison</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="styles.css">
+</head><?php
 
 error_reporting(1);
 
@@ -34,20 +40,17 @@ if(!empty($_POST['auth'])){
 
 // If we're starting up, print out the basic page
 if(!file_exists(SECRET_PATH) || !empty($_POST['auth'])){ ?>
-<!DOCTYPE html>
-<head>
-	<title>Get Login Data</title>
-	<meta charset="utf-8"></meta>
-</head>
 <body>
+<header>
 <div id="twitch-authorization">
 	<h2>Welcome to Twitch Tools!</h2>
 	<p>To get started, you'll need to input your Twitch username and authorize Twitch access.</p>
-	<form action="https://id.twitch.tv/oauth2/authorize?client_id=<?php echo CLIENT_ID; ?>&redirect_uri=http://localhost:81/core/index.php&response_type=token&scope=channel:read:redemptions%20bits:read%20channel:read:hype_train%20channel:read:subscriptions%20chat:read" id="login-form" method="post">
+	<form action="https://id.twitch.tv/oauth2/authorize?client_id=<?php echo CLIENT_ID; ?>&redirect_uri=http://localhost:81/core/index.php&response_type=token&scope=channel:read:redemptions%20bits:read%20channel:read:hype_train%20channel:read:subscriptions%20chat:read%20chat:edit%20channel:moderate" id="login-form" method="post">
 		<input tabindex="0" id="login-username" placeholder="Your Twitch Username">
 		<button>Connect with Account</button>
 	</form>
 </div>
+</header>
 <script>
 	document.getElementById('login-form').addEventListener('submit',async function(event){
 		event.preventDefault();
@@ -76,54 +79,16 @@ die();
 }
 
 require '../settings.php'; 
-/*
-$ch = curl_init('https://api.twitch.tv/helix/users?id=1233');
-// curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    // 'Authorization: ' . SETTINGS['oauthToken']
-// ));
-curl_setopt($ch, CURLOPT_HEADER, array(
-	'Authorization: Bearer cfabdegwdoklmawdzdo98xt2fo512y'
-));
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$r = curl_exec($ch);
-$i = curl_getinfo($ch);
-curl_close($ch);
 
-die(json_encode($i));*/
-
-/*
-
-fetch(
-	'https://api.twitch.tv/helix/users?id=1233'
-	,{
-		headers: {
-			'Authorization': 'Bearer ' + SETTINGS.oauthToken //,
-			//'Client-Id': 'uo6dggojyb8d6soh92zknwmi5ej1q2'
-		}
-	}
-)
-.then(response => response.text())
-.then(text => {
-	console.log(text);
-});
-
-*/
-
-?><!DOCTYPE html>
-<html>
-<head>
-	<title>Twitch Tools by Josh Powlison</title>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="styles.css">
-</head>
+?>
 <body>
-	<h1>Twitch Tools by Josh Powlison</h1>
-	<p>Twitch Account: <span id="data-account"></span></p>
-	<p id="channels-watching">Channels watching (this list will grow as we connect; there is an 11-second delay between every 15 connections):<br></p>
+	<header>
+		<h1>Twitch Tools <span id="credits">by Josh Powlison</span></h1>
+		<p><span id="data-account"></span></p>
+		<p id="channels-watching"></p>
 
-	<p>Keep this page open to keep these running!</p>
-	<p id="note"></p>
-	
+		<p id="note"></p>
+		<nav>
 	<?php
 
 /*
@@ -143,11 +108,14 @@ curl -X GET 'https://api.twitch.tv/helix/users?id=141981764' \
 			if($package == 'core')
 				continue;
 			
-			echo '<div class="package" data-package="' , $package , '" onclick="loadPackage(this)"> Load ' , $package , '</div>';
+			echo '<button class="button-package" data-package="' , $package , '">' , $package , '</button>';
 		}
 	}
 	?>
-	
+		</nav>
+	</header>
+	<main>
+	</main>
 	<script>
 	// Get token hashes so we can save them to the local file for the user
 	if(document.location.hash) {

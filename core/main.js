@@ -20,8 +20,10 @@ var lastFrameTimestamp	= new Date().getTime();
 var delegateFunctions	= [];
 var delegateRunning		= false;
 
-var botMessages		= [];
-var botMessageTimes	= [];
+var botMessages			= [];
+var botMessageTimes		= [];
+
+var channelsConnected	= [];
 
 ///////////////////
 //// FUNCTIONS ////
@@ -126,7 +128,10 @@ function dTwitchChatJoinChannel(channel){
 	return function(){
 		SOCKET_CHAT.send('JOIN #' + channel);
 		console.log('listening to ' + channel);
-		// document.getElementById('channels-watching').innerHTML += '<br>' + channel;
+		
+		channelsConnected.push(channel);
+		document.dispatchEvent(new CustomEvent('livestreamchannelconnect', {detail:{channel:channel}}));
+		
 		delegateEnd();
 	}
 }
@@ -343,7 +348,10 @@ function loop() {
 		// Go back if we're over the max number of messages in the last 30 seconds
 		if(botMessageTimes.length >= BOT_MESSAGE_MAX) return;
 		
-		SOCKET_CHAT.send('PRIVMSG #' + botMessages[0].channelName + ' :' + botMessages[0].message);
+		var message = 'PRIVMSG #' + botMessages[0].channelName + ' :' + botMessages[0].message;
+		console.log('chat message testing',message);
+		
+		SOCKET_CHAT.send(message);
 		// console.log('PRIVMSG #' + botMessages[0].channelName + ' :' + botMessages[0].message);
 		document.getElementById('note').innerHTML = '<strong>' + botMessages[0].message + '</strong> sent in <em>' + botMessages[0].channelName + '</em>';
 		// console.log('PRIVMSG ' + SETTINGS.channelName + ' :' + botMessages[0]);
