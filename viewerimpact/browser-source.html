@@ -44,7 +44,7 @@ function loadTriggers(){
 		TRIGGERS = JSON.parse(this.responseText);
 		console.log('Updated triggers');
 	});
-	requestTriggers.open('GET','triggers.json');
+	requestTriggers.open('GET','save/triggers.json');
 	requestTriggers.send();
 }
 
@@ -171,24 +171,24 @@ function runHeckle(heckle){
 		var sheet = document.createElement('link');
 		sheet.id = heckle;
 		sheet.rel = 'stylesheet';
-		sheet.href = 'assets/' + heckle + '/animation.css?' + new Date();
+		sheet.href = 'save/assets/' + heckle + '/animation.css?' + new Date();
 		document.head.appendChild(sheet);
 	// If it's already been loaded, update it
 	/// TODO: test to see if this breaks when multiple heckles are run at once
 	// If it's already been loaded, update it based on the current timestamp (it's a local file, so we're not worrying about wasting server calls)
 	} else {
-		document.getElementById(heckle).href =  'assets/' + heckle + '/animation.css?' + new Date();
+		document.getElementById(heckle).href =  'save/assets/' + heckle + '/animation.css?' + new Date();
 	}
 
 	// Make the frame for the image
 	var frameEl = new Image();
-	frameEl.src = 'assets/' + heckle + '/image.png';
+	frameEl.src = 'save/assets/' + heckle + '/image.png';
 	frameEl.className = heckle;
 	frameEl.style.animationName = heckle;
 	
 	// Load and play audio
 	var request = new XMLHttpRequest();
-	request.open('GET', 'assets/' + heckle + '/audio.mp3', true);
+	request.open('GET', 'save/assets/' + heckle + '/audio.mp3', true);
 	request.responseType = 'arraybuffer';
 
 	// Decode asynchronously

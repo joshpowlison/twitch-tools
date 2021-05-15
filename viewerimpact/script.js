@@ -503,7 +503,7 @@ modules.viewerimpact = new function(){
 			 * 10) / 10
 		;
 		
-		console.log(heckleSound.currentTime,heckleSound.duration,percentage);
+		//console.log(heckleSound.currentTime,heckleSound.duration,percentage);
 
 		// Find the current CSS value
 		var currentValue = null;
@@ -1153,7 +1153,7 @@ modules.viewerimpact = new function(){
 		buttonEl.innerHTML = 'X';
 		buttonEl.className = 'triggers-delete-button';
 		buttonEl.addEventListener('click',function(){
-			console.log('running this',type,id);
+			//console.log('running this',type,id);
 			saveData.triggers[type].splice(id,1);
 			updateTriggers();
 			saveTriggers();
@@ -1322,7 +1322,7 @@ modules.viewerimpact = new function(){
 
 	// Change animations
 	module.root.addEventListener('mousewheel',function(event){
-		console.log(event);
+		//console.log(event);
 		if(arrayIncludes(event.path,heckleDiv)){
 			// If alt is held
 			if(event.altKey){
@@ -1426,7 +1426,7 @@ modules.viewerimpact = new function(){
 					
 					var response = keyframeCopied.replace(/^[^%]+(%)/,percentage + '%');
 					
-					console.log(response);
+					//console.log(response);
 					
 					updateKeyframesByString(response);
 				}
@@ -1575,7 +1575,7 @@ modules.viewerimpact = new function(){
 				freezeToggle(true);
 				heckleDiv.className = currentPath;
 				heckleDiv.style.animationName = currentPath;
-				heckleDiv.src = module.path + '/assets/' + currentPath + '/image.png';
+				heckleDiv.src = module.path + '/save/assets/' + currentPath + '/image.png';
 				
 				// Save the current item's keyframes as the keyframe history
 				keyframesHistory			= [saveData.keyframes[currentPath]];
@@ -1595,7 +1595,7 @@ modules.viewerimpact = new function(){
 		// freezeToggle(true);
 		heckleDiv.className = currentPath;
 		heckleDiv.style.animationName = currentPath;
-		heckleDiv.src = module.path + '/assets/' + currentPath + '/image.png';
+		heckleDiv.src = module.path + '/save/assets/' + currentPath + '/image.png';
 
 		// Save the current item's keyframes as the keyframe history
 		keyframesHistory			= [saveData.keyframes[currentPath]];

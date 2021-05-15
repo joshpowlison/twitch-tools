@@ -158,7 +158,7 @@ modules.rpstream = new function(){
 		
 		// Create the scenario element
 		var table = document.createElement('table');
-		table.name = 'option';
+		table.className = 'option';
 		table.dataset.id = elementId;
 		
 		var td, tr, button, input;
@@ -293,7 +293,8 @@ modules.rpstream = new function(){
 		
 		// Get all of the options and update the module.saveData.scenarios object based on them
 		module.saveData.scenarios = [];
-		var options = module.root.querySelectorAll('.option');
+		var options = module.root.getElementById('scenarios-container').querySelectorAll('.option');
+		console.log(options);
 		for(var i = 0, l = options.length; i < l; i ++){
 			console.log(options[i]);
 			
@@ -324,6 +325,7 @@ modules.rpstream = new function(){
 		})
 		.then(response => response.text())
 		.then(text => {
+			console.log(text);
 			module.saveData = JSON.parse(text);
 			saving = false;
 		});

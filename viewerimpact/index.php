@@ -6,7 +6,7 @@ if(!empty($_GET['load'])){
 	$saveData = [];
 	
 	// Load in heckle keyframes
-	$handle = opendir('assets');
+	$handle = opendir('save/assets');
 	while(false !== ($entry = readdir($handle))) {
 		// Skip over hidden files and folders
 		if($entry[0] == '.')	continue;
@@ -14,11 +14,11 @@ if(!empty($_GET['load'])){
 		if($entry == 'gui.css')	continue;
 		if($entry == 'gui.js')	continue;
 		
-		$saveData['keyframes'][$entry] = file_get_contents('assets/'.$entry.'/animation.css');
+		$saveData['keyframes'][$entry] = file_get_contents('save/assets/'.$entry.'/animation.css');
 	}
 	
 	// Load in triggers
-	$saveData['triggers'] = json_decode(file_get_contents('triggers.json'),true);
+	$saveData['triggers'] = json_decode(file_get_contents('save/triggers.json'),true);
 
 	die(json_encode($saveData));
 }
@@ -28,7 +28,7 @@ if(!empty($_POST['data'])){
 	$data = json_decode($_POST['data'],true);
 	
 	file_put_contents(
-		'assets/'.$data['path'].'/animation.css'
+		'save/assets/'.$data['path'].'/animation.css'
 		,$data['keyframes']
 	);
 	die('Saved successfully.');
@@ -37,7 +37,7 @@ if(!empty($_POST['data'])){
 // If saving with this, get it
 if(!empty($_POST['triggers'])){
 	file_put_contents(
-		'triggers.json'
+		'save/triggers.json'
 		,$_POST['triggers']
 	);
 	die('Saved successfully.');
@@ -45,7 +45,7 @@ if(!empty($_POST['triggers'])){
 
 // If loading a file with this, get it
 if(!empty($_GET['audiopath'])){
-	$file = 'assets/'.$_GET['audiopath'].'/audio.mp3';
+	$file = 'save/assets/'.$_GET['audiopath'].'/audio.mp3';
 
 	header('Content-Type: audio/mp3');
 	header('Accept-Ranges: bytes');
