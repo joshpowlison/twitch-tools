@@ -27,6 +27,10 @@ h1{
 }*/
 /* #chat::-webkit-scrollbar {display:none;} */
 
+.block{
+	display:block;
+}
+
 .chat-me{
 	height:6px;
 	width:6px;

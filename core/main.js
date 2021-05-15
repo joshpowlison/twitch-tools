@@ -208,6 +208,7 @@ function onChatMessage(message){
 			data['user_type']		= data['user-type'];
 			
 			data.html = getChatMessageHTML(data);
+			data.messageSansEmotes = getChatMessageSansEmotes(data);
 			
 			document.dispatchEvent(new CustomEvent('livestreamchatmessage', {detail: data}));
 		}
@@ -425,6 +426,41 @@ function getChatMessageHTML(data,options = {}){
 		.replace(/\[E([^,\/:E]+)\E]/g, '<img class="chat-emote" src="https://static-cdn.jtvnw.net/emoticons/v1/$1/3.0">')
 		//.replace(/\[E([^,\/:E]+)\E]/g, '<span class="chat-emote" style="background:url(\'https://static-cdn.jtvnw.net/emoticons/v1/$1/3.0\');background-size:contain;background-position:center;background-repeat:no-repeat;color:#00000000;">__</span>')
 	;
+	
+	messageHTML = replaceCheermotes(messageHTML);
+	
+	return messageHTML;
+}
+
+function getChatMessageSansEmotes(data,options = {}){
+	// Add emote notes in
+	var messageHTML		= data.message;
+	var emotesData		= data.emotes;
+	var emoteList		= [];
+	var regex			= /([^,\/:]+):([^\/]+)/g;
+	var regexPlaces		= /(\d+)-(\d+)/g;
+	var response;
+	var responsePlaces;
+	
+	while(response = regex.exec(emotesData)){
+		// We have to go deeper here as well, to sort through the sections as they are split
+		while(responsePlaces = regexPlaces.exec(response[2])){
+			emoteList.push([
+				response[1]
+				,parseInt(responsePlaces[1])
+				,parseInt(responsePlaces[2])
+			]);
+		}
+	}
+	
+	// Remove emotes
+	for(var i = emoteList.length - 1; i >= 0; i --){
+		messageHTML = messageHTML.substring(0,parseInt(emoteList[i][1]))
+		+ messageHTML.substring(parseInt(emoteList[i][2]) + 1);
+	}
+	// Replace cheermotes
+	for(var i = 0, l = CHEERMOTES.length; i < l; i ++)
+		messageHTML = messageHTML.replace(new RegExp('(' + CHEERMOTES[i] + ')(\\d+)(?:\\s|$)','g'));
 	
 	messageHTML = replaceCheermotes(messageHTML);
 	

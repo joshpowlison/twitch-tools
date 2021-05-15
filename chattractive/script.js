@@ -17,9 +17,12 @@ modules.chattractive = new function(){
 		
 		var classes = '';
 		var animationOffset = 0;
+		var textfxConstant = false;
 		
 		// Add text message here
 		var block = document.createElement('span');
+		block.className = 'block';
+		block.dataset.user = event.detail.user_id;
 		
 		var name = document.createElement('span');
 		name.className = 'display-name';
@@ -27,13 +30,23 @@ modules.chattractive = new function(){
 		
 		var message = document.createElement('span');
 		
+		console.log(event);
 		
 		// Add sing class
-		if(event.detail.html[event.detail.html.length - 1] == '~'){
-			console.log('LOL HI');
-			classes = 'sing';
-			animationOffset = 0.0014;
+		if(/~\s*$/.test(event.detail.messageSansEmotes)){
+			classes += ' sing';
+			animationOffset = 0.00014;
 		}
+		else
+		// Add shake class if no lowercase letters are present
+		if(/^\s*~/.test(event.detail.messageSansEmotes)){
+			classes += ' shake';
+			animationOffset = 0.00014;
+		}
+		
+		// Add shout class if no lowercase letters are present
+		if(!/[a-z]/.test(event.detail.messageSansEmotes))
+			classes += ' shout';
 		
 		// Message effects
 		textfx({
@@ -41,25 +54,35 @@ modules.chattractive = new function(){
 			,element			: message
 			,classes			: classes
 			,animationOffset	: animationOffset
-			//,constant			: 1
+			,constant			: textfxConstant
 		});
-		
-		module.target.innerHTML = '';
 		
 		block.appendChild(name);
 		block.appendChild(message);
+		
+		// If an image URL is in the message, and the user has the necessary privileges, an image will display on-screen
+		var chatImg;
+		if(
+			// If user has necessary privileges (is a broadcaster, mod, or VIP)
+			(
+				(event.detail.badges && event.detail.badges.broadcaster)
+				|| (event.detail.badges && event.detail.badges.vip)
+				|| (event.detail.mod == 1)
+			) && (chatImg = /https?:\/\/\S+\.(?:png|jpg|jpeg|gif|svg)(?:[\?&]\S+)?|\S+gstatic.com\/images\S+/i.exec(event.detail.message))
+		){
+			var chatImgEl = document.createElement('img');
+			chatImgEl.src = chatImg[0];
+			chatImgEl.className = 'chat-image';
+			block.appendChild(chatImgEl);
+		};
+		
+		//module.target.innerHTML = '';
+		
 		module.target.appendChild(block);
 	});
+	
 	/*
 	async function chatMessageElement(data,options = {}){
-		// Prepare the textfx
-		var textfxClasses			= '';
-		var textfxAnimationOffset	= 0;
-		var textfxConstant			= false;
-
-		var messageEl			= document.createElement('p');
-		messageEl.className		= 'chat-message';
-		messageEl.dataset.user	= data.user_id;
 		
 		// If the message was highlighted using Channel Points, post here:
 		console.log(data,data['msg-id']);
@@ -87,55 +110,10 @@ modules.chattractive = new function(){
 		// Make the whole thing look like a command if it was /me command
 		messageText = messageText.replace(/ACTION(.*)/,'<span class="chat-command">$1</span>');
 		
-		// console.log('POST ADJUST 4',messageText);
-		
-		var testEl = document.createElement('p');
-		testEl.innerHTML = messageText;
-		
-		// console.log('POST ADJUST 5',testEl.innerHTML);
-		
-		// Put in the message's back- !me image and username
-		var messageHTML = '';
-		
-		messageHTML += '<span class="chat-username">' + data.display_name + '</span> ';
-		
 		// If this is a channel points message, display
 		if(typeof(data['custom-reward-id']) !== 'undefined'){
 			messageHTML += 'REWARD:';
 		}
-		
-		messageEl.innerHTML = messageHTML + messageText;
-		
-		//// Add text message here
-		//var textfxContainer = document.createElement('span');
-		//messageEl.appendChild(textfxContainer);
-		//
-		//// Message effects
-		//textfx({
-		//	content				: messageText
-		//	,element			: textfxContainer
-		//	,classes			: textfxClasses
-		//	,animationOffset	: textfxAnimationOffset
-		//	,constant			: textfxConstant
-		//});
-		
-		// console.log('POST ADJUST 7',textfxContainer);
-		
-		// If an image URL is in the message, and the user has the necessary privileges, an image will display on-screen
-		var chatImg;
-		if(
-			// If user has necessary privileges (is a broadcaster or a mod)
-			(
-				(data.badges && data.badges.broadcaster)
-				|| (data.badges && data.badges.vip)
-				|| (data.mod == 1)
-			) && (chatImg = /https?:\/\/\S+\.(?:png|jpg|jpeg|gif|svg)(?:[\?&]\S+)?|\S+gstatic.com\/images\S+/i.exec(data.message))
-		){
-			var chatImgEl = document.createElement('img');
-			chatImgEl.src = chatImg[0];
-			chatImgEl.className = 'chat-image';
-			messageEl.appendChild(chatImgEl);
-		};
 		
 		return messageEl;
 	}*/
