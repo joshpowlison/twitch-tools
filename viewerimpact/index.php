@@ -72,7 +72,7 @@ https://dev.twitch.tv/docs/api/reference#get-custom-reward
 
 */
 	
-?><div id="body">
+?><div id="body" tabindex="0">
 	<style id="style-animation">
 		@keyframes animation{
 			100%{transform:translate(50%,0%);}

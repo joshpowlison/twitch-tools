@@ -36,8 +36,7 @@ Colors:
 	font-family			: "Advent Pro";
 	background-color:#ecf8ee;
 	color: #050706;
-	width:100vw;
-	height:1080px;
+	/* height:1080px; */
 	position:relative;
 }
 
@@ -45,15 +44,9 @@ Colors:
 /*** HEADER ***/
 /**************/
 
-
 header{
-	width: 63rem;
-	height:10em;
-	top:0;
-	/* left:40%; */
 	margin: auto;
 	z-index:10;
-	/* position:absolute; */
 	display: flex;
 	align-items: center;
 }
@@ -61,8 +54,6 @@ header{
 header > div{
 	margin: auto;
 	display: block;
-	height: 80%;
-	width: 30%;
 }
 
 h1{
@@ -78,15 +69,6 @@ h1{
 	transform: translate(.1em,-.33em);
 }
 
-#project-version{
-	margin:none;
-	transform: translate(14.6em,-3.72em);
-	/* display: inline; */
-	font-size: 1.5em;
-	width: 2.5em;
-	margin: 0;
-}
-
 #project-options{
 	border:none;
 	text-align:right;
@@ -94,11 +76,6 @@ h1{
 	margin-left: 20%;
 	font-size:1.5em;
 	border-collapse:collapse;
-}
-
-#project-options td:first-child{
-	/* font-weight:bold; */
-	/* width:60%; */
 }
 
 .option-name{
@@ -158,7 +135,7 @@ h1{
 #controls{
 	display: flex;
 	justify-content: space-between;
-	width:62rem;
+	width:100%;
 	margin:auto;
 	font-size:3em;
 }
@@ -234,8 +211,6 @@ h1{
 }
 
 #control-time{
-	/* float:right; */
-	/* text-align: right; */
 	font-family:monospace;
 	margin:0;
 	float:right;
@@ -248,14 +223,9 @@ h1{
 main{
 	border:1px solid #050706;
 	width:100%;
-	position:absolute;
-	top:0;
-	left:0;
-	right:0;
-	bottom:0;
-	width:100vw;
-	height:100vh;
+	/* position:relative; */
 	display:flex;
+	height:30em;
 	justify-content:center;
 	align-items:center;
 	z-index: 10;
@@ -335,16 +305,9 @@ main{
 
 footer{
 	width: 100%;
-	height: 24%;
+	height: 10em;
 	border-top:1px solid #050706;
-	/* left:40%; */
-	bottom:0;
-	margin:auto;
-	z-index: 5;
-	position: absolute;
 	overflow:auto;
-	
-	/* background-color:#75f7b1; */
 }
 
 #triggers-chat-heading
@@ -428,8 +391,7 @@ footer{
 footer > div{
 	margin:auto;
 	display: block;
-	width: 97rem;
-	max-width: 100%;
+	width: 100%;
 	font-size:1.5em;
 	padding: .5em;
 	box-sizing: border-box;

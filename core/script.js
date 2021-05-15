@@ -32,6 +32,11 @@ function togglePackage(packageName){
 	if(packageDiv != null){
 		packageDiv.remove();
 		
+		if(modules[packageName].onRemove != null)
+			modules[packageName].onRemove();
+		
+		delete modules[packageName];
+		
 		HEADER.querySelector('.button-package[data-package="' + packageName + '"]').classList.remove('active');
 		return;
 	}

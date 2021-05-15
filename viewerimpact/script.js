@@ -47,6 +47,15 @@ modules.viewerimpact = new function(){
 	module.root		= modules[module.name];
 	module.path		= '../' + module.name;
 	
+	module.onRemove = function(){
+		// Remove window and document event listeners
+		window.removeEventListener('mouseup',mouseUp);
+		window.removeEventListener('resize',resize);
+		
+		// Pause the audio; it should get removed automatically
+		heckleSound.pause();
+	}
+	
 	///////////////////
 	//// CONSTANTS ////
 	///////////////////
@@ -1223,13 +1232,15 @@ modules.viewerimpact = new function(){
 		});
 	}
 
+	function resize(){
+		canvasBoundingRect = CANVAS.getBoundingClientRect();
+	}
+
 	///////////////////
 	//// LISTENERS ////
 	///////////////////
 
-	window.addEventListener('resize',function(){
-		canvasBoundingRect = CANVAS.getBoundingClientRect();
-	});
+	window.addEventListener('resize',resize);
 
 	// module.root.getElementById('control-pause').addEventListener('click',freezeToggle);
 
@@ -1310,7 +1321,7 @@ modules.viewerimpact = new function(){
 	}
 
 	// Change animations
-	document.addEventListener('mousewheel',function(event){
+	module.root.addEventListener('mousewheel',function(event){
 		console.log(event);
 		if(arrayIncludes(event.path,heckleDiv)){
 			// If alt is held
@@ -1321,6 +1332,7 @@ modules.viewerimpact = new function(){
 				updateKeyframes(SCALE_X,.001 * event.deltaY);
 				updateKeyframes(SCALE_Y,.001 * event.deltaY);
 			}
+			event.preventDefault();
 		}
 	});
 
@@ -1335,14 +1347,16 @@ modules.viewerimpact = new function(){
 		}
 	});
 
-	window.addEventListener('mousedown',function(event){
+	module.root.addEventListener('mousedown',function(event){
 		mouseButton = event.button;
 		mouseTarget = event.path[0];
 
 		mouseEvents(event);
 	});
 
-	window.addEventListener('mouseup',function(event){
+	window.addEventListener('mouseup',mouseUp);
+	
+	function mouseUp(event){
 		// If the keyframes have been updated, add this new update to the history
 		if(currentPath && keyframesHistory[keyframesHistoryPosition] !== saveData.keyframes[currentPath]){
 			// console.log('add to the keyframes',keyframesHistory.length, keyframesHistoryPosition,keyframesHistory[keyframesHistoryPosition], saveData.keyframes[currentPath]);
@@ -1356,19 +1370,19 @@ modules.viewerimpact = new function(){
 		
 		mouseButton = null;
 		mouseTarget = null;
-	});
+	}
 
-	window.addEventListener('mousemove',function(event){
+	module.root.addEventListener('mousemove',function(event){
 		mouseEvents(event);
 	});
 
-	document.addEventListener('contextmenu',function(event){
+	module.root.addEventListener('contextmenu',function(event){
 		event.preventDefault();
 		return false;
 	});
 
 	// Keyboard shortcuts (on key down; repeatable)
-	document.addEventListener('keydown',function(event){
+	module.root.addEventListener('keydown',function(event){
 		// console.log(event);
 		// Ignore all key presses if Alt is held
 		if(event.altKey) return;
