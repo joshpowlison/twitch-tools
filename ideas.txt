@@ -35,9 +35,5 @@ packages
 ///////
 
 TO DO:
-	X- Make it so that ViewerImpact ends on closing
-	- Perhaps add on "OnClosing" function?
-	- Perhaps add on "OnStarting" function?
 	- Make it so that save files are separate from package updates
 		- So that the player can easily update the packages with no concerns about save data being lost
-	- Don't let Test Browser Source links open up the same thing in a new window
