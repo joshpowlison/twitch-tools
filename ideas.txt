@@ -29,3 +29,17 @@ packages
 	- script.js
 		- Listens for events run by the home page
 	- styles.cs
+	
+////////
+////////
+////////
+
+TODO:
+	Chattractive
+		- Ignore images when adding sing/shake/shout effects
+		- If someone is banned, blocked, etc from the stream, delete their messages
+		- Highlight highlighted messages
+- Explain things better
+	- Include PHP
+	WORK AROUND GLITCH:
+		- LFS files corrupted on download from GitHub

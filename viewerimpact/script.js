@@ -39,8 +39,6 @@ FEATURES TO GET FEEDBACK ON
 
 */
 
-'use strict';
-
 modules.viewerimpact = new function(){
 	const module	= this;
 	module.name		= 'viewerimpact';

@@ -59,7 +59,7 @@ modules.whosinchat = new function(){
 		.then(text => {console.log(text);});
 	}*/
 	
-	document.addEventListener('livestreamloop',function(){
+	document.addEventListener('livestreamloop',function(event){
 		// Update Who's in Chat
 		var timeUntilLurk = module.root.getElementById('input-minutes-to-lurk').value * 1000 * 60;
 		var keys = Object.keys(module.users);

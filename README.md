@@ -1,6 +1,9 @@
+
 # Twitch Tools by Josh Powlison
 
 ## Initial Setup
+
+* Download the latest version here []()
 
 * Replace `usernamewithlowercase` with your username
 * Replace `getoauthhere:getoauthhere:https://twitchapps.com/tmi/` with the oauth token (minus "oauth:") from [this website](https://twitchapps.com/tmi/)
