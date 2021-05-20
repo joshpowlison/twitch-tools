@@ -83,7 +83,7 @@ require '../settings.php';
 ?>
 <body>
 	<header>
-		<h1>Twitch Tools <span id="credits">by Josh Powlison</span></h1>
+		<h1>Twitch Tools <span id="credits">by <a href="https://twitch.tv/joshpowlison" target="_blank">Josh Powlison</a></span></h1>
 		<p><span id="data-account"></span></p>
 		<p id="channels-watching"></p>
 
