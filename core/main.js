@@ -14,6 +14,7 @@ const LOOP_DELAY			= 500;	// The loop runs every 500 milliseconds
 
 var SOCKET_CHAT			= null;
 var SOCKET_PUBSUB		= null;
+var SOCKET_INTERCONNECT	= null;
 var SETTINGS			= {};
 var lastFrameTimestamp	= new Date().getTime();
 
@@ -134,6 +135,58 @@ function dTwitchChatJoinChannel(channel){
 		
 		delegateEnd();
 	}
+}
+
+function dLoadSocketInterconnect(){
+	return function(){
+		if(SOCKET_INTERCONNECT != null)
+			return;
+		
+		SOCKET_INTERCONNECT = new WebSocket('ws://localhost:9000/chatsocket/server.php');
+
+		var message = "";
+		SOCKET_INTERCONNECT.onmessage = function(event) {
+			console.log(event);
+			console.log(event.data);
+			
+			message += event.data;
+			
+			if(isValidJSONString(message)){
+				document.dispatchEvent(new CustomEvent('interconnectmessage', {detail:JSON.parse(event.data)}));
+				message = "";
+			}
+		};
+
+		SOCKET_INTERCONNECT.onopen = function(event){console.log(event);}
+		SOCKET_INTERCONNECT.onerror = function(event){console.log(event);}
+		SOCKET_INTERCONNECT.onclose = function(event){
+			console.log(event);
+			
+			SOCKET_INTERCONNECT = null;
+			
+			// In 5 seconds, try to reconnect
+			setTimeout(function(){
+				delegateFunctions.push(dLoadSocketInterconnect());
+			}, 5000);
+		}
+		
+		delegateEnd();
+	}
+}
+
+function isValidJSONString(string){
+	try{
+		JSON.parse(string);
+	} catch (e) {
+		console.log(e);
+		return false;
+	}
+	
+	return true;
+}
+
+function SocketInterconnectSendMessage(json){
+	SOCKET_INTERCONNECT.send(JSON.stringify(json));
 }
 
 function onChatMessage(message){
@@ -364,7 +417,7 @@ function loop() {
 	}
 	
 	document.dispatchEvent(new CustomEvent('livestreamloop', {detail:{sDeltaTime: sDeltaTime}}));
-	setTimeout(loop,LOOP_DELAY);
+	setTimeout(loop,LOOP_DELAY); // Unfortunately, we have to use this instead of AnimationUpdate because these windows won't always be focused or visible
 }
 
 function postChatMessage(message, channelName = SETTINGS.channels[0]){
@@ -483,5 +536,6 @@ onChatMessage({data:'@badge-info=subscriber/10;badges=broadcaster/1,subscriber/3
 
 loop();
 delegateFunctions.push(dLoadSettings());
+delegateFunctions.push(dLoadSocketInterconnect());
 delegateFunctions.push(dTwitchChatConnect());
 delegateFunctions.push(dTwitchPubsubConnect());

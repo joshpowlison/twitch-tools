@@ -1,7 +1,5 @@
 'use strict';
 
-// This code is atrocious.
-
 modules.rpstream = new function(){
 	const module = this;
 	

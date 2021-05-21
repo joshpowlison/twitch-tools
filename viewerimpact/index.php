@@ -54,23 +54,6 @@ if(!empty($_GET['audiopath'])){
 	readfile($file);
 	exit;
 }
-
-/*
-/// TODO:
-
-- I can automatically add Heckle rewards to Twitch, based on what's in the folder; I can even update them if I want to
-
-https://dev.twitch.tv/docs/api/reference#get-custom-reward
-
-- Have it let people know if there are errors with things
-
-- Heckle bugs:
-	- Let user know if they are using an invalid name (else, invisibly adjust the name to make it valid)
-	- Don't let users adjust animation values while it's animating
-	- Add in a help button that displays all of the controls
-	- Make the first play of an animation work
-
-*/
 	
 ?><div id="body" tabindex="0">
 	<style id="style-animation">

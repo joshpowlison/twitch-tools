@@ -1,7 +1,5 @@
 'use strict';
 
-// Display chat messages in a visually appealing way
-
 modules.chattractive = new function(){
 	const module	= this;
 	module.name		= 'chattractive';

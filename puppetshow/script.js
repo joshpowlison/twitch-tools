@@ -1,15 +1,5 @@
 'use strict';
 
-/* IDEAS:
-
-- Use left and right analog sticks on controllers to move puppets up and down, as well as rotating them (perhaps also allow moving)
-- Use left and right triggers to swap characters, or perhaps images (to make them angry, happy, etc)
-- Add the ability to have floppy appendages (like arms, hair, etc)
-- Add the ability to have multiple puppets to swap out
-- When move up or down, move the puppets' transform origins- it'd look a little more dynamic when they move up (like they're excited or emotional), and less so when they go down (like they're hiding or afraid)
-
-*/
-
 modules.puppetshow = new function(){
 	const module	= this;
 	module.name		= 'puppetshow';

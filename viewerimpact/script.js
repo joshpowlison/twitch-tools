@@ -1,44 +1,5 @@
 'use strict';
 
-/*
-
-System: pick an update from three importance levels, so there's a massive update in each but updates are relatively quick to get out (essentially, so I'm making one easy, medium, and hard update instead of tackling all of the hard updates at once and slowing down update output)
-
-PACKED UPDATES:
-
-Any updates you want to see earlier? Please let me know!
-
-	- Guard against multiple gift subscriptions blowing out eardrums (they'd all trigger at once)
-	- Test Subscriptions
-	- Test Bits cheers
-
-v1.0.0
-	1. Any major bug updates or required changes before launch (based on user feedback)
-	2. 
-
-PRIORITY TODO LIST:
-	- Add "On End" feature that has a different effect for different options:
-		- Stop: stop the animation and return to the start
-		- Loop: restart the animation
-		- Play Next: go play the next animation
-		- Pause At End: pause the animation and freeze at the end
-		- Start From Cursor: restart the animation from the cursor's last position
-	- Set opacity outside of screen area, so that you can see what it looks with the image out of view or in view; user choice
-	- Pull Channel Reward names to use? (might be annoying, if haven't created the Channel Reward yet)
-
-	- On zoom in-out on webpage (ctrl+mouse wheel) don't adjust image size
-	- Figure out why opacity won't go down to true 0; create a solution (might be as simple as making the minimum -.01 instead of just 0)
-	- Layer Test: see how multiple sound; trigger multiple?
-	- Set timeline width to set?; so that it takes up less space if it's shorter? Or would that be annoying?
-
-	- Adjust audio level of clip from inside
-	- Add support for .jpg, .svg, .gif, and video files as well
-	
-FEATURES TO GET FEEDBACK ON
-	- "Random Animation" option to create a new randomized animation at the press of a button
-
-*/
-
 modules.viewerimpact = new function(){
 	const module	= this;
 	module.name		= 'viewerimpact';
@@ -57,9 +18,6 @@ modules.viewerimpact = new function(){
 	///////////////////
 	//// CONSTANTS ////
 	///////////////////
-
-	// NL_CWD doesn't have the slash after the drive letter. Add it to this variable.
-	//const PATH				= NL_CWD.replace(/^([A-Z]):/i,'$1:/');
 
 	const HECKLE_SCALE	= 4;
 
@@ -1230,6 +1188,14 @@ modules.viewerimpact = new function(){
 		});
 	}
 
+	function testTrigger(trigger){
+		SocketInterconnectSendMessage({
+			app:'viewerimpact',
+			adminpanel:true,
+			command:trigger
+		});
+	}
+
 	function resize(){
 		canvasBoundingRect = CANVAS.getBoundingClientRect();
 	}
@@ -1563,9 +1529,12 @@ modules.viewerimpact = new function(){
 		var fragment		= document.createDocumentFragment();
 		var packageNames	= Object.keys(saveData.keyframes);
 		for(let i = 0, l = packageNames.length; i < l; i ++){
-			var button						= document.createElement('button');
-			button.innerHTML				= packageNames[i];
-			button.addEventListener('click',function(){
+			var div = document.createElement('div');
+			
+			var buttonLoad						= document.createElement('button');
+			buttonLoad.innerHTML				= packageNames[i];
+			buttonLoad.className				= 'tab-button-select';
+			buttonLoad.addEventListener('click',function(){
 				// Autosave other animations if we haven't already
 				if(currentPath !== null) saveAnimation(currentPath);
 				
@@ -1579,11 +1548,20 @@ modules.viewerimpact = new function(){
 				keyframesHistory			= [saveData.keyframes[currentPath]];
 				keyframesHistoryPosition	= 0;
 				
-				if(module.root.querySelector('.active')) module.root.querySelector('.active').className = '';
-				this.className = 'active';
+				if(module.root.querySelector('.active')) module.root.querySelector('.active').classList.remove('active');
+				this.classList.add('active');
 			});
 			
-			fragment.appendChild(button);
+			var buttonTest						= document.createElement('button');
+			buttonTest.className				= 'tab-button-test';
+			buttonTest.innerHTML				= 'Test';
+			buttonTest.addEventListener('click',function(){
+				testTrigger(packageNames[i]);
+			});
+			
+			div.appendChild(buttonLoad);
+			div.appendChild(buttonTest);
+			fragment.appendChild(div);
 		}
 		
 		module.root.getElementById('tabs').appendChild(fragment);

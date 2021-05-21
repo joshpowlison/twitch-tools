@@ -210,11 +210,17 @@ function runHeckle(heckle){
 	request.send();
 }
 
+function interconnectTriggerHeckle(event){
+	if(event.detail.app == 'viewerimpact' && event.detail.adminpanel)
+		runHeckle(event.detail.command);
+}
+
 loadTriggers();
 document.addEventListener('livestreamredemption',onRedemption);
 document.addEventListener('livestreamcheer',onCheer);
 document.addEventListener('livestreamsubscription',onSubscription);
 document.addEventListener('livestreamchatmessage',readChatMessage);
+document.addEventListener('interconnectmessage',interconnectTriggerHeckle);
 
 </script>
 </body>

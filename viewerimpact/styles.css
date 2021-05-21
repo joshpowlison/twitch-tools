@@ -116,17 +116,36 @@ h1{
 	width: 25%;
 }
 
-#tabs > button{	width: 100%;	display: block;	text-align: right;	border: none;	color: #050706;	background-color: #ecf8ee;	cursor: pointer;	font-family: "Advent Pro";	font-size: 1.5em;	/* overflow: auto; */
+#tabs > div{
+	width:100%;
+	display:flex;
+	border-bottom:1px solid black;
 }
 
-#tabs > button:hover{
+.tab-button-select{
+	width:90%;
+	border:none;
+}
+
+.tab-button-test{
+	width:10%;
+	border:none;
+	border-left:1px solid black;
+	box-sizing:border-box;
+}
+
+#tabs button{	display: block;	text-align: right;	color: #050706;	background-color: #ecf8ee;	cursor: pointer;	font-family: "Advent Pro";	font-size: 1.5em;	/* overflow: auto; */
+}
+
+#tabs button:hover{
 	background-color:#75f7b1;
 }
 
-#tabs > button.active{
+#tabs button.active{
 	background-color: #2c582e;
 	color: #ecf8ee;
 }
+
 
 /**************/
 /** TIMELINE **/
