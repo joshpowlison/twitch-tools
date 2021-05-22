@@ -3,48 +3,90 @@ Development System: pick an update from three importance levels, so there's a ma
 Every stream, tackle one from each category below:
 
 BIG UPDATES:
-	- Put package on Itch
-	- Create condensed message form for websocket so that the odds of a message being sent partly is diminished
-		
+	GENERAL
+		- Put package on Itch
+			- Include light PHP in it
+	X	- Create condensed message form for websocket so that the odds of a message being sent partly is diminished
+		- Track viewer data locally
+			- Allow streamer to save notes on viewers to review
+			- Add notes on strikes to viewers
+		- Add automodding capability
+			- Put in block words and swears
+			- Autoban people from a master ban list in all affiliated channels
+		- Add bot command abilities
+			- Would be best if I could tie these in to JS functions somehow, letting people create commands for anything
+				- I could have it so that it reads window[chatMessage] and checks for functions, allowing mods to run anything. That could go horrendously wrong, or be extremely powerful. I could also tag functions somehow so that only certain people can access them, and push off other functions to the side.
+		- Track what your role is in channels you're tracking:
+			- Are you a mod?
+			- Are you a broadcaster?
+			- Are you a subscriber?
+			- Are you a follower?
+			etc
+	RPSTREAM
+		- Make the code good instead of atrocious
+	CHATTRACTIVE
+		- Display chat messages in a visually appealing way
+		- Ignore images when adding sing/shake/shout effects
+	PUPPETSHOW
+		- Pass input data to browser source
+		- Use left and right analog sticks on controllers to move puppets up and down, as well as rotating them (perhaps also allow moving)
+		- Use left and right triggers to swap characters, or perhaps images (to make them angry, happy, etc)
+		- Add the ability to have floppy appendages (like arms, hair, etc)
+		- Add the ability to have multiple puppets to swap out
+		- When move up or down, move the puppets' transform origins- it'd look a little more dynamic when they move up (like they're excited or emotional), and less so when they go down (like they're hiding or afraid)
+	VIEWERIMPACT
+		- I can automatically add Heckle rewards to Twitch, based on what's in the folder; I can even update them if I want to https://dev.twitch.tv/docs/api/reference#get-custom-reward
+		- Have it let people know if there are errors with things
+		- Let user know if they are using an invalid name (else, invisibly adjust the name to make it valid)
+		- Make the first play of an animation work
+		- Adjust audio level of clip from inside
+		- Add support for .jpg, .svg, .gif, and video files as well
+		- IDEA: "Random Animation" option to create a new randomized animation at the press of a button
+		- Layer Test: see how multiple sound; trigger multiple?
+		- Set timeline width to set?; so that it takes up less space if it's shorter? Or would that be annoying?
+		- Figure out why opacity won't go down to true 0; create a solution (might be as simple as making the minimum -.01 instead of just 0)
+		- On zoom in-out on webpage (ctrl+mouse wheel) don't adjust image size
+		- Pull Channel Reward names to use? (might be annoying, if haven't created the Channel Reward yet)
+		- Set opacity outside of screen area, so that you can see what it looks with the image out of view or in view; user choice
+		- Add "On End" feature that has a different effect for different options:
+			- Stop: stop the animation and return to the start
+			- Loop: restart the animation
+			- Play Next: go play the next animation
+			- Pause At End: pause the animation and freeze at the end
+			- Start From Cursor: restart the animation from the cursor's last position
 
 MEDIUM UPDATES:
-	- Update Readme
+	GENERAL
+		- Update Readme
+	VIEWERIMPACT
+		- Add controls help log
+		- Guard against multiple gift subscriptions blowing out eardrums (they'd all trigger at once)
+		- Test Subscriptions
+		- Test Bits cheers
+		- Don't let users adjust animation values while it's animating
+		- Add in a help button that displays all of the controls
+	RPSTREAM
+		- Make it more visually appealing
+		- Allow pausing the countdown
+	CHATTRACTIVE
+		- Add way to clear the stream
+		- If someone is banned, blocked, etc from the stream, delete their messages
 
 QUICK UPDATES:
-	- Add my YouTube, website, and other links to the main page of Twitch Tools
-	- Put a link to these tools on my Twitch channel
+	GENERAL
+		- Add my YouTube, website, and other links to the main page of Twitch Tools
+		- Put a link to these tools on my Twitch channel
+	CHATTRACTIVE
+		- Highlight highlighted messages
+
+
 
 - Post a new version on Itch after every stream updating these?
 
 SLOWLY MOVE FEATURES FROM MY STREAM INTO THIS TOOLSET
 	- Customizability is key; having different settings for myself besides the defaults (which also need to look good) is also key.
 
-///////////////////
-///////////////////
-///////////////////
-
-General
-
-- Track what your role is in channels you're tracking:
-	- Are you a mod?
-	- Are you a broadcaster?
-	- Are you a subscriber?
-	- Are you a follower?
-	etc
-- Track viewer data locally
-	- Allow streamer to save notes on viewers to review
-	- Add notes on strikes to viewers
-- Add automodding capability
-	- Put in block words and swears
-	- Autoban people from a master ban list in all affiliated channels
-- Add bot command abilities
-	- Would be best if I could tie these in to JS functions somehow, letting people create commands for anything
-		- I could have it so that it reads window[chatMessage] and checks for functions, allowing mods to run anything. That could go horrendously wrong, or be extremely powerful. I could also tag functions somehow so that only certain people can access them, and push off other functions to the side.
-
-//////////////
-//////////////
-//////////////
-
+// STRUCTURE
 packages
 - Each package contains the following:
 	- index.php: the file that contains the packet files
@@ -54,94 +96,3 @@ packages
 	- script.js
 		- Listens for events run by the home page
 	- styles.cs
-	
-////////
-////////
-////////
-
-TODO:
-- Explain things better
-	- Include PHP
-	WORK AROUND GLITCH:
-		- LFS files corrupted on download from GitHub
-
-/////////
-/////////
-/////////
-
-VIEWERIMPACT
-	- Add controls help log
-	- Guard against multiple gift subscriptions blowing out eardrums (they'd all trigger at once)
-	- Test Subscriptions
-	- Test Bits cheers
-
-PRIORITY TODO LIST:
-	- Add "On End" feature that has a different effect for different options:
-		- Stop: stop the animation and return to the start
-		- Loop: restart the animation
-		- Play Next: go play the next animation
-		- Pause At End: pause the animation and freeze at the end
-		- Start From Cursor: restart the animation from the cursor's last position
-	- Set opacity outside of screen area, so that you can see what it looks with the image out of view or in view; user choice
-	- Pull Channel Reward names to use? (might be annoying, if haven't created the Channel Reward yet)
-
-	- On zoom in-out on webpage (ctrl+mouse wheel) don't adjust image size
-	- Figure out why opacity won't go down to true 0; create a solution (might be as simple as making the minimum -.01 instead of just 0)
-	- Layer Test: see how multiple sound; trigger multiple?
-	- Set timeline width to set?; so that it takes up less space if it's shorter? Or would that be annoying?
-
-	- Adjust audio level of clip from inside
-	- Add support for .jpg, .svg, .gif, and video files as well
-	
-FEATURES TO GET FEEDBACK ON
-	- "Random Animation" option to create a new randomized animation at the press of a button
-
-/// TODO:
-
-- I can automatically add Heckle rewards to Twitch, based on what's in the folder; I can even update them if I want to
-
-https://dev.twitch.tv/docs/api/reference#get-custom-reward
-
-- Have it let people know if there are errors with things
-
-- Heckle bugs:
-	- Let user know if they are using an invalid name (else, invisibly adjust the name to make it valid)
-	- Don't let users adjust animation values while it's animating
-	- Add in a help button that displays all of the controls
-	- Make the first play of an animation work
-
-////////////
-////////////
-////////////
-
-Chattractive
-
-- Display chat messages in a visually appealing way
-- Add way to clear the stream
-- Ignore images when adding sing/shake/shout effects
-- If someone is banned, blocked, etc from the stream, delete their messages
-- Highlight highlighted messages
-
-////////////
-////////////
-////////////
-
-RPStream
-
-- Make the code good instead of atrocious
-- Make it more visually appealing
-- Allow pausing the countdown
-
-////////////
-////////////
-////////////
-
-PuppetShow
-
-IDEAS:
-
-- Use left and right analog sticks on controllers to move puppets up and down, as well as rotating them (perhaps also allow moving)
-- Use left and right triggers to swap characters, or perhaps images (to make them angry, happy, etc)
-- Add the ability to have floppy appendages (like arms, hair, etc)
-- Add the ability to have multiple puppets to swap out
-- When move up or down, move the puppets' transform origins- it'd look a little more dynamic when they move up (like they're excited or emotional), and less so when they go down (like they're hiding or afraid)
