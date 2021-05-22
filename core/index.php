@@ -83,12 +83,22 @@ require '../settings.php';
 ?>
 <body>
 	<header>
-		<h1>Twitch Tools <span id="credits">by <a href="https://twitch.tv/joshpowlison" target="_blank">Josh Powlison</a></span></h1>
+		<h1>Twitch Tools <span id="credits">by Josh Powlison</span></h1>
+		<p></p>
+		<nav id="social-links">
+			<p><a href="https://joshpowlison.com/" target="_blank">Website</a></p>
+			<p><a href="https://twitch.tv/joshpowlison/" target="_blank">Twitch</a></p>
+			<p><a href="https://youtube.com/joshpowlison/" target="_blank">YouTube</a></p>
+			<p><a href="https://twitter.com/joshpowlison/" target="_blank">Twitter</a></p>
+			<p><a href="https://linkedin.com/in/joshpowlison/" target="_blank">LinkedIn</a></p>
+			<p><a href="https://github.com/joshpowlison/" target="_blank">GitHub</a></p>
+		</nav>
+		
 		<p><span id="data-account"></span></p>
 		<p id="channels-watching"></p>
 
 		<p id="note"></p>
-		<nav>
+		<nav id="packages">
 	<?php
 
 /*
@@ -115,6 +125,8 @@ curl -X GET 'https://api.twitch.tv/helix/users?id=141981764' \
 		</nav>
 	</header>
 	<main></main>
+	<footer>This product includes PHP software, freely available from
+     <a href="http://www.php.net/software/" target="_blank">http://www.php.net/software/</a></footer>
 	<script>
 	// Get token hashes so we can save them to the local file for the user
 	if(document.location.hash) {

@@ -2,11 +2,18 @@ Development System: pick an update from three importance levels, so there's a ma
 
 Every stream, tackle one from each category below:
 
+TODAY:
+- Put package on Itch
+	- Include light PHP in it
+
+X	BIG UPDATE		: CHATTRACTIVE Ignore images when adding sing/shake/shout effects
+
+X	MEDIUM UPDATE	: CHATTRACTIVE Add way to clear the stream
+
+X	SMALL UPDATE	: Add my YouTube, website, and other links to the main page of Twitch Tools
+
 BIG UPDATES:
 	GENERAL
-		- Put package on Itch
-			- Include light PHP in it
-	X	- Create condensed message form for websocket so that the odds of a message being sent partly is diminished
 		- Track viewer data locally
 			- Allow streamer to save notes on viewers to review
 			- Add notes on strikes to viewers
@@ -26,7 +33,6 @@ BIG UPDATES:
 		- Make the code good instead of atrocious
 	CHATTRACTIVE
 		- Display chat messages in a visually appealing way
-		- Ignore images when adding sing/shake/shout effects
 	PUPPETSHOW
 		- Pass input data to browser source
 		- Use left and right analog sticks on controllers to move puppets up and down, as well as rotating them (perhaps also allow moving)
@@ -74,7 +80,6 @@ MEDIUM UPDATES:
 
 QUICK UPDATES:
 	GENERAL
-		- Add my YouTube, website, and other links to the main page of Twitch Tools
 		- Put a link to these tools on my Twitch channel
 	CHATTRACTIVE
 		- Highlight highlighted messages

@@ -196,6 +196,11 @@ function SocketInterconnectSendMessage(json){
 	if(command < 0)
 		command = 127 + Math.abs(command);
 	
+	console.log(json);
+	console.log(source);
+	console.log(command);
+	console.log(String.fromCharCode((source << 8) + command));
+	
 	SOCKET_INTERCONNECT.send(String.fromCharCode((source << 8) + command));
 }
 

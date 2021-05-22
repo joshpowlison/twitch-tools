@@ -1,21 +1,51 @@
 'use strict';
 
 modules.chattractive = new function(){
-	const module	= this;
-	module.name		= 'chattractive';
-	module.root		= modules[module.name];
+	const module		= this;
+	module.name			= 'chattractive';
+	module.root			= modules[module.name];
+	module.isAdminPanel	= (module.root.querySelector('#is-admin') !=null);
 	
 	// Use Root to call elements (with getElementById, querySelector, and querySelectorAll)
+	
+	module.onRemove = function(){
+		// Remove window and document event listeners
+		document.removeEventListener('livestreamchatmessage',onChatMessage);
+		document.removeEventListener('interconnectmessage',interconnectOnMessage);
+	}
 	
 	// Unique settings
 	module.target	= module.root.querySelector('main');
 	
-	document.addEventListener('livestreamchatmessage',function(event){
+	document.addEventListener('livestreamchatmessage',onChatMessage);
+	
+	function onChatMessage(event){
 		console.log('chattractive',event);
 		
 		var classes = '';
 		var animationOffset = 0;
 		var textfxConstant = false;
+		
+		var messageText = event.detail.messageSansEmotes;
+		var messageHTML = event.detail.html;
+		
+		// If an image URL is in the message, and the user has the necessary privileges, an image will display on-screen. Prepare it so we don't consider its display with the rest
+		var chatImgEl = null;
+		var chatImgSrc = null;
+		if(
+			// If user has necessary privileges (is a broadcaster, mod, or VIP)
+			(
+				(event.detail.badges && event.detail.badges.broadcaster)
+				|| (event.detail.badges && event.detail.badges.vip)
+				|| (event.detail.mod == 1)
+			) && (chatImgSrc = /https?:\/\/\S+\.(?:png|jpg|jpeg|gif|svg)(?:[\?&]\S+)?|\S+gstatic.com\/images\S+/i.exec(event.detail.message))
+		){
+			chatImgEl = document.createElement('img');
+			chatImgEl.src = chatImgSrc[0];
+			chatImgEl.className = 'chat-image';
+			messageText = messageText.replace(chatImgSrc[0],'');
+			messageHTML = messageHTML.replace(chatImgSrc[0],'');
+		};
 		
 		// Add text message here
 		var block = document.createElement('span');
@@ -28,27 +58,25 @@ modules.chattractive = new function(){
 		
 		var message = document.createElement('span');
 		
-		console.log(event);
-		
 		// Add sing class
-		if(/~\s*$/.test(event.detail.messageSansEmotes)){
+		if(/~\s*$/.test(messageText)){
 			classes += ' sing';
 			animationOffset = 0.00014;
 		}
 		else
 		// Add shake class if no lowercase letters are present
-		if(/^\s*~/.test(event.detail.messageSansEmotes)){
+		if(/^\s*~/.test(messageText)){
 			classes += ' shake';
 			animationOffset = 0.00014;
 		}
 		
 		// Add shout class if no lowercase letters are present
-		if(!/[a-z]/.test(event.detail.messageSansEmotes))
+		if(!/[a-z]/.test(messageText))
 			classes += ' shout';
 		
 		// Message effects
 		textfx({
-			content				: event.detail.html
+			content				: messageHTML
 			,element			: message
 			,classes			: classes
 			,animationOffset	: animationOffset
@@ -58,26 +86,20 @@ modules.chattractive = new function(){
 		block.appendChild(name);
 		block.appendChild(message);
 		
-		// If an image URL is in the message, and the user has the necessary privileges, an image will display on-screen
-		var chatImg;
-		if(
-			// If user has necessary privileges (is a broadcaster, mod, or VIP)
-			(
-				(event.detail.badges && event.detail.badges.broadcaster)
-				|| (event.detail.badges && event.detail.badges.vip)
-				|| (event.detail.mod == 1)
-			) && (chatImg = /https?:\/\/\S+\.(?:png|jpg|jpeg|gif|svg)(?:[\?&]\S+)?|\S+gstatic.com\/images\S+/i.exec(event.detail.message))
-		){
-			var chatImgEl = document.createElement('img');
-			chatImgEl.src = chatImg[0];
-			chatImgEl.className = 'chat-image';
+		if(chatImgEl)
 			block.appendChild(chatImgEl);
-		};
 		
 		//module.target.innerHTML = '';
 		
 		module.target.appendChild(block);
-	});
+	}
+	
+	function interconnectOnMessage(event){
+		if(event.detail.source == module.name && event.detail.adminpanel)
+			COMMANDS[event.detail.command]();
+	}
+	
+	document.addEventListener('interconnectmessage',interconnectOnMessage);
 	
 	/*
 	async function chatMessageElement(data,options = {}){
@@ -115,6 +137,16 @@ modules.chattractive = new function(){
 		
 		return messageEl;
 	}*/
+	
+	function clearChat(){
+		var child;
+		while(child = module.target.lastChild)
+			module.target.removeChild(child);
+	}
+	
+	const COMMANDS = [
+		clearChat
+	];
 	
 	function textfx(settings){
 	/*
@@ -480,4 +512,20 @@ modules.chattractive = new function(){
 		
 		return false;
 	}
+	
+	// Admin settings
+	
+	if(!module.isAdminPanel)
+		return;
+	
+	function callClearChat(){
+		console.log('why hello');
+		SocketInterconnectSendMessage({
+			app:module.name,
+			adminpanel:true,
+			command:COMMANDS.indexOf(clearChat)
+		});
+	}
+	
+	module.root.querySelector('#button-clear-chat').addEventListener('click',callClearChat);
 }

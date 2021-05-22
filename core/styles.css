@@ -36,7 +36,21 @@ h1{
 	display:block;
 }
 
-nav{
+#social-links{
+	display:flex;
+	justify-content:center;
+}
+
+#social-links p{
+	margin:0;
+	padding:.5em;
+}
+
+#social-links p > a{
+	color:var(--dark);
+}
+
+#packages{
 	display:flex;
 	justify-content:center;
 }
@@ -78,4 +92,21 @@ nav{
 	box-sizing:border-box;
 	resize:both;
 	overflow:auto;
+}
+
+/* Footer */
+
+footer{
+	color:var(--dark);
+	display:block;
+	width:100%;
+	margin:0;
+	padding:.5em;
+	
+	box-sizing:border-box;
+	text-align:center;
+}
+
+footer a{
+	color:var(--dark);
 }
