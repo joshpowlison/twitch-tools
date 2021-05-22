@@ -4,6 +4,16 @@
 
 const CHEERMOTES = ['cheer','Cheer','PogChamp','BibleThump','cheerwhal','Corgo','uni','ShowLove','Party','SeemsGood','Pride','Kappa','FrankerZ','HeyGuys','DansGame','EleGiggle','TriHard','Kreygasm','4Head','SwiftRage','NotLikeThis','FailFish','VoHiYo','PJSalt','MrDestructoid','bday','RIPCheer','Shamrock'];
 
+const PACKAGE_IDS = {
+	'core': 1,
+	'allchat': 2,
+	'chattractive': 3,
+	'puppetshow': 4,
+	'rpstream': 5,
+	'viewerimpact': 6,
+	'whosinchat': 7
+};
+
 const JOIN_ATTEMPTS_MAX		= 15;	// Max is 20 per 10 seconds per user (200 for verified bots)
 const BOT_MESSAGE_MAX		= 80;	// Max for an admin or operator of a channel is 100 per 30 seconds; safety at 50, to consider other bot messages
 const LOOP_DELAY			= 500;	// The loop runs every 500 milliseconds
@@ -144,17 +154,8 @@ function dLoadSocketInterconnect(){
 		
 		SOCKET_INTERCONNECT = new WebSocket('ws://localhost:9000/chatsocket/server.php');
 
-		var message = "";
 		SOCKET_INTERCONNECT.onmessage = function(event) {
-			console.log(event);
-			console.log(event.data);
-			
-			message += event.data;
-			
-			if(isValidJSONString(message)){
-				document.dispatchEvent(new CustomEvent('interconnectmessage', {detail:JSON.parse(event.data)}));
-				message = "";
-			}
+			SocketInterconnectReceiveMessage(event.data);
 		};
 
 		SOCKET_INTERCONNECT.onopen = function(event){console.log(event);}
@@ -186,7 +187,46 @@ function isValidJSONString(string){
 }
 
 function SocketInterconnectSendMessage(json){
-	SOCKET_INTERCONNECT.send(JSON.stringify(json));
+	// Create the char from the package
+	var source = PACKAGE_IDS[json.app];
+	if(json.adminpanel)
+		source += 128;
+	
+	var command = json.command;
+	if(command < 0)
+		command = 127 + Math.abs(command);
+	
+	SOCKET_INTERCONNECT.send(String.fromCharCode((source << 8) + command));
+}
+
+function SocketInterconnectReceiveMessage(message){
+	// Loading data from the char
+	var data = message.charCodeAt(0);
+	
+	var source = data >>> 8;
+	var admin = false;
+	if(source >= 128){
+		source -= 128;
+		admin = true;
+	}
+	
+	var command = (data << 24) >>> 24;
+	if(command >= 128){
+		command -= 127;
+		command *= -1;
+	}
+	
+	var keys = Object.keys(PACKAGE_IDS);
+	var ids = Object.values(PACKAGE_IDS);
+	
+	// Make into more human-readable json
+	var json = {
+		source: keys[ids.indexOf(source)],
+		adminpanel: admin,
+		command: command
+	};
+	
+	document.dispatchEvent(new CustomEvent('interconnectmessage', {detail: json}));
 }
 
 function onChatMessage(message){

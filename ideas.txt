@@ -1,11 +1,23 @@
 Development System: pick an update from three importance levels, so there's a massive update in each but updates are relatively quick to get out (essentially, so I'm making one easy, medium, and hard update instead of tackling all of the hard updates at once and slowing down update output)
 
+Every stream, tackle one from each category below:
+
+BIG UPDATES:
+	- Put package on Itch
+	- Create condensed message form for websocket so that the odds of a message being sent partly is diminished
+		
+
+MEDIUM UPDATES:
+	- Update Readme
+
+QUICK UPDATES:
+	- Add my YouTube, website, and other links to the main page of Twitch Tools
+	- Put a link to these tools on my Twitch channel
+
 - Post a new version on Itch after every stream updating these?
 
-- Add my YouTube, website, and other links to the main page of Twitch Tools
-- Put a link to these tools on my Twitch channel
-- Put these Twitch Tools on Itch
-- Create two more ViewerImpact items
+SLOWLY MOVE FEATURES FROM MY STREAM INTO THIS TOOLSET
+	- Customizability is key; having different settings for myself besides the defaults (which also need to look good) is also key.
 
 ///////////////////
 ///////////////////
@@ -48,7 +60,6 @@ packages
 ////////
 
 TODO:
-- Update Readme
 - Explain things better
 	- Include PHP
 	WORK AROUND GLITCH:
@@ -59,7 +70,6 @@ TODO:
 /////////
 
 VIEWERIMPACT
-
 	- Add controls help log
 	- Guard against multiple gift subscriptions blowing out eardrums (they'd all trigger at once)
 	- Test Subscriptions
@@ -86,7 +96,6 @@ PRIORITY TODO LIST:
 FEATURES TO GET FEEDBACK ON
 	- "Random Animation" option to create a new randomized animation at the press of a button
 
-/*
 /// TODO:
 
 - I can automatically add Heckle rewards to Twitch, based on what's in the folder; I can even update them if I want to
@@ -101,7 +110,6 @@ https://dev.twitch.tv/docs/api/reference#get-custom-reward
 	- Add in a help button that displays all of the controls
 	- Make the first play of an animation work
 
-*/
 ////////////
 ////////////
 ////////////
@@ -130,12 +138,10 @@ RPStream
 
 PuppetShow
 
-/* IDEAS:
+IDEAS:
 
 - Use left and right analog sticks on controllers to move puppets up and down, as well as rotating them (perhaps also allow moving)
 - Use left and right triggers to swap characters, or perhaps images (to make them angry, happy, etc)
 - Add the ability to have floppy appendages (like arms, hair, etc)
 - Add the ability to have multiple puppets to swap out
 - When move up or down, move the puppets' transform origins- it'd look a little more dynamic when they move up (like they're excited or emotional), and less so when they go down (like they're hiding or afraid)
-
-*/

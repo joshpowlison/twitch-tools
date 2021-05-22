@@ -211,8 +211,8 @@ function runHeckle(heckle){
 }
 
 function interconnectTriggerHeckle(event){
-	if(event.detail.app == 'viewerimpact' && event.detail.adminpanel)
-		runHeckle(event.detail.command);
+	if(event.detail.source == 'viewerimpact' && event.detail.adminpanel)
+		runHeckle(TRIGGERS.effects[event.detail.command]);
 }
 
 loadTriggers();

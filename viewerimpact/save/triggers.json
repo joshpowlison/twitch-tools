@@ -34,5 +34,13 @@
 			"context": "sub",
 			"message_includes": ""
 		}
+	],
+	"effects": [
+		"awesome",
+		"cat",
+		"gas",
+		"goatgoat",
+		"WilhelmScream.mp3",
+		"yes"
 	]
 }

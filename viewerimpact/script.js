@@ -1173,6 +1173,9 @@ modules.viewerimpact = new function(){
 			}
 		}
 		
+		// Save package names to the file as well, so we can read them all in the browser source
+		saveData.triggers.effects = Object.keys(saveData.keyframes);
+		
 		// Pass the data for the animation we want to save
 		var formdata = new FormData();
 		formdata.append('triggers',JSON.stringify(saveData.triggers, null, '\t'));
@@ -1556,7 +1559,7 @@ modules.viewerimpact = new function(){
 			buttonTest.className				= 'tab-button-test';
 			buttonTest.innerHTML				= 'Test';
 			buttonTest.addEventListener('click',function(){
-				testTrigger(packageNames[i]);
+				testTrigger(i);
 			});
 			
 			div.appendChild(buttonLoad);
