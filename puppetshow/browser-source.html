@@ -5,11 +5,57 @@
 	<link rel="stylesheet" href="styles.css">
 	<meta charset="utf-8"></meta>
 	<title>PuppetShow by JoshPowlison</title>
+	<style>
+		body{
+			margin:0;
+			padding:0;
+			height:100vh;
+			width:100vw;
+			
+			opacity:1;
+			transition:opacity 1s;
+		}
+		
+		body.hidden{
+			opacity:0;
+		}
+
+		.puppet{
+			position:fixed;
+			bottom: -5em;
+			width:30em;
+			height:100vh;
+			transform-origin:50% 110%;
+			/* background-color:gray; */
+			background-size:contain;
+		}
+
+		.puppet > img{
+			display:block;
+			position			: absolute;
+			height				: 100%;
+			width				: 100%;
+			object-fit			: contain;
+			object-position: bottom;
+		}
+
+		#puppet-1{
+			left:2em;
+		}
+
+		#puppet-2{
+			right:2em;
+		}
+
+		#puppet-1 > img{
+			transform:scale(-1,1);
+		}
+	</style>
 </head>
-<body>
+<body class="hidden">
 	<div class="puppet" id="puppet-1"><img src="../puppetshow/save/assets/excite/image.png"></div>
 	<div class="puppet" id="puppet-2"><img src="../puppetshow/save/assets/excite/image.png"></div>
-	<!-- <script src="../core/main.js"></script> -->
+	<script src="../core/main.js"></script>
 	<script>var modules = {puppetshow: document};</script>
 	<script src="script.js"></script>
 </body>

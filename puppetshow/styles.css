@@ -1,38 +1,10 @@
-body{
+:host{
+	padding:1em;
+	box-sizing:border-box;
+	background-color:#eddff0;
+}
+
+h1{
+	text-align:center;
 	margin:0;
-	padding:0;
-	height:100vh;
-	width:100vw;
-}
-
-.puppet{
-	position:fixed;
-	bottom: -5em;
-	width:30em;
-	height:100vh;
-	transform:translate(0, 0);
-	transform-origin:50% 110%;
-	/* background-color:gray; */
-	background-size:contain;
-}
-
-.puppet > img{
-	display:block;
-	position			: absolute;
-	height				: 100%;
-	width				: 100%;
-	object-fit			: contain;
-	object-position: bottom;
-}
-
-#puppet-1{
-	left:2em;
-}
-
-#puppet-2{
-	right:2em;
-}
-
-#puppet-1 > img{
-	transform:scale(-1,1);
 }

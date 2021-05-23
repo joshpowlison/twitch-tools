@@ -1,16 +1,7 @@
-
 # Twitch Tools by Josh Powlison
 
-## Initial Setup
+Download the latest version on Itch at [https://joshpowlison.itch.io/streamer-tools](https://joshpowlison.itch.io/streamer-tools)
 
-* Download the latest version here []()
+Run it by double-clicking *START.bat*.
 
-* Replace `usernamewithlowercase` with your username
-* Replace `getoauthhere:getoauthhere:https://twitchapps.com/tmi/` with the oauth token (minus "oauth:") from [this website](https://twitchapps.com/tmi/)
-* Replace `channellowercase` with the name of the channel you'd like to watch
-
-Then rename *save-example.json* to *save.json*. Be sure not to share this data with anyone else!
-
-## Running Twitch Tools by Josh Powlison
-
-Double-click *START.bat*.
+Windows only for now.

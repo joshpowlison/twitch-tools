@@ -175,17 +175,6 @@ function dLoadSocketInterconnect(){
 	}
 }
 
-function isValidJSONString(string){
-	try{
-		JSON.parse(string);
-	} catch (e) {
-		console.log(e);
-		return false;
-	}
-	
-	return true;
-}
-
 function SocketInterconnectSendMessage(json){
 	// Create the char from the package
 	var source = PACKAGE_IDS[json.app];
@@ -196,10 +185,10 @@ function SocketInterconnectSendMessage(json){
 	if(command < 0)
 		command = 127 + Math.abs(command);
 	
-	console.log(json);
-	console.log(source);
-	console.log(command);
-	console.log(String.fromCharCode((source << 8) + command));
+	if(SOCKET_INTERCONNECT == null){
+		console.log('WARNING: No socket connection present. Please wait...');
+		return;
+	}
 	
 	SOCKET_INTERCONNECT.send(String.fromCharCode((source << 8) + command));
 }

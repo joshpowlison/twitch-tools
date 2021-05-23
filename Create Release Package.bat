@@ -1,0 +1,1 @@
+tar.exe -a -c -f "Streamer Tools by Josh Powlison.zip" "Start Streamer Tools.bat" "settings.php" allchat chattractive core puppetshow rpstream viewerimpact whosinchat

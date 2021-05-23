@@ -4,13 +4,6 @@ Every stream, tackle one from each category below:
 
 TODAY:
 - Put package on Itch
-	- Include light PHP in it
-
-X	BIG UPDATE		: CHATTRACTIVE Ignore images when adding sing/shake/shout effects
-
-X	MEDIUM UPDATE	: CHATTRACTIVE Add way to clear the stream
-
-X	SMALL UPDATE	: Add my YouTube, website, and other links to the main page of Twitch Tools
 
 BIG UPDATES:
 	GENERAL
@@ -64,6 +57,7 @@ BIG UPDATES:
 MEDIUM UPDATES:
 	GENERAL
 		- Update Readme
+		- Save general settings to autoload, such as which packages were open to auto re-open them in the same order
 	VIEWERIMPACT
 		- Add controls help log
 		- Guard against multiple gift subscriptions blowing out eardrums (they'd all trigger at once)
