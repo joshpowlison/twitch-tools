@@ -1,83 +1,93 @@
 Development System: pick an update from three importance levels, so there's a massive update in each but updates are relatively quick to get out (essentially, so I'm making one easy, medium, and hard update instead of tackling all of the hard updates at once and slowing down update output)
 
-Every stream, tackle one from each category below:
+Every stream, tackle one group from below:
 
-BIG UPDATES:
-	GENERAL
-		- Track viewer data locally
-			- Allow streamer to save notes on viewers to review
-			- Add notes on strikes to viewers
-		- Add automodding capability
-			- Put in block words and swears
-			- Autoban people from a master ban list in all affiliated channels
-		- Add bot command abilities
-			- Would be best if I could tie these in to JS functions somehow, letting people create commands for anything
-				- I could have it so that it reads window[chatMessage] and checks for functions, allowing mods to run anything. That could go horrendously wrong, or be extremely powerful. I could also tag functions somehow so that only certain people can access them, and push off other functions to the side.
-		- Track what your role is in channels you're tracking:
-			- Are you a mod?
-			- Are you a broadcaster?
-			- Are you a subscriber?
-			- Are you a follower?
-			etc
-	RPSTREAM
-		- Make the code good instead of atrocious
-	CHATTRACTIVE
-		- Display chat messages in a visually appealing way
-	PUPPETSHOW
-		- Pass input data to browser source
-		- Use left and right analog sticks on controllers to move puppets up and down, as well as rotating them (perhaps also allow moving)
-		- Use left and right triggers to swap characters, or perhaps images (to make them angry, happy, etc)
-		- Add the ability to have floppy appendages (like arms, hair, etc)
-		- Add the ability to have multiple puppets to swap out
-		- When move up or down, move the puppets' transform origins- it'd look a little more dynamic when they move up (like they're excited or emotional), and less so when they go down (like they're hiding or afraid)
+///////////
+
+Big Update		: PUPPETSHOW Add the ability to have floppy appendages (like arms, hair, etc)
+Medium Update	: PUPPETSHOW Add ability to swap characters (with images, and inputs)
+Quick Update	: PUPPETSHOW Add input to flip a puppet
+
+///////////
+
+Big Update		: VIEWERIMPACT Add support for .jpg, .svg, .gif, and video files as well
+Medium Update	: VIEWERIMPACT Guard against multiple gift subscriptions blowing out eardrums (they'd all trigger at once)
+Quick Update	: VIEWERIMPACT Add controls help log on-app
+
+///////////
+
+Big Update		: GENERAL Hook into OBS or SLOBS PIPE and allow sending commands
+Medium Update	: GENERAL Move admin panel settings into core folder and autosave/autoload previously loaded packages
+Quick Update	: GENERAL Test Subscriptions and Bits cheers to be sure they're working (and if they're working with ViewerImpact)
+
+///////////
+
+Big Update		: RPSTREAM Code refactor for each use of
+Medium Update	: RPSTREAM Make not visually appalling
+Quick Update	: RPSTREAM Allow pausing the countdown between events
+
+///////////
+
+Big Update		: CHATTRACTIVE Increase visual appeal of default chat and limit number of messages displayed
+Medium Update	: CHATTRACTIVE If someone is banned, blocked, etc from the stream, delete their messages
+Quick Update	: CHATTRACTIVE Highlight highlighted messages
+
+///////////
+
+Big Update		: VIEWERIMPACT Adjust audio level of clip from inside
+Medium Update	: VIEWERIMPACT Don't let users adjust animation values while animations are playing
+Quick Update	: VIEWERIMPACT Let user know if they are using an invalid name (else, invisibly adjust the name to make it valid)
+
+///////////
+
+Big Update		: VIEWERIMPACT Try supporting multiple effect layers for an animation and see how it goes
+Medium Update	: VIEWERIMPACT Figure out why opacity won't go down to true 0; create a solution (might be as simple as making the minimum -.01 instead of just 0)
+Quick Update	: VIEWERIMPACT Make the first play of an animation work
+
+///////////
+
+Big Update		: WHOSINCHAT and ALLCHAT Combine into CHATWATCH, their functionality is similar and makes more sense together
+Medium Update	: CHATWATCH Save notes on viewers
+Quick Update	: CHATWATCH Display user roles in list (broadcast/mod, follower, subscriber, etc)
+
+///////////
+
+Big Update		: CHATWATCH Add automodding capabilities based on words and regex to watch for
+Medium Update	: CHATWATCH If someone is banned from one channel, ban them from all channels
+Quick Update	: CHATWATCH Allow mods to trigger functions in admin panel (I could have it so that it reads window[chatMessage] and checks for functions)
+
+///////////
+
+Big Update		: GENERAL Add support to watch multiple channels and adjust in settings
+Medium Update	: CHATWATCH Display unique stats from all watched channels
+Quick Update	: GENERAL Create Streamer Tools logo
+
+///////////
+
+Big Update		: JOURNAL Create on-screen journal that can be written in
+Medium Update	: JOURNAL Include writing sounds
+Quick Update	: JOURNAL Allow user to show/hide it
+
+
+
+
+
+
+
+
+IDEAS:
 	VIEWERIMPACT
-		- I can automatically add Heckle rewards to Twitch, based on what's in the folder; I can even update them if I want to https://dev.twitch.tv/docs/api/reference#get-custom-reward
-		- Have it let people know if there are errors with things
-		- Let user know if they are using an invalid name (else, invisibly adjust the name to make it valid)
-		- Make the first play of an animation work
-		- Adjust audio level of clip from inside
-		- Add support for .jpg, .svg, .gif, and video files as well
-		- IDEA: "Random Animation" option to create a new randomized animation at the press of a button
-		- Layer Test: see how multiple sound; trigger multiple?
 		- Set timeline width to set?; so that it takes up less space if it's shorter? Or would that be annoying?
-		- Figure out why opacity won't go down to true 0; create a solution (might be as simple as making the minimum -.01 instead of just 0)
-		- On zoom in-out on webpage (ctrl+mouse wheel) don't adjust image size
-		- Pull Channel Reward names to use? (might be annoying, if haven't created the Channel Reward yet)
+		- Support resolutions other than 1920x1080
+		- Allow zooming in and out of timeline
 		- Set opacity outside of screen area, so that you can see what it looks with the image out of view or in view; user choice
+		- On zoom in-out on webpage (ctrl+mouse wheel) don't adjust image size
 		- Add "On End" feature that has a different effect for different options:
 			- Stop: stop the animation and return to the start
 			- Loop: restart the animation
 			- Play Next: go play the next animation
 			- Pause At End: pause the animation and freeze at the end
 			- Start From Cursor: restart the animation from the cursor's last position
-
-MEDIUM UPDATES:
-	GENERAL
-		- Update Readme
-		- Save general settings to autoload, such as which packages were open to auto re-open them in the same order
-	VIEWERIMPACT
-		- Add controls help log
-		- Guard against multiple gift subscriptions blowing out eardrums (they'd all trigger at once)
-		- Test Subscriptions
-		- Test Bits cheers
-		- Don't let users adjust animation values while it's animating
-		- Add in a help button that displays all of the controls
-	RPSTREAM
-		- Make it more visually appealing
-		- Allow pausing the countdown
-	CHATTRACTIVE
-		- Add way to clear the stream
-		- If someone is banned, blocked, etc from the stream, delete their messages
-
-QUICK UPDATES:
-	GENERAL
-		- Put a link to these tools on my Twitch channel
-	CHATTRACTIVE
-		- Highlight highlighted messages
-
-
-
-- Post a new version on Itch after every stream updating these?
 
 SLOWLY MOVE FEATURES FROM MY STREAM INTO THIS TOOLSET
 	- Customizability is key; having different settings for myself besides the defaults (which also need to look good) is also key.

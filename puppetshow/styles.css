@@ -8,3 +8,17 @@ h1{
 	text-align:center;
 	margin:0;
 }
+
+.puppet-select{
+	border:1px solid black;
+}
+
+.puppet-image-select{
+	height:5em;
+	border:1px solid black;
+	cursor:pointer;
+}
+
+.puppet-image-select:hover{
+	background-color:yellow;
+}
