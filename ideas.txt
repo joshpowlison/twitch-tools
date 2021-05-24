@@ -2,9 +2,6 @@ Development System: pick an update from three importance levels, so there's a ma
 
 Every stream, tackle one from each category below:
 
-TODAY:
-- Put package on Itch
-
 BIG UPDATES:
 	GENERAL
 		- Track viewer data locally

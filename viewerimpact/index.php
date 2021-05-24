@@ -55,7 +55,7 @@ if(!empty($_GET['audiopath'])){
 	exit;
 }
 	
-?><div id="body" tabindex="0">
+?><div id="body" tabindex="0" class="paused">
 	<style id="style-animation">
 		@keyframes animation{
 			100%{transform:translate(50%,0%);}
@@ -66,6 +66,7 @@ if(!empty($_GET['audiopath'])){
 
 	<header>
 		<div id="project-title"><h1>ViewerImpact<span id="project-creator"><small><a href="#" target="_blank" onClick="window.open('../viewerimpact/browser-source.html','_blank','width=1920,height=1080,top=0,left=0,location=yes,menubar=yes,status=yes,toolbar=yes,titlebar=yes');return false;">Test Browser Source</a></small></div>
+		<p><a href="../viewerimpact/help.html" target="_blank">Help</a></p>
 		<table id="project-options">
 			<!--<tr>
 				<td>Twitch User</td>

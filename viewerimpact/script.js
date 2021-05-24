@@ -1236,8 +1236,11 @@ modules.viewerimpact = new function(){
 		updateAnimation();
 		
 		module.root.getElementById('frame-holder').appendChild(heckleDiv);
+		
 		firstLoad = false;
 		this.play();
+		// Jump to the current keyframe, so animations are precise
+		scrubTo(Math.floor(heckleSound.currentTime * 100) / 100);
 	});
 
 	heckleDiv.addEventListener('load',function(){
