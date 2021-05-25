@@ -6,7 +6,7 @@ Every stream, tackle one group from below:
 
 Big Update		: PUPPETSHOW Add the ability to have floppy appendages (like arms, hair, etc)
 Medium Update	: PUPPETSHOW Add ability to swap characters (with images, and inputs)
-Quick Update	: PUPPETSHOW Add input to flip a puppet
+Quick Update	: PUPPETSHOW Add input to flip a puppet (press Alt)
 
 ///////////
 

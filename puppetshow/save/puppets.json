@@ -7,7 +7,15 @@
                 "image - Copy.png",
                 "image.png"
             ]
+        },
+        {
+            "folder": "lol",
+            "images": [
+                "image - Copy (2).png",
+                "image - Copy.png",
+                "image.png"
+            ]
         }
     ],
-    "lastUpdated": 1621892071
+    "lastUpdated": 1621918325
 }

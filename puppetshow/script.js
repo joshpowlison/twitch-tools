@@ -20,14 +20,31 @@ modules.puppetshow = new function(){
 	}
 
 	const COMMANDS = [
-		hide,
 		moveLeft,
 		moveRight,
 		moveUp,
 		moveDown,
-		changeImagePrev,
-		changeImageNext
+		setPuppet,
+		setImage,
+		effect,
+		background
 	];
+	
+	/*
+	
+	changeImagePrev,
+		changeImageNext
+	
+	- LeftSpeed (value)
+	- RightSpeed (value)
+	- UpSpeed (value)
+	- DownSpeed (value)
+	- SetPuppet (id)
+	- SetImage (id)
+	- Effect (flip, hide, shake, swizzle, swirl, grayscale, particles)
+	- Background (id)
+	
+	*/
 	
 	var saveData = [];
 	
@@ -50,56 +67,65 @@ modules.puppetshow = new function(){
 		}
 	];
 	
-	function hide(id, active){ // id and active aren't needed here
+	function effect(id, value){ // id and active aren't needed here
 		document.body.classList.toggle('hidden');
 	}
 	
-	function moveLeft(id,active)
+	function moveLeft(id,value)
 	{
-		module.controls[id].left = active ? 1 : 0;
+		module.controls[id].left = value ? 1 : 0;
 	}
 	
-	function moveRight(id,active)
+	function moveRight(id,value)
 	{
-		module.controls[id].right = active ? 1 : 0;
+		module.controls[id].right = value ? 1 : 0;
 	}
 	
-	function moveUp(id,active)
+	function moveUp(id,value)
 	{
-		module.controls[id].up = active ? 1 : 0;
+		module.controls[id].up = value ? 1 : 0;
 	}
 	
-	function moveDown(id,active)
+	function moveDown(id,value)
 	{
-		module.controls[id].down = active ? 1 : 0;
+		module.controls[id].down = value ? 1 : 0;
 	}
 	
-	function changeImagePrev(id,active)
+	function changeImagePrev(id,value)
 	{
-		if(active == 1)
+		if(value == 1)
 			return;
 		
-		module.controls[id].imageId --;
+		/*module.controls[id].imageId --;
 		if(module.controls[id].imageId < 0)
 			module.controls[id].imageId = saveData.puppets[module.controls[id].puppetId].images.length - 1;
-		
+		*/
 		setImage(id);
 	}
 	
-	function changeImageNext(id,active)
+	function changeImageNext(id,value)
 	{
-		if(active == 1)
+		if(value == 1)
 			return;
 
-		module.controls[id].imageId ++;
+		/*module.controls[id].imageId ++;
 		if(module.controls[id].imageId >= saveData.puppets[module.controls[id].puppetId].images.length)
-			module.controls[id].imageId = 0;
+			module.controls[id].imageId = 0;*/
 		
 		setImage(id);
 	}
 	
-	function setImage(id){
-		module.puppets[id].children[0].src = assetsFolder + 'assets/' + saveData.puppets[module.controls[id].puppetId].folder + '/' + saveData.puppets[module.controls[id].puppetId].images[module.controls[id].imageId];
+	function setPuppet(id,value){
+		if(module.controls[id].puppetId != value)
+			module.controls[id].puppetId = value;
+	}
+	
+	function background(id,value){
+		
+	}
+	
+	function setImage(id,value){
+		module.puppets[id].children[0].src = assetsFolder + 'assets/' + saveData.puppets[module.controls[id].puppetId].folder + '/' + saveData.puppets[module.controls[id].puppetId].images[value];
 	}
 
 	module.puppets = document.querySelectorAll('.puppet');
@@ -117,10 +143,12 @@ modules.puppetshow = new function(){
 			
 			if(module.isAdminPanel)
 				updatePuppetSelection();
-			
-			// Update image data
-			for(var i = 0, l = module.controls.length; i < l; i ++)
-				setImage(i);
+			else
+			{
+				// Update image data
+				for(var i = 0, l = module.controls.length; i < l; i ++)
+					setImage(i,0);
+			}
 			
 			console.log('Updated puppets');
 		});
@@ -133,27 +161,32 @@ modules.puppetshow = new function(){
 			return;
 		
 		var fragment = document.createDocumentFragment();
-		for(let i = 0, l = saveData.puppets.length; i < l; i ++){
-			var puppetData = document.createElement('div');
-			puppetData.className = 'puppet-select';
-			
-			for(let ii = 0, ll = saveData.puppets[i].images.length; ii < ll; ii ++){
-				var imageData = document.createElement('img');
-				imageData.src = assetsFolder + 'assets/' + saveData.puppets[i].folder + '/' + saveData.puppets[i].images[ii];
-				imageData.className = 'puppet-image-select';
+		for(let instanceId = 0, instanceLength = 2; instanceId < instanceLength; instanceId ++){
+			var instanceData = document.createElement('div');
+			instanceData.className = 'instance-select';
+			for(let puppetId = 0, puppetLength = saveData.puppets.length; puppetId < puppetLength; puppetId ++){
+				var puppetData = document.createElement('div');
+				puppetData.className = 'puppet-select';
 				
-				/*imageData.addEventListener('click',function(){
-					SocketInterconnectSendMessage({
-						app:module.name,
-						adminpanel:true,
-						command:command * (event.type == 'keydown' ? 1 : -1)
+				for(let imageId = 0, imageLength = saveData.puppets[puppetId].images.length; imageId < imageLength; imageId ++){
+					var imageData = document.createElement('img');
+					imageData.src = assetsFolder + 'assets/' + saveData.puppets[puppetId].folder + '/' + saveData.puppets[puppetId].images[imageId];
+					imageData.className = 'puppet-image-select';
+					
+					// Set the image of the puppet to the image we just clicked
+					imageData.addEventListener('click',function(){
+						console.log(instanceId,COMMANDS.indexOf(setImage),imageId);
+						
+						sendMessage(instanceId,COMMANDS.indexOf(setPuppet),puppetId);
+						sendMessage(instanceId,COMMANDS.indexOf(setImage),imageId);
 					});
-				});*/
+					
+					puppetData.appendChild(imageData);
+				}
 				
-				puppetData.appendChild(imageData);
+				instanceData.appendChild(puppetData);
 			}
-			
-			fragment.appendChild(puppetData);
+			fragment.appendChild(instanceData);
 		}
 		
 		module.root.querySelector('#puppet-info').appendChild(fragment);
@@ -207,24 +240,38 @@ modules.puppetshow = new function(){
 		window.requestAnimationFrame(onAnimationFrame);
 	}
 	
+	/*
+	
+	New function setup:
+	
+	Need 1 bit to determine which puppet it is
+	
+	PUPPET: 1 bit (2 values)
+	FUNCTION: 3 bits (8 values)
+	PARAMETER: 4 bits (16 values)
+
+	3 bits, 8 commands
+	16 values, 4 bits
+
+	- LeftSpeed (value)
+	- RightSpeed (value)
+	- UpSpeed (value)
+	- DownSpeed (value)
+	- SetPuppet (id)
+	- SetImage (id)
+	- Effect (flip, hide, shake, swizzle, swirl, grayscale, particles)
+	- Background (id)
+	
+	*/
+	
 	function interconnectOnMessage(event){
 		if(event.detail.source == module.name && event.detail.adminpanel)
 		{
-			var id = 0;
-			var command = event.detail.command;
-			var active = true;
+			var number = event.detail.command + 128;
 			
-			// If just released
-			if(command < 0){
-				active = false;
-				command *= -1;
-			}
-			
-			// Check for the second puppet
-			if(command >= 64){
-				id = 1;
-				command -= 64;
-			}
+			var id = number >>> 7;
+			var command = number << 25 >>> 29;
+			var value = number << 28 >>> 28;
 			
 			if(module.isAdminPanel)
 				return;
@@ -232,7 +279,7 @@ modules.puppetshow = new function(){
 			// Browser source only
 
 			// Run the command
-			COMMANDS[command](id, active);
+			COMMANDS[command](id, value);
 		}
 	}
 	
@@ -264,63 +311,98 @@ modules.puppetshow = new function(){
 		
 		console.log(event);
 		
-		var command = null;
+		var id = 0;
+		var command = 0;
+		var value = 0;
+		
+		var keydown = event.type == 'keydown';
+		
 		switch(event.key.toLowerCase()){
 			// Hide only triggers on keydown
 			case ' ':
-				if(event.type == 'keydown')
+				if(keydown)
 					return true;
-				command = COMMANDS.indexOf(hide);
+				command = COMMANDS.indexOf(effect);
+				value = 1;
 				break;
 			case 'arrowleft':
-				command = COMMANDS.indexOf(moveLeft) + 64;
+				command = COMMANDS.indexOf(moveLeft);
+				id = 1;
+				value = keydown ? 1 : 0;
 				break;
 			case 'arrowright':
-				command = COMMANDS.indexOf(moveRight) + 64;
+				command = COMMANDS.indexOf(moveRight);
+				id = 1;
+				value = keydown ? 1 : 0;
 				break;
 			case 'arrowup':
-				command = COMMANDS.indexOf(moveUp) + 64;
+				command = COMMANDS.indexOf(moveUp);
+				id = 1;
+				value = keydown ? 1 : 0;
 				break;
 			case 'arrowdown':
-				command = COMMANDS.indexOf(moveDown) + 64;
+				command = COMMANDS.indexOf(moveDown);
+				id = 1;
+				value = keydown ? 1 : 0;
 				break;
-			case 'shift':
+			/*case 'shift':
 				command = COMMANDS.indexOf(changeImagePrev);
 				
 				if(event.code == 'ShiftRight')
-					command += 64;
+					id = 1;
+				
+				value = keydown ? 1 : 0;
 				break;
 			case 'control':
 				command = COMMANDS.indexOf(changeImageNext);
 				
 				if(event.code == 'ControlRight')
-					command += 64;
-				break;
+					id = 1;
+				
+				value = keydown ? 1 : 0;
+				break;*/
 			case 'a':
 				command = COMMANDS.indexOf(moveLeft);
+				value = keydown ? 1 : 0;
 				break;
 			case 'd':
 				command = COMMANDS.indexOf(moveRight);
+				value = keydown ? 1 : 0;
 				break;
 			case 'w':
 				command = COMMANDS.indexOf(moveUp);
+				value = keydown ? 1 : 0;
 				break;
 			case 's':
 				command = COMMANDS.indexOf(moveDown);
+				value = keydown ? 1 : 0;
 				break;
 			default:
 				return true;
 				break;
 		}
 		
-		SocketInterconnectSendMessage({
-			app:module.name,
-			adminpanel:true,
-			command:command * (event.type == 'keydown' ? 1 : -1)
-		});
+		sendMessage(id, command, value);
 		
 		event.preventDefault();
 		return false;
+	}
+	
+	// Translates data to the command message
+	function sendMessage(id, command, value)
+	{
+		// Bit-shift values so they work
+		id = id << 7;
+		command = command << 4;
+		value = value;
+		
+		var number = id + command + value - 128;
+		
+		SocketInterconnectSendMessage({
+			app:module.name,
+			adminpanel:true,
+			command:number
+		});
 	}
 	
 	module.root.addEventListener('keydown',key);

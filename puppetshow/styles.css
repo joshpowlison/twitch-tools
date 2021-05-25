@@ -9,8 +9,15 @@ h1{
 	margin:0;
 }
 
+#puppet-info{
+	display:flex;
+	justify-content:space-between;
+}
+
 .puppet-select{
-	border:1px solid black;
+	margin:0;
+	padding:0;
+	display:block;
 }
 
 .puppet-image-select{
