@@ -68,7 +68,11 @@ modules.puppetshow = new function(){
 	];
 	
 	function effect(id, value){ // id and active aren't needed here
-		document.body.classList.toggle('hidden');
+	
+		switch(value){
+			case 0: document.body.classList.toggle('hidden'); break;
+			case 1: module.puppets[id].classList.toggle('effect-flip'); break;
+		}
 	}
 	
 	function moveLeft(id,value)
@@ -303,7 +307,7 @@ modules.puppetshow = new function(){
 	
 	function key(event){
 		// Ignore all key presses if Alt is held
-		if(event.altKey) return;
+		if(event.altKey && event.key != 'Alt') return;
 		if(event.ctrlKey && event.key != 'Control') return;
 		
 		// Ignore all repeat keystrokes
@@ -320,10 +324,10 @@ modules.puppetshow = new function(){
 		switch(event.key.toLowerCase()){
 			// Hide only triggers on keydown
 			case ' ':
-				if(keydown)
+				if(!keydown)
 					return true;
 				command = COMMANDS.indexOf(effect);
-				value = 1;
+				value = 0;
 				break;
 			case 'arrowleft':
 				command = COMMANDS.indexOf(moveLeft);
@@ -361,6 +365,17 @@ modules.puppetshow = new function(){
 				
 				value = keydown ? 1 : 0;
 				break;*/
+			case 'alt':
+				if(!keydown)
+					return true;
+			
+				command = COMMANDS.indexOf(effect);
+				
+				if(event.code == 'AltRight')
+					id = 1;
+				
+				value = 1;
+				break;
 			case 'a':
 				command = COMMANDS.indexOf(moveLeft);
 				value = keydown ? 1 : 0;

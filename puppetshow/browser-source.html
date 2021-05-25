@@ -37,6 +37,7 @@
 			width				: 100%;
 			object-fit			: contain;
 			object-position: bottom;
+			transition			: transform .25s;
 		}
 
 		#puppet-1{
@@ -47,14 +48,15 @@
 			right:2em;
 		}
 
-		#puppet-1 > img{
+		/* Effects */
+		.effect-flip > img{
 			transform:scale(-1,1);
 		}
 	</style>
 </head>
 <body class="hidden">
 	<div class="puppet" id="puppet-1"><img src=""></div>
-	<div class="puppet" id="puppet-2"><img src=""></div>
+	<div class="puppet" id="puppet-2" class="effect-flip"><img src=""></div>
 	<script src="../core/main.js"></script>
 	<script>var modules = {puppetshow: document};</script>
 	<script src="script.js"></script>

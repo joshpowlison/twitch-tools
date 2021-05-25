@@ -8,6 +8,8 @@ Big Update		: PUPPETSHOW Add the ability to have floppy appendages (like arms, h
 Medium Update	: PUPPETSHOW Add ability to swap characters (with images, and inputs)
 Quick Update	: PUPPETSHOW Add input to flip a puppet (press Alt)
 
+- Figure out good images. Right now using: https://emily2.itch.io/visual-novel-sprite-pack/download/eyJleHBpcmVzIjoxNjIxOTE5Nzc4LCJpZCI6NzU2NDY1fQ%3d%3d.zSpS2ZoAK%2fEM6pS%2bdUtPO29rKTo%3d
+
 ///////////
 
 Big Update		: VIEWERIMPACT Add support for .jpg, .svg, .gif, and video files as well

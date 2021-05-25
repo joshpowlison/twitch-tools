@@ -9,8 +9,9 @@
 		<li>Space shows and hides the puppet show</li>
 		<li>WASD controls the left puppet</li>
 		<li>Arrow Keys control the right puppet</li>
-		<li>Left Shift and Left Ctrl on change the left puppet's images</li>
-		<li>Right Shift and Right Ctrl change the right puppet's images</li>
+		<!--<li>Left Shift and Right Shift on change the left puppet's images</li>
+		<li>Left Ctrl and Right Ctrl change the right puppet's images</li>-->
+		<li>Left Alt and Right Alt flip the puppet</li>
 		<?php
 		
 		$saveData = [
@@ -37,6 +38,7 @@
 			while(false !== ($entryImage = readdir($dirPuppet))) {
 				// Skip over hidden files and folders
 				if($entryImage[0] == '.') continue;
+				//mime_content_type($dirPuppet . '/' . $entryImage);
 				
 				$saveData['puppets'][$puppetId]['images'][] = $entryImage;
 				$puppetImageId ++;
