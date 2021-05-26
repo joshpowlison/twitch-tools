@@ -30,7 +30,7 @@
 			background-size:contain;
 		}
 
-		.puppet > img{
+		.puppet > .puppet-primary{
 			display:block;
 			position			: absolute;
 			height				: 100%;
@@ -38,6 +38,7 @@
 			object-fit			: contain;
 			object-position: bottom;
 			transition			: transform .25s;
+			/* position: relative; */
 		}
 
 		#puppet-1{
@@ -52,11 +53,15 @@
 		.effect-flip > img{
 			transform:scale(-1,1);
 		}
+		
+		.puppet-physics{
+			
+		}
 	</style>
 </head>
 <body class="hidden">
-	<div class="puppet" id="puppet-1"><img src=""></div>
-	<div class="puppet" id="puppet-2" class="effect-flip"><img src=""></div>
+	<div class="puppet" id="puppet-1"><img class="puppet-primary" src=""></div>
+	<div class="puppet effect-flip" id="puppet-2"><img class="puppet-primary" src=""></div>
 	<script src="../core/main.js"></script>
 	<script>var modules = {puppetshow: document};</script>
 	<script src="script.js"></script>

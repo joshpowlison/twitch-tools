@@ -27,10 +27,10 @@
 			// Skip over hidden files and folders
 			if($entryPuppet[0] == '.') continue;
 			if($entryPuppet == 'puppets.json') continue;
-			
 			$saveData['puppets'][$puppetId] = [
 				'folder' => $entryPuppet,
-				'images' => []
+				'images' => [],
+				'physics' => []
 			];
 			
 			$puppetImageId = 0;
@@ -40,6 +40,24 @@
 				if($entryImage[0] == '.') continue;
 				//mime_content_type($dirPuppet . '/' . $entryImage);
 				
+				// Physics items
+				if($entryImage == 'physics'){
+					$dirPhysics = opendir('save/assets/' . $entryPuppet . '/physics');
+					while(false !== ($entryPhysics = readdir($dirPhysics))) {
+						// Skip over hidden files and folders
+						if($entryPhysics[0] == '.') continue;
+						
+						$saveData['puppets'][$puppetId]['physics'][] = [
+							'name' => $entryPhysics,
+							'image-origin' => '5% 10%',
+							'transform-origin' => '50% 5%'
+						];
+					}
+					
+					continue;
+				}
+				
+				// Regular items
 				$saveData['puppets'][$puppetId]['images'][] = $entryImage;
 				$puppetImageId ++;
 			}
