@@ -5,10 +5,9 @@
 */
 
 :root {
-	--light: #eeeeee;
-	--medium: #999999;
-	--medium-dark: #333333;
-	--dark: #000000;
+	--light: #ebebeb;
+	--medium: #b4d6bd;
+	--dark: #343d3c;
 }
 
 body{
@@ -17,8 +16,12 @@ body{
 	
 	font-family:Arial;
 	
-	background-color:var(--light);
-	color:var(--medium-dark);
+	background-color:var(--dark);
+	color:var(--light);
+}
+
+#logo{
+	height:12em;
 }
 
 /* Header */
@@ -65,7 +68,7 @@ h1{
 	
 	box-sizing:border-box;
 	
-	border:1px solid var(--medium-dark);
+	border:1px solid var(--dark);
 	box-shadow:none;
 }
 
@@ -80,7 +83,7 @@ h1{
 
 .active{
 	border:1px solid var(--medium);
-	background-color:var(--medium-dark);
+	background-color:var(--dark);
 }
 
 /* Main */

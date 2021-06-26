@@ -2,6 +2,7 @@
 	padding:1em;
 	box-sizing:border-box;
 	background-color:#e0f0df;
+	color:#000;
 }
 
 h1{
@@ -25,7 +26,7 @@ h1{
 	margin:0;
 	box-sizing:border-box;
 	
-	color:var(--dark);
+	color:#000;
 	
 	text-align:left;
 }

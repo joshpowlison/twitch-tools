@@ -1520,83 +1520,138 @@ modules.viewerimpact = new function(){
 				break;
 		}
 	});
+	
+	// TODO: make a loop that can get everything
+	module.root.querySelector('.popup-close').addEventListener('click',function(event){
+		// Get the parent window and remove the show class from it
+		var track = this;
+		while(track != document)
+		{
+			track = track.parentElement;
+			if(track.classList.contains('popup-parent'))
+				break;
+		}
+		
+		track.classList.remove('show');
+	});
+	
+	module.root.querySelector('#option-create-vfx').addEventListener('click',function()
+	{
+		module.root.querySelector('#popup-new-vfx').classList.toggle('show');
+	});
+	
+	module.root.getElementById('popup-new-vfx-form').addEventListener('submit',function(event){
+		event.preventDefault();
+		
+		var formData = new FormData(this);
+		console.log(...formData);
+		
+		fetch(module.path + '/create-vfx.php',{
+			method:'POST'
+			,body:formData
+		})
+		.then(response => response.text())
+		.then(text => {
+			console.log(text);
+			
+			if(text == "")
+			{
+				module.root.querySelector('#popup-new-vfx').classList.remove('show');
+				alert("Successfully created!");
+				
+				// Reload everything
+				load();
+			}
+			else
+				alert(text);
+		});
+		
+		return false;
+	});
+	
+	function load(){
+		fetch(module.path + '/index.php?load=true')
+		.then(response => response.text())
+		.then(text => {
+			console.log(text);
+			saveData = JSON.parse(text);
+			
+			// Empty the tabs so we can add new ones
+			module.root.getElementById('tabs').innerHTML = '';
+			
+			// Build out the list of items
+			var fragment		= document.createDocumentFragment();
+			var packageNames	= Object.keys(saveData.keyframes);
+			for(let i = 0, l = packageNames.length; i < l; i ++){
+				var div = document.createElement('div');
+				
+				var buttonLoad						= document.createElement('button');
+				buttonLoad.innerHTML				= packageNames[i];
+				buttonLoad.className				= 'tab-button-select';
+				buttonLoad.addEventListener('click',function(){
+					// Autosave other animations if we haven't already
+					if(currentPath !== null) saveAnimation(currentPath);
+					
+					currentPath = packageNames[i];
+					freezeToggle(true);
+					heckleDiv.className = currentPath;
+					heckleDiv.style.animationName = currentPath;
+					heckleDiv.src = module.path + '/save/assets/' + currentPath + '/image.png';
+					
+					// Save the current item's keyframes as the keyframe history
+					keyframesHistory			= [saveData.keyframes[currentPath]];
+					keyframesHistoryPosition	= 0;
+					
+					if(module.root.querySelector('.active')) module.root.querySelector('.active').classList.remove('active');
+					this.classList.add('active');
+				});
+				
+				var buttonTest						= document.createElement('button');
+				buttonTest.className				= 'tab-button-test';
+				buttonTest.innerHTML				= 'Test';
+				buttonTest.addEventListener('click',function(){
+					testTrigger(i);
+				});
+				
+				div.appendChild(buttonLoad);
+				div.appendChild(buttonTest);
+				fragment.appendChild(div);
+			}
+			
+			module.root.getElementById('tabs').appendChild(fragment);
 
+			// Load first file
+			currentPath = packageNames[0];
+			// freezeToggle(true);
+			heckleDiv.className = currentPath;
+			heckleDiv.style.animationName = currentPath;
+			heckleDiv.src = module.path + '/save/assets/' + currentPath + '/image.png';
+
+			// Save the current item's keyframes as the keyframe history
+			keyframesHistory			= [saveData.keyframes[currentPath]];
+			keyframesHistoryPosition	= 0;
+
+			module.root.getElementById('tabs').children[0].className = 'active';
+
+			// Use the save data if it exists, or set up some defaults
+			saveData.keyframes[currentPath] = saveData.keyframes[currentPath] || '@keyframes ' + currentPath + '{0%{visibility:visible;transform:matrix(1,0,0,1,0,0);opacity:1;}' + (Math.floor(this.duration * 10 * 10) / 10) + '%{visibility:hidden;transform:matrix(1,0,0,1,0,0);opacity:1;}100%{visibility:hidden;transform:matrix(1,0,0,1,0,0);opacity:1;}}';
+
+			// Replace keyframes name, as it will have been wrong if the person copy-pasted a new Heckle folder
+			saveData.keyframes[currentPath] = saveData.keyframes[currentPath].replace(/@keyframes\s[^{]+/,'@keyframes ' + currentPath);
+
+			updateAnimation();
+
+			module.root.getElementById('frame-holder').appendChild(heckleDiv);
+			firstLoad = true;
+
+			// Set up Triggers display
+			updateTriggers();
+		});
+	}
+	
 	///////////////////
 	//// START APP ////
 	///////////////////
+	load();
 
-	fetch(module.path + '/index.php?load=true')
-	.then(response => response.text())
-	.then(text => {
-		console.log(text);
-		saveData = JSON.parse(text);
-		
-		// Build out the list of items
-		var fragment		= document.createDocumentFragment();
-		var packageNames	= Object.keys(saveData.keyframes);
-		for(let i = 0, l = packageNames.length; i < l; i ++){
-			var div = document.createElement('div');
-			
-			var buttonLoad						= document.createElement('button');
-			buttonLoad.innerHTML				= packageNames[i];
-			buttonLoad.className				= 'tab-button-select';
-			buttonLoad.addEventListener('click',function(){
-				// Autosave other animations if we haven't already
-				if(currentPath !== null) saveAnimation(currentPath);
-				
-				currentPath = packageNames[i];
-				freezeToggle(true);
-				heckleDiv.className = currentPath;
-				heckleDiv.style.animationName = currentPath;
-				heckleDiv.src = module.path + '/save/assets/' + currentPath + '/image.png';
-				
-				// Save the current item's keyframes as the keyframe history
-				keyframesHistory			= [saveData.keyframes[currentPath]];
-				keyframesHistoryPosition	= 0;
-				
-				if(module.root.querySelector('.active')) module.root.querySelector('.active').classList.remove('active');
-				this.classList.add('active');
-			});
-			
-			var buttonTest						= document.createElement('button');
-			buttonTest.className				= 'tab-button-test';
-			buttonTest.innerHTML				= 'Test';
-			buttonTest.addEventListener('click',function(){
-				testTrigger(i);
-			});
-			
-			div.appendChild(buttonLoad);
-			div.appendChild(buttonTest);
-			fragment.appendChild(div);
-		}
-		
-		module.root.getElementById('tabs').appendChild(fragment);
-
-		// Load first file
-		currentPath = packageNames[0];
-		// freezeToggle(true);
-		heckleDiv.className = currentPath;
-		heckleDiv.style.animationName = currentPath;
-		heckleDiv.src = module.path + '/save/assets/' + currentPath + '/image.png';
-
-		// Save the current item's keyframes as the keyframe history
-		keyframesHistory			= [saveData.keyframes[currentPath]];
-		keyframesHistoryPosition	= 0;
-
-		module.root.getElementById('tabs').children[0].className = 'active';
-
-		// Use the save data if it exists, or set up some defaults
-		saveData.keyframes[currentPath] = saveData.keyframes[currentPath] || '@keyframes ' + currentPath + '{0%{visibility:visible;transform:matrix(1,0,0,1,0,0);opacity:1;}' + (Math.floor(this.duration * 10 * 10) / 10) + '%{visibility:hidden;transform:matrix(1,0,0,1,0,0);opacity:1;}100%{visibility:hidden;transform:matrix(1,0,0,1,0,0);opacity:1;}}';
-
-		// Replace keyframes name, as it will have been wrong if the person copy-pasted a new Heckle folder
-		saveData.keyframes[currentPath] = saveData.keyframes[currentPath].replace(/@keyframes\s[^{]+/,'@keyframes ' + currentPath);
-
-		updateAnimation();
-
-		module.root.getElementById('frame-holder').appendChild(heckleDiv);
-		firstLoad = true;
-
-		// Set up Triggers display
-		updateTriggers();
-	});
 }();

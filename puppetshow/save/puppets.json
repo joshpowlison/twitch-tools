@@ -1,21 +1,47 @@
 {
     "puppets": [
         {
-            "folder": "excite",
+            "folder": "adriana",
             "images": [
-                "image - Copy (2).png",
-                "image - Copy.png",
-                "image.png"
-            ]
+                "adriana_default_old_f.png",
+                "adriana_default_old_m.png",
+                "adriana_default_old_n.png",
+                "adriana_default_old_sa.png",
+                "adriana_default_old_sm.png",
+                "adriana_default_old_su.png"
+            ],
+            "physics": []
         },
         {
-            "folder": "lol",
+            "folder": "joanna",
             "images": [
-                "image - Copy (2).png",
-                "image - Copy.png",
-                "image.png"
+                "joanna_default_old_f.png",
+                "joanna_default_old_m.png",
+                "joanna_default_old_n.png",
+                "joanna_default_old_sa.png",
+                "joanna_default_old_sm.png",
+                "joanna_default_old_su.png"
+            ],
+            "physics": []
+        },
+        {
+            "folder": "marilyn",
+            "images": [
+                "l_fear.png",
+                "l_miffed.png",
+                "l_neutral.png",
+                "l_sad.png",
+                "l_smile.png",
+                "l_suprise.png"
+            ],
+            "physics": [
+                {
+                    "name": "whatever p(5%,10%) o(50%,5%).png",
+                    "image-origin": "5% 10%",
+                    "transform-origin": "50% 5%"
+                }
             ]
         }
     ],
-    "lastUpdated": 1621918325
+    "lastUpdated": 1624712028
 }

@@ -2,7 +2,27 @@ Development System: pick an update from three importance levels, so there's a ma
 
 Every stream, tackle one group from below:
 
-///////////
+
+/////////// SORTA TODAY
+
+- Create a window where you can input an audio file and an image file, and then upload them together
+
+Big Update		: VIEWERIMPACT Add support for .jpg, .svg, .gif, and video files as well
+	- You can upload through the app
+Medium Update	: VIEWERIMPACT Guard against multiple gift subscriptions blowing out eardrums (they'd all trigger at once)
+Quick Update	: VIEWERIMPACT Add controls help log on-app
+
+
+/////////// TOMORROW
+
+Big Update		: GENERAL Add support to watch multiple channels and adjust in settings
+Medium Update	: CHATWATCH Display unique stats from all watched channels
+
+
+
+
+
+/////////// 1
 
 Big Update		: PUPPETSHOW Add the ability to have floppy appendages (like arms, hair, etc)
 Medium Update	: PUPPETSHOW Add ability to swap characters (with images, and inputs)
@@ -10,61 +30,49 @@ Quick Update	: PUPPETSHOW Add input to flip a puppet (press Alt)
 
 - Figure out good images. Right now using: https://emily2.itch.io/visual-novel-sprite-pack/download/eyJleHBpcmVzIjoxNjIxOTE5Nzc4LCJpZCI6NzU2NDY1fQ%3d%3d.zSpS2ZoAK%2fEM6pS%2bdUtPO29rKTo%3d
 
-///////////
-
-Big Update		: VIEWERIMPACT Add support for .jpg, .svg, .gif, and video files as well
-Medium Update	: VIEWERIMPACT Guard against multiple gift subscriptions blowing out eardrums (they'd all trigger at once)
-Quick Update	: VIEWERIMPACT Add controls help log on-app
-
-///////////
+/////////// 3
 
 Big Update		: GENERAL Hook into OBS or SLOBS PIPE and allow sending commands
 Medium Update	: GENERAL Move admin panel settings into core folder and autosave/autoload previously loaded packages
 Quick Update	: GENERAL Test Subscriptions and Bits cheers to be sure they're working (and if they're working with ViewerImpact)
 
-///////////
+/////////// 4
 
 Big Update		: RPSTREAM Code refactor for each use of
-Medium Update	: RPSTREAM Make not visually appalling
+BROFORCE Medium Update	: RPSTREAM Make not visually appalling
 Quick Update	: RPSTREAM Allow pausing the countdown between events
 
-///////////
+/////////// 5
 
-Big Update		: CHATTRACTIVE Increase visual appeal of default chat and limit number of messages displayed
+BROFORCE Big Update		: CHATTRACTIVE Increase visual appeal of default chat and limit number of messages displayed
 Medium Update	: CHATTRACTIVE If someone is banned, blocked, etc from the stream, delete their messages
 Quick Update	: CHATTRACTIVE Highlight highlighted messages
 
-///////////
+/////////// 6
 
 Big Update		: VIEWERIMPACT Adjust audio level of clip from inside
 Medium Update	: VIEWERIMPACT Don't let users adjust animation values while animations are playing
 Quick Update	: VIEWERIMPACT Let user know if they are using an invalid name (else, invisibly adjust the name to make it valid)
 
-///////////
+/////////// 7
 
 Big Update		: VIEWERIMPACT Try supporting multiple effect layers for an animation and see how it goes
 Medium Update	: VIEWERIMPACT Figure out why opacity won't go down to true 0; create a solution (might be as simple as making the minimum -.01 instead of just 0)
 Quick Update	: VIEWERIMPACT Make the first play of an animation work
 
-///////////
+/////////// 8
 
 Big Update		: WHOSINCHAT and ALLCHAT Combine into CHATWATCH, their functionality is similar and makes more sense together
 Medium Update	: CHATWATCH Save notes on viewers
 Quick Update	: CHATWATCH Display user roles in list (broadcast/mod, follower, subscriber, etc)
 
-///////////
+/////////// 9
 
 Big Update		: CHATWATCH Add automodding capabilities based on words and regex to watch for
 Medium Update	: CHATWATCH If someone is banned from one channel, ban them from all channels
 Quick Update	: CHATWATCH Allow mods to trigger functions in admin panel (I could have it so that it reads window[chatMessage] and checks for functions)
 
-///////////
-
-Big Update		: GENERAL Add support to watch multiple channels and adjust in settings
-Medium Update	: CHATWATCH Display unique stats from all watched channels
-Quick Update	: GENERAL Create Streamer Tools logo
-
-///////////
+/////////// 10
 
 Big Update		: JOURNAL Create on-screen journal that can be written in
 Medium Update	: JOURNAL Include writing sounds
@@ -90,6 +98,7 @@ IDEAS:
 			- Play Next: go play the next animation
 			- Pause At End: pause the animation and freeze at the end
 			- Start From Cursor: restart the animation from the cursor's last position
+		- Record picture and audio directly from tool to create new animations quickly
 
 SLOWLY MOVE FEATURES FROM MY STREAM INTO THIS TOOLSET
 	- Customizability is key; having different settings for myself besides the defaults (which also need to look good) is also key.
@@ -104,3 +113,94 @@ packages
 	- script.js
 		- Listens for events run by the home page
 	- styles.cs
+
+/////////////
+/////////////
+/////////////
+
+// NAME IDEAS
+
+Streamer tools
+
+Streamer
+	Water
+		Too much water 7/10
+	Fast
+	Energy
+	Furious
+	Hype
+	HYPE
+	Poggers
+
+Steamer Setups
+	Powerful
+		Keyboard, mouse
+		Stream deck
+		Many monitors
+		Good lighting
+		Good music
+		Good overlays
+
+If my goal is to make a better stream:
+	- I don't think my stream is good enough
+
+Who do my target audience think they are?
+	- They think their stream is small
+	- They think their stream could be better
+
+I can help you make your stream better
+
+Level Up
+
+
+
+Streamer Tools by Josh Powlison
+
+PogTools by Josh Powlison
+
+Epic Tools by Josh Powlison
+
+
+Do you just feel like your stream could be better, but you aren't sure how?
+
+Stream Buffs by Josh Powlison
+Stream Enhancements by Josh Powlison
+Stream POWer Ups by Josh Powlison
+Stream Augmentations by Josh Powlison
+Stream Strength
+Stream Upgrades
+Stream Evolution
+Stream Perfection
+	- Not "you'll have millions of viewers"
+	- You'll feel flawless
+	- You'll feel smooth; you'll feel perfect
+Streamfection
+Stream Windfall
+Stream Invention
+Streamvention
+Stream Innovation
+Streamovation
+Stream Fairy
+
+Super Stream Tools by Josh Powlison
+
+Lucky Bell
+Lucky Stream Tools by Josh Powlison
+
+
+
+
+If I go the overhype route, I have to believe in my product
+	- 
+
+What would it take for me to hype up the product and believe in it enough to do so?
+	- 
+
+Steffire name idea: StreamHeadacheGone
+	- Perhaps a thought bubble of a Streamer's UI seems more related than time... could show one UI cluttered then cut the logo in half into a different one where the UI is clean?  
+
+
+
+
+
+

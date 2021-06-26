@@ -55,7 +55,8 @@ modules.puppetshow = new function(){
 			up:0,
 			down:0,
 			puppetId:0,
-			imageId:0
+			imageId:0,
+			physics:[]
 		},
 		{
 			left:0,
@@ -63,7 +64,8 @@ modules.puppetshow = new function(){
 			up:0,
 			down:0,
 			puppetId:0,
-			imageId:0
+			imageId:0,
+			physics:[]
 		}
 	];
 	
@@ -133,13 +135,16 @@ modules.puppetshow = new function(){
 		var physicsData = saveData.puppets[module.controls[id].puppetId].physics;
 		for(var i = 0, l = physicsData.length; i < l; i ++){
 			var physicsObject = document.createElement('img');
-			physicsObject.src = assetsFolder + 'assets/' + saveData.puppets[module.controls[id].puppetId].folder + '/physics/' + physicsData[i].name;
+			physicsObject.src = encodeURI(assetsFolder + 'assets/' + saveData.puppets[module.controls[id].puppetId].folder + '/physics/' + physicsData[i].name);
 			physicsObject.className = 'physics';
 			
 			physicsObject.style.transformOrigin = physicsData[i]['transform-origin'];
 			physicsObject.style.transform = 'translate(' + physicsData[i]['image-origin'] + ')';
 			
-			physicsObject.dataset.angle = module.puppets[id].dataset.angle || 0;
+			module.controls[id].physics[i] = {
+				angle: (module.puppets[id].dataset.angle || 0),
+				speed: 0
+			};
 			
 			module.puppets[id].appendChild(physicsObject);
 		}
@@ -264,18 +269,47 @@ modules.puppetshow = new function(){
 		
 		// Look through all physics objects and rotate them based on gravity
 		for(var puppetId = 0, puppetCount = module.puppets.length; puppetId < puppetCount; puppetId++){
-			var physicsObjects = module.puppets[puppetId].children;
+			var physicsObjects = module.puppets[puppetId].querySelectorAll('.physics');
 			
-			for(var physicsObjectId = 1, physicsObjectCount = physicsObjects.length; physicsObjectId < physicsObjectCount; physicsObjectId ++){
+			// Everything after the first element (id 0) is a physics element
+			for(var physicsObjectId = 0, physicsObjectCount = physicsObjects.length; physicsObjectId < physicsObjectCount; physicsObjectId ++){
 				// The angle we're trying to get to- facing down
 				var downwardAngle = -module.puppets[puppetId].dataset.angle;
 				
 				// The angle we're currently at
-				var physicsAngle = physicsObjects[physicsObjectId].dataset.angle;
+				var angle = module.controls[puppetId].physics[physicsObjectId].angle;
 				
-				// Target angle is always down; so our momentum
-				//var momentum = (downwardAngle + 90) % 180
+				var relativeAngle180 = angle - downwardAngle;
 				
+				//if(relativeAngle180 
+				
+				// Set -180 to up to left, and +180 to up to right
+				// If negative, add positive speed; if positive, add negative speed
+				
+				// Target angle is always down; so our momentum moves us in that direction
+				var momentum = (angle > downwardAngle ? 10 : -10) * sDeltaTime; //(downwardAngle + 90) % 180
+				
+				console.log(angle, downwardAngle);
+				
+				var speed = module.controls[puppetId].physics[physicsObjectId].speed;
+				
+				speed += momentum;
+				
+				if(speed > 3)
+					speed = 3;
+				
+				if(speed < -3)
+					speed = -3;
+				
+				//console.log(speed);
+				
+				module.controls[puppetId].physics[physicsObjectId].speed = speed;
+				
+				// Move the angle by the speed
+				angle += speed;
+				
+				while(angle > 360)
+					angle %= 360;
 				//var speed = 5;
 				
 				//if(physicsAngle > downwardAngle)
@@ -293,8 +327,8 @@ modules.puppetshow = new function(){
 				//if(puppetAngle < physicsAngle)
 				//	physicsAngle += 5;
 				
-				physicsObjects[physicsObjectId].dataset.angle = downwardAngle;
-				physicsObjects[physicsObjectId].style.transform = 'rotate(' + (downwardAngle) + 'deg)';
+				module.controls[puppetId].physics[physicsObjectId].angle = angle;
+				physicsObjects[physicsObjectId].style.transform = 'rotate(' + (angle) + 'deg)';
 			}
 		}
 		

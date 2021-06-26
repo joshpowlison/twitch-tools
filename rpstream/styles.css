@@ -2,6 +2,7 @@
 	padding:1em;
 	box-sizing:border-box;
 	background-color:#f0dfdf;
+	color:#000;
 }
 
 h1{
@@ -16,8 +17,8 @@ h1,p{
 table{
 	border-collapse:collapse;
 	margin:1em auto;
-	background-color:var(--medium-dark);
-	color:var(--medium);
+	background-color:#fff;
+	color:#000;
 }
 
 td:first-child{
@@ -25,7 +26,7 @@ td:first-child{
 }
 
 tr{
-	border:1px solid var(--medium);
+	border:1px solid #000;
 }
 
 td{

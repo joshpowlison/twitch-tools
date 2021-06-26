@@ -7,6 +7,14 @@
 			"userType": "Any",
 			"cooldown": "10",
 			"cooldownType": "user"
+		},
+		{
+			"heckle": "gas",
+			"contains": "/!fart|!gas/",
+			"from": "",
+			"userType": "Any",
+			"cooldown": "10",
+			"cooldownType": "global"
 		}
 	],
 	"points": [

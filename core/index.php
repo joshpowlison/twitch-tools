@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Streamer Tools by Josh Powlison</title>
+	<title>Stream Perfection by Josh Powlison</title>
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="styles.css">
 </head><?php
@@ -43,7 +43,7 @@ if(!file_exists(SECRET_PATH) || !empty($_POST['auth'])){ ?>
 <body>
 <header>
 <div id="twitch-authorization">
-	<h2>Welcome to Streamer Tools by Josh Powlison!</h2>
+	<h2>Welcome to Stream Perfection by Josh Powlison!</h2>
 	<p>To get started, you'll need to input your Twitch username and authorize Twitch access.</p>
 	<form action="https://id.twitch.tv/oauth2/authorize?client_id=<?php echo CLIENT_ID; ?>&redirect_uri=http://localhost:81/core/index.php&response_type=token&scope=channel:read:redemptions%20bits:read%20channel:read:hype_train%20channel:read:subscriptions%20chat:read%20chat:edit%20channel:moderate" id="login-form" method="post">
 		<input tabindex="0" id="login-username" placeholder="Your Twitch Username">
@@ -83,7 +83,7 @@ require '../settings.php';
 ?>
 <body>
 	<header>
-		<h1>Streamer Tools <span id="credits">by Josh Powlison</span></h1>
+		<img id="logo" src="logo.png">
 		<p></p>
 		<nav id="social-links">
 			<p><a href="https://joshpowlison.com/" target="_blank">Website</a></p>

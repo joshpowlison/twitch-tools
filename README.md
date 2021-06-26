@@ -1,4 +1,4 @@
-# Twitch Tools by Josh Powlison
+# Stream Perfection by Josh Powlison
 
 Download the latest version on Itch at [https://joshpowlison.itch.io/streamer-tools](https://joshpowlison.itch.io/streamer-tools)
 

@@ -439,3 +439,57 @@ footer option{
 	background-color:#ecf8ee;
 	color:#050706;
 }
+
+.popup-parent{
+	display:flex;
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	background-color:rgba(0,0,0,.5);
+	z-index:10000;
+	
+	align-items:center;
+	justify-content:center;
+	
+	visibility:hidden;
+	pointer-events:none;
+}
+
+.popup-parent.show{
+	visibility:visible;
+	pointer-events:auto;
+}
+
+.popup{
+	width:20em;
+	max-width:90%;
+	min-height:10em;
+	max-height:90%;
+	overflow:auto;
+	padding:1em;
+	box-sizing:border-box;
+	background-color:#fff;
+	border:1px solid black;
+	position:absolute;
+}
+
+.popup-input-parent{
+	border:1px solid black;
+	padding:.5em;
+	box-sizing:border-box;
+}
+
+.popup-header{
+	font-weight:bold;
+	
+	display:flex;
+	justify-content:space-between;
+	
+	background-color:rgba(0,0,0,.25);
+}
+
+.popup-header > p{
+	margin:0;
+}

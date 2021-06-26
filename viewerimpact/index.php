@@ -89,6 +89,10 @@ if(!empty($_GET['audiopath'])){
 					</select>
 				</td>
 			</tr>
+			<tr>
+				<td></td>
+				<td><button id="option-create-vfx">Create VFX</button></td>
+			</tr>
 			<!--<tr>
 				<td>On End</td>
 				<td>
@@ -147,4 +151,16 @@ if(!empty($_GET['audiopath'])){
 		<p>Browser source must be 1920x1080. You may have to refresh it after updating animations here. Name the Channel Reward after your heckle (all lowercase, no spaces) and add "!hecklebyJoshPowlison" at the end of the reward description.</p>
 	</div>-->
 	<footer></footer>
+	
+	<div id="popup-new-vfx" class="popup-parent">
+		<div class="popup">
+			<div class="popup-header"><p>Create New VFX</p><button class="popup-close">X</button></div>
+			<form id="popup-new-vfx-form" name="new-vfx" enctype="multipart/form-data">
+				<p class="popup-input-parent">PNG: <input name="visual" type="file" accept=".png"></p>
+				<p class="popup-input-parent">MP3: <input name="audio" type="file" accept=".mp3"></p>
+				<p class="popup-input-parent">Name: <input name="name" type="text"></p>
+				<input type="submit" value="Create">
+			</form>
+		</div>
+	</div>
 </div>
