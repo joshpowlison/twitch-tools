@@ -134,10 +134,15 @@ h1{
 	box-sizing:border-box;
 }
 
-#tabs button{	display: block;	text-align: right;	color: #050706;	background-color: #ecf8ee;	cursor: pointer;	font-family: "Advent Pro";	font-size: 1.5em;	/* overflow: auto; */
+#tabs button, #option-create-vfx{	display: block;	text-align: right;	color: #050706;	background-color: #ecf8ee;	cursor: pointer;	font-family: "Advent Pro";	font-size: 1.5em;	/* overflow: auto; */
 }
 
-#tabs button:hover{
+#option-create-vfx{
+	float:right;
+	font-size:1em;
+}
+
+#tabs button:hover, #option-create-vfx:hover{
 	background-color:#75f7b1;
 }
 
@@ -153,8 +158,9 @@ h1{
 
 #controls{
 	display: flex;
-	justify-content: space-between;
-	width:100%;
+	justify-content: center;
+	/* width: 22em; */
+	max-width: 100%;
 	margin:auto;
 	font-size:3em;
 }
@@ -196,8 +202,9 @@ h1{
 }
 
 #control-transform{
-	margin:0;
+	/* margin:0; */
 	display: flex;
+	margin: 0 .5em;
 }
 
 .control-transform-group{

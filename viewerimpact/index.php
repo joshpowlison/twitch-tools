@@ -78,6 +78,10 @@ if(!empty($_GET['audiopath'])){
 				</td>
 			</tr>-->
 			<tr>
+				<td></td>
+				<td><button id="option-create-vfx">Create VFX</button></td>
+			</tr>
+			<tr>
 				<td class="option-name">Background</td>
 				<td class="option-value">
 					<select id="option-background">
@@ -88,10 +92,6 @@ if(!empty($_GET['audiopath'])){
 						<option value="screen">Screen</option>
 					</select>
 				</td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><button id="option-create-vfx">Create VFX</button></td>
 			</tr>
 			<!--<tr>
 				<td>On End</td>

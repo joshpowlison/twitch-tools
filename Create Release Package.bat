@@ -1,1 +1,1 @@
-tar.exe -a -c -f "Stream Perfection by Josh Powlison.zip" "Start Stream Perfection.bat" "settings.php" allchat chattractive core puppetshow rpstream viewerimpact whosinchat
+tar.exe -a -c -f "Stream Perfection by Josh Powlison.zip" "Start Stream Perfection.bat" "settings.php" "settings.php" allchat chattractive core puppetshow rpstream viewerimpact whosinchat

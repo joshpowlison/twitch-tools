@@ -2,13 +2,12 @@ Development System: pick an update from three importance levels, so there's a ma
 
 Every stream, tackle one group from below:
 
+/////////// TODO MAIN
+	- Figure out why we're not connecting to Twitch anymore and fix it!
 
 /////////// SORTA TODAY
 
-- Create a window where you can input an audio file and an image file, and then upload them together
-
 Big Update		: VIEWERIMPACT Add support for .jpg, .svg, .gif, and video files as well
-	- You can upload through the app
 Medium Update	: VIEWERIMPACT Guard against multiple gift subscriptions blowing out eardrums (they'd all trigger at once)
 Quick Update	: VIEWERIMPACT Add controls help log on-app
 
