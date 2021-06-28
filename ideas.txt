@@ -2,9 +2,6 @@ Development System: pick an update from three importance levels, so there's a ma
 
 Every stream, tackle one group from below:
 
-/////////// TODO MAIN
-	- Figure out why we're not connecting to Twitch anymore and fix it!
-
 /////////// SORTA TODAY
 
 Big Update		: VIEWERIMPACT Add support for .jpg, .svg, .gif, and video files as well
@@ -51,7 +48,6 @@ Quick Update	: CHATTRACTIVE Highlight highlighted messages
 
 Big Update		: VIEWERIMPACT Adjust audio level of clip from inside
 Medium Update	: VIEWERIMPACT Don't let users adjust animation values while animations are playing
-Quick Update	: VIEWERIMPACT Let user know if they are using an invalid name (else, invisibly adjust the name to make it valid)
 
 /////////// 7
 
@@ -98,9 +94,14 @@ IDEAS:
 			- Pause At End: pause the animation and freeze at the end
 			- Start From Cursor: restart the animation from the cursor's last position
 		- Record picture and audio directly from tool to create new animations quickly
+	AVATARS
+		Use C and my own custom setup, but provide other sprites and a setup for other ways to customize your own sprites
 
 SLOWLY MOVE FEATURES FROM MY STREAM INTO THIS TOOLSET
 	- Customizability is key; having different settings for myself besides the defaults (which also need to look good) is also key.
+
+SLOWLY CHANGE FEATURES FROM MY STREAM TO USE THIS TOOLSET
+	- This will let me know what's working properly, and what still needs heavy adjustment. My tools should be good enough for me to want to use them, even though I can program everything myself.
 
 // STRUCTURE
 packages

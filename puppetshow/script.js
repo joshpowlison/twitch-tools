@@ -4,7 +4,7 @@ modules.puppetshow = new function(){
 	const module		= this;
 	module.name			= 'puppetshow';
 	module.root			= modules[module.name];
-	module.isAdminPanel	= (module.root.querySelector('#is-admin') !=null);
+	module.isAdminPanel	= (module.root.querySelector('#is-admin') != null);
 	
 	var assetsFolder = module.isAdminPanel ? '../puppetshow/save/' : 'save/';
 	

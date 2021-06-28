@@ -11,7 +11,9 @@ const PACKAGE_IDS = {
 	'puppetshow': 4,
 	'rpstream': 5,
 	'viewerimpact': 6,
-	'whosinchat': 7
+	'whosinchat': 7,
+	'avatars': 8,
+	'notetbook': 9
 };
 
 const JOIN_ATTEMPTS_MAX		= 15;	// Max is 20 per 10 seconds per user (200 for verified bots)
