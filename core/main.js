@@ -467,12 +467,6 @@ function earlierEmote(a,b){
 	return (a[2] > b[2]) ? 1 : -1;
 }
 
-/*
-
-"Testing <img class="chat-emote" src="https://static-cdn.jtvnw.net/emoticons/v1/425618/3.0"> <img class="chat-emote" src="https://static-cdn.jtvnw.net/emoticons/v1/25/3.0">"
-
-*/
-
 function getChatMessageHTML(data,options = {}){
 	// Add emote notes in
 	var messageHTML		= data.message;
@@ -512,7 +506,7 @@ function getChatMessageHTML(data,options = {}){
 		.replace(/"/g, '&quot;')
 		.replace(/'/g, '&#039;')
 		// Replace images that are in there
-		.replace(/\[E([^,\/:E]+)\E]/g, '<img class="chat-emote" src="https://static-cdn.jtvnw.net/emoticons/v1/$1/3.0">')
+		.replace(/\[E([^,\/:E]+)\E]/g, '<img class="chat-emote" src="https://static-cdn.jtvnw.net/emoticons/v2/$1/default/dark/3.0">')
 		//.replace(/\[E([^,\/:E]+)\E]/g, '<span class="chat-emote" style="background:url(\'https://static-cdn.jtvnw.net/emoticons/v1/$1/3.0\');background-size:contain;background-position:center;background-repeat:no-repeat;color:#00000000;">__</span>')
 	;
 	
