@@ -13,7 +13,8 @@ const PACKAGE_IDS = {
 	'viewerimpact': 6,
 	'whosinchat': 7,
 	'avatars': 8,
-	'notebook': 9
+	'notebook': 9,
+	'frame': 10
 };
 
 const JOIN_ATTEMPTS_MAX		= 15;	// Max is 20 per 10 seconds per user (200 for verified bots)

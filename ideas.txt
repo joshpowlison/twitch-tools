@@ -18,6 +18,11 @@ Medium Update	: CHATWATCH Display unique stats from all watched channels
 
 
 
+
+
+
+
+
 /////////// 1
 
 Big Update		: PUPPETSHOW Add the ability to have floppy appendages (like arms, hair, etc)
@@ -67,14 +72,10 @@ Big Update		: CHATWATCH Add automodding capabilities based on words and regex to
 Medium Update	: CHATWATCH If someone is banned from one channel, ban them from all channels
 Quick Update	: CHATWATCH Allow mods to trigger functions in admin panel (I could have it so that it reads window[chatMessage] and checks for functions)
 
-/////////// 10
 
-Big Update		: JOURNAL Create on-screen journal that can be written in
-Medium Update	: JOURNAL Include writing sounds
-Quick Update	: JOURNAL Allow user to show/hide it
-
-
-
+- Notebook: Allow deleting chars one at a time
+	- Set it up to be clear that you're acting on the end of the text
+	- Have remove event listeners at the end
 
 
 

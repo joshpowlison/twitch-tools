@@ -1,0 +1,83 @@
+:host{
+	padding:1em;
+	box-sizing:border-box;
+	background-color:#eddff0;
+	color:#000;
+}
+
+h1{
+	text-align:center;
+	margin:0;
+}
+
+#frame{
+	position:fixed;
+	background:none;
+	/* background-color:black; */
+	left:0;
+	top:0;
+	right:0;
+	bottom:0;
+	padding: 0;
+	margin: 0;
+	/* z-index: 102; */
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	pointer-events:none;
+	visibility:hidden;
+}
+
+#frame.show{
+	visibility:visible;
+}
+
+#frame-backing
+,#frame-image{
+	position: fixed;
+	background:none;
+	/* background-color:black; */
+	left:0;
+	top:0;
+	right:0;
+	bottom:0;
+	padding: 0;
+	margin: 0;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	pointer-events:none;
+}
+
+#frame-text-1,#frame-text-2{
+	font-family: Arial;
+	color: #fff;
+	font-size:10em;
+	margin:0;
+	display: block;
+	visibility: visible;
+	z-index: 105;
+	position: fixed;
+	width: 100%;
+	text-align: center;
+	-webkit-text-stroke: .03em black;
+	visibility:hidden;
+	user-select: none;
+	pointer-events: none;
+}
+
+#frame-backing{
+	z-index: 100;
+	/* background-color:#000; */
+}
+
+#frame-image{
+	z-index: 102;
+	object-fit: contain;
+	width: 100%;
+	height: 100%;
+}
+
+#frame>p{
+	display:none;
+}
