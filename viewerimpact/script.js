@@ -11,6 +11,7 @@ modules.viewerimpact = new function(){
 		window.removeEventListener('mouseup',mouseUp);
 		window.removeEventListener('resize',resize);
 		document.removeEventListener('keydown',onKeyDown);
+		document.addEventListener('mousewheel',onMouseWheel,{passive:false});
 		
 		// Pause the audio; it should get removed automatically
 		heckleSound.pause();
@@ -1200,21 +1201,25 @@ modules.viewerimpact = new function(){
 			command:trigger
 		});
 	}
+	
+	function isEventInModuleRoot(event)
+	{
+		// See if we're in the module
+		for(var i = 0, l = event.path.length; i < l; i ++)
+		{
+			if(event.path[i] != module.root)
+				continue;
 
+			return true;
+		}
+		
+		return false;
+	}
+	
 	function onKeyDown(event){
 		console.log(event);
 		
-		// See if we're in the module
-		var foundModuleRoot = false;
-		for(var i = 0, l = event.path.length; i < l; i ++){
-			if(event.path[i] != module.root)
-				continue;
-			
-			foundModuleRoot = true;
-			break;
-		}
-		
-		if(!foundModuleRoot)
+		if(!isEventInModuleRoot(event))
 			return;
 		
 		console.log('i am in');
@@ -1352,6 +1357,22 @@ modules.viewerimpact = new function(){
 				break;
 		}
 	}
+	
+	function onMouseWheel(event)
+	{
+		if(!arrayIncludes(event.path,heckleDiv))
+			return;
+		
+		// If alt is held
+		if(event.altKey){
+			updateKeyframes(ROTATION,.001 * event.deltaY * -1);
+		// If alt is not held
+		} else {
+			updateKeyframes(SCALE_X,.001 * event.deltaY);
+			updateKeyframes(SCALE_Y,.001 * event.deltaY);
+		}
+		event.preventDefault();
+	}
 
 	function resize(){
 		canvasBoundingRect = CANVAS.getBoundingClientRect();
@@ -1445,20 +1466,7 @@ modules.viewerimpact = new function(){
 	}
 
 	// Change animations
-	module.root.addEventListener('mousewheel',function(event){
-		//console.log(event);
-		if(arrayIncludes(event.path,heckleDiv)){
-			// If alt is held
-			if(event.altKey){
-				updateKeyframes(ROTATION,.001 * event.deltaY * -1);
-			// If alt is not held
-			} else {
-				updateKeyframes(SCALE_X,.001 * event.deltaY);
-				updateKeyframes(SCALE_Y,.001 * event.deltaY);
-			}
-			event.preventDefault();
-		}
-	});
+	document.addEventListener('mousewheel',onMouseWheel,{passive:false});
 
 	heckleSound.addEventListener('ended',function(event){
 		if(BODY.className !== 'paused'){

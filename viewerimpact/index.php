@@ -109,7 +109,7 @@ if(!empty($_GET['audiopath'])){
 		<div id="tabs"></div>
 	</header>
 
-	<canvas id="scrubber" width="1000" height="80" draggable=false></canvas>
+	<canvas id="scrubber" width="1000" height="80" draggable=false tabindex=0></canvas>
 
 	<div id="controls">
 		<div id="control-player">

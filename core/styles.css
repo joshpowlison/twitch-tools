@@ -102,7 +102,7 @@ h1{
 /* Footer */
 
 footer{
-	color:var(--dark);
+	color:var(--light);
 	display:block;
 	width:100%;
 	margin:0;
@@ -113,5 +113,5 @@ footer{
 }
 
 footer a{
-	color:var(--dark);
+	color:var(--light);
 }
