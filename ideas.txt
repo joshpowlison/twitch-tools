@@ -6,7 +6,7 @@ Every stream, tackle one group from below:
 
 Big Update		: VIEWERIMPACT Add support for .jpg, .svg, .gif, and video files as well
 Medium Update	: VIEWERIMPACT Guard against multiple gift subscriptions blowing out eardrums (they'd all trigger at once)
-Quick Update	: VIEWERIMPACT Add controls help log on-app
+Quick Update	: VIEWERIMPACT Add controls help log, on-app
 
 
 /////////// TOMORROW
@@ -16,7 +16,10 @@ Medium Update	: CHATWATCH Display unique stats from all watched channels
 
 
 
-
+THINGS I WANT:
+	- ViewerImpact
+		- Get scaling working again
+		- When copy-paste VFX into folder, auto-reread and add these to the file for the Browser Source to find
 
 
 

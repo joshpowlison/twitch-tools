@@ -156,9 +156,9 @@ if(!empty($_GET['audiopath'])){
 		<div class="popup">
 			<div class="popup-header"><p>Create New VFX</p><button class="popup-close">X</button></div>
 			<form id="popup-new-vfx-form" name="new-vfx" enctype="multipart/form-data">
-				<p class="popup-input-parent">PNG: <input name="visual" type="file" accept=".png"></p>
-				<p class="popup-input-parent">MP3: <input name="audio" type="file" accept=".mp3"></p>
-				<p class="popup-input-parent">Name: <input name="name" type="text"></p>
+				<p class="popup-input-parent">PNG: <input name="visual" type="file" accept=".png" id="popup-input-visual"></p>
+				<p class="popup-input-parent">MP3: <input name="audio" type="file" accept=".mp3" id="popup-input-audio"></p>
+				<p class="popup-input-parent">Name: <input name="name" type="text" id="popup-input-name"></p>
 				<input type="submit" value="Create">
 			</form>
 		</div>

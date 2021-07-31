@@ -10,6 +10,7 @@ modules.viewerimpact = new function(){
 		// Remove window and document event listeners
 		window.removeEventListener('mouseup',mouseUp);
 		window.removeEventListener('resize',resize);
+		document.removeEventListener('keydown',onKeyDown);
 		
 		// Pause the audio; it should get removed automatically
 		heckleSound.pause();
@@ -297,7 +298,8 @@ modules.viewerimpact = new function(){
 		// If moving on the canvas
 		if(mouseTarget === CANVAS){
 			// Blur other elements if we're working on the canvas now. Otherwise, will break shortcut keys.
-			if(document.activeElement !== CANVAS) document.activeElement.blur();
+			if(document.activeElement !== CANVAS)
+				event.target.focus();
 			
 			switch(mouseButton){
 				// Left button
@@ -1199,6 +1201,158 @@ modules.viewerimpact = new function(){
 		});
 	}
 
+	function onKeyDown(event){
+		console.log(event);
+		
+		// See if we're in the module
+		var foundModuleRoot = false;
+		for(var i = 0, l = event.path.length; i < l; i ++){
+			if(event.path[i] != module.root)
+				continue;
+			
+			foundModuleRoot = true;
+			break;
+		}
+		
+		if(!foundModuleRoot)
+			return;
+		
+		console.log('i am in');
+		
+		// Ignore all key presses if Alt is held
+		if(event.altKey) return;
+		
+		// Ignore all keys if we're in an input element
+		for(var i = 0, l = event.path.length; i < l; i ++){
+			if(
+				event.path[i].tagName === 'INPUT'
+				|| event.path[i].tagName === 'SELECT'
+				|| event.path[i].tagName === 'OPTION'
+				|| event.path[i].tagName === 'TEXTAREA'
+			) return;
+		}
+		
+		// Modifier based on special keys held; modifies strengths of operations
+		var modifier = 1;
+		if(event.shiftKey)		modifier = 5;
+		else if(event.ctrlKey)	modifier = .1;
+		
+		switch(event.key){
+			case 'Shift':
+				// Don't use Shift as a repeated key
+				if(event.repeat) return event.preventDefault();
+				break;
+			// Copy
+			case 'c':
+				if(event.ctrlKey){
+					keyframeCopied = getFrameValues();
+					console.log('I AM HERE BOIS');
+				}
+				break;
+			// Paste
+			case 'v':
+				if(event.ctrlKey && keyframeCopied !== null){
+					// Get the CSS 1/10 percentage point for the current time; based on 10 seconds
+					var percentage =
+						Math.floor((
+							(heckleSound.currentTime / heckleSound.duration * 100)	// What percentage of the total time?
+							* (heckleSound.duration / 10) // What percentage of 10 seconds?
+						) * 10) / 10
+					;
+					
+					var response = keyframeCopied.replace(/^[^%]+(%)/,percentage + '%');
+					
+					//console.log(response);
+					
+					updateKeyframesByString(response);
+				}
+				break;
+			// Pause
+			case ' ':
+				// Ignore repeat keystrokes for pausing
+				if(event.repeat) return event.preventDefault();
+			
+				freezeToggle();
+				return event.preventDefault();
+				break;
+			// Save
+			case 's':
+				if(event.ctrlKey){
+					saveAnimation(currentPath);
+					saveTriggers();
+					event.preventDefault();
+				}
+				break;
+			case 'z':
+				// Redo on ctrl+shift+z
+				if(event.ctrlKey && event.shiftKey){
+					if(currentPath && keyframesHistoryPosition < keyframesHistory.length - 1){
+						keyframesHistoryPosition ++;
+						saveData.keyframes[currentPath] = keyframesHistory[keyframesHistoryPosition];
+						updateAnimation();
+					}
+				// Undo on ctrl+z
+				} else if(event.ctrlKey){
+					if(currentPath && keyframesHistoryPosition > 0){
+						keyframesHistoryPosition --;
+						saveData.keyframes[currentPath] = keyframesHistory[keyframesHistoryPosition];
+						updateAnimation();
+					}
+				}
+				break;
+			case 'y':
+				// Redo on ctrl+y
+				if(event.ctrlKey){
+					if(currentPath && keyframesHistoryPosition < keyframesHistory.length - 1){
+						keyframesHistoryPosition ++;
+						saveData.keyframes[currentPath] = keyframesHistory[keyframesHistoryPosition];
+						updateAnimation();
+					}
+				}
+				break;
+			// Transform Shortcuts //
+			case 'ArrowLeft':
+				updateKeyframes(TRANSLATE_X,-50 * modifier,true);
+				event.preventDefault();
+				break;
+			case 'ArrowRight':
+				updateKeyframes(TRANSLATE_X,50 * modifier,true);
+				event.preventDefault();
+				break;
+			case 'ArrowUp':
+				updateKeyframes(TRANSLATE_Y,-50 * modifier,true);
+				event.preventDefault();
+				break;
+			case 'ArrowDown':
+				updateKeyframes(TRANSLATE_Y,50 * modifier,true);
+				event.preventDefault();
+				break;
+			case '-':
+			case '_':
+				updateKeyframes(SCALE_X,-.1 * modifier,true);
+				updateKeyframes(SCALE_Y,-.1 * modifier,true);
+				event.preventDefault();
+				break;
+			case '=':
+			case '+':
+				updateKeyframes(SCALE_X,.1 * modifier,true);
+				updateKeyframes(SCALE_Y,.1 * modifier,true);
+				event.preventDefault();
+				break;
+			case '[':
+			case '{':
+				updateKeyframes(ROTATION,-.1 * modifier,true);
+				event.preventDefault();
+				break;
+			case ']':
+			case '}':
+				updateKeyframes(ROTATION,.1 * modifier,true);
+				event.preventDefault();
+			default:
+				break;
+		}
+	}
+
 	function resize(){
 		canvasBoundingRect = CANVAS.getBoundingClientRect();
 	}
@@ -1352,140 +1506,7 @@ modules.viewerimpact = new function(){
 	});
 
 	// Keyboard shortcuts (on key down; repeatable)
-	module.root.addEventListener('keydown',function(event){
-		// console.log(event);
-		// Ignore all key presses if Alt is held
-		if(event.altKey) return;
-		
-		// Ignore all keys if we're in an input element
-		for(var i = 0, l = event.path.length; i < l; i ++){
-			if(
-				event.path[i].tagName === 'INPUT'
-				|| event.path[i].tagName === 'SELECT'
-				|| event.path[i].tagName === 'OPTION'
-				|| event.path[i].tagName === 'TEXTAREA'
-			) return;
-		}
-		
-		// Modifier based on special keys held; modifies strengths of operations
-		var modifier = 1;
-		if(event.shiftKey)		modifier = 5;
-		else if(event.ctrlKey)	modifier = .1;
-		
-		switch(event.key){
-			case 'Shift':
-				// Don't use Shift as a repeated key
-				if(event.repeat) return event.preventDefault();
-				break;
-			// Copy
-			case 'c':
-				if(event.ctrlKey){
-					keyframeCopied = getFrameValues();
-				}
-				break;
-			// Paste
-			case 'v':
-				if(event.ctrlKey && keyframeCopied !== null){
-					// Get the CSS 1/10 percentage point for the current time; based on 10 seconds
-					var percentage =
-						Math.floor((
-							(heckleSound.currentTime / heckleSound.duration * 100)	// What percentage of the total time?
-							* (heckleSound.duration / 10) // What percentage of 10 seconds?
-						) * 10) / 10
-					;
-					
-					var response = keyframeCopied.replace(/^[^%]+(%)/,percentage + '%');
-					
-					//console.log(response);
-					
-					updateKeyframesByString(response);
-				}
-				break;
-			// Pause
-			case ' ':
-				// Ignore repeat keystrokes for pausing
-				if(event.repeat) return event.preventDefault();
-			
-				freezeToggle();
-				return event.preventDefault();
-				break;
-			// Save
-			case 's':
-				if(event.ctrlKey){
-					saveAnimation(currentPath);
-					saveTriggers();
-					event.preventDefault();
-				}
-				break;
-			case 'z':
-				// Redo on ctrl+shift+z
-				if(event.ctrlKey && event.shiftKey){
-					if(currentPath && keyframesHistoryPosition < keyframesHistory.length - 1){
-						keyframesHistoryPosition ++;
-						saveData.keyframes[currentPath] = keyframesHistory[keyframesHistoryPosition];
-						updateAnimation();
-					}
-				// Undo on ctrl+z
-				} else if(event.ctrlKey){
-					if(currentPath && keyframesHistoryPosition > 0){
-						keyframesHistoryPosition --;
-						saveData.keyframes[currentPath] = keyframesHistory[keyframesHistoryPosition];
-						updateAnimation();
-					}
-				}
-				break;
-			case 'y':
-				// Redo on ctrl+y
-				if(event.ctrlKey){
-					if(currentPath && keyframesHistoryPosition < keyframesHistory.length - 1){
-						keyframesHistoryPosition ++;
-						saveData.keyframes[currentPath] = keyframesHistory[keyframesHistoryPosition];
-						updateAnimation();
-					}
-				}
-				break;
-			// Transform Shortcuts //
-			case 'ArrowLeft':
-				updateKeyframes(TRANSLATE_X,-50 * modifier,true);
-				event.preventDefault();
-				break;
-			case 'ArrowRight':
-				updateKeyframes(TRANSLATE_X,50 * modifier,true);
-				event.preventDefault();
-				break;
-			case 'ArrowUp':
-				updateKeyframes(TRANSLATE_Y,-50 * modifier,true);
-				event.preventDefault();
-				break;
-			case 'ArrowDown':
-				updateKeyframes(TRANSLATE_Y,50 * modifier,true);
-				event.preventDefault();
-				break;
-			case '-':
-			case '_':
-				updateKeyframes(SCALE_X,-.1 * modifier,true);
-				updateKeyframes(SCALE_Y,-.1 * modifier,true);
-				event.preventDefault();
-				break;
-			case '=':
-			case '+':
-				updateKeyframes(SCALE_X,.1 * modifier,true);
-				updateKeyframes(SCALE_Y,.1 * modifier,true);
-				event.preventDefault();
-				break;
-			case '[':
-			case '{':
-				updateKeyframes(ROTATION,-.1 * modifier,true);
-				event.preventDefault();
-				break;
-			case ']':
-			case '}':
-				updateKeyframes(ROTATION,.1 * modifier,true);
-				event.preventDefault();
-			default:
-				break;
-		}
-	});
+	document.addEventListener('keydown',onKeyDown);
 
 	module.root.getElementById('control-play').addEventListener('click',function(){
 		freezeToggle();
@@ -1540,6 +1561,18 @@ modules.viewerimpact = new function(){
 		module.root.querySelector('#popup-new-vfx').classList.toggle('show');
 	});
 	
+	function formUpdateName(event){
+		if(event.target.files.length == 0)
+			return;
+		
+		var fileName = event.target.files[0].name;
+		fileName = fileName.replace(/\.[^\.]+$/, '');
+		
+		module.root.getElementById('popup-input-name').value = fileName;
+	}
+	
+	module.root.getElementById('popup-input-visual').addEventListener('change',formUpdateName);
+	
 	module.root.getElementById('popup-new-vfx-form').addEventListener('submit',function(event){
 		event.preventDefault();
 		
@@ -1566,6 +1599,7 @@ modules.viewerimpact = new function(){
 				alert(text);
 		});
 		
+		event.target.reset();
 		return false;
 	});
 	
