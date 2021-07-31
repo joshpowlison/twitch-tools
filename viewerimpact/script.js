@@ -56,11 +56,8 @@ modules.viewerimpact = new function(){
 
 	var firstLoad		= false;
 
-	var heckleDiv = new Image();
-	heckleDiv.draggable = false;
-	heckleDiv.className = '';
-	heckleDiv.style.animationDelay = '0s';
-
+	var heckleDiv = module.root.getElementById('heckle-image');
+	
 	var mouseTarget		= null;
 	var mouseButton		= null;
 	var mouseX			= 0;

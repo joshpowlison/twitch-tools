@@ -49,10 +49,12 @@ header{
 	z-index:10;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
+	padding: .5em;
 }
 
 header > div{
-	margin: auto;
+	/* margin: auto; */
 	display: block;
 }
 
@@ -73,7 +75,7 @@ h1{
 	border:none;
 	text-align:right;
 	width: 25%;
-	margin-left: 20%;
+	/* margin-left: 4%; */
 	font-size:1.5em;
 	border-collapse:collapse;
 }
@@ -113,7 +115,7 @@ h1{
 	background-color: #ecf8ee;
 	border: 1px solid #050706;
 	overflow: auto;
-	width: 25%;
+	width: 38%;
 }
 
 #tabs > div{
@@ -123,19 +125,20 @@ h1{
 }
 
 .tab-button-select{
-	width:90%;
+	width: 60%;
 	border:none;
+	text-align: right;
 }
 
 .tab-button-test{
-	width:10%;
+	width: 40%;
 	border:none;
 	border-left:1px solid black;
 	box-sizing:border-box;
+	text-align: left;
 }
 
-#tabs button, #option-create-vfx{	display: block;	text-align: right;	color: #050706;	background-color: #ecf8ee;	cursor: pointer;	font-family: "Advent Pro";	font-size: 1.5em;	/* overflow: auto; */
-}
+#tabs button, #option-create-vfx{display: block;/* text-align: right; */color: #050706;background-color: #ecf8ee;cursor: pointer;font-family: "Advent Pro";font-size: 1.5em;/* box-sizing: border-box; *//* overflow: auto; */}
 
 #option-create-vfx{
 	float:right;

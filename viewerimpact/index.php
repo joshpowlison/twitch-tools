@@ -109,7 +109,7 @@ if(!empty($_GET['audiopath'])){
 		<div id="tabs"></div>
 	</header>
 
-	<canvas id="scrubber" width="1000" height="80" draggable=false tabindex=0></canvas>
+	<canvas id="scrubber" width="1000" height="80" draggable=false tabindex=0 title="Right Click and Drag: Delete Keyframes&#013;Ctrl + C: Copy Keyframe&#013;Ctrl + V: Paste Keyframe"></canvas>
 
 	<div id="controls">
 		<div id="control-player">
@@ -132,7 +132,9 @@ if(!empty($_GET['audiopath'])){
 	</div>
 
 	<main>
-		<div id="frame-holder"></div>
+		<div id="frame-holder">
+			<img id="heckle-image" src="" style="animation-delay:0s;" draggable=false title="Left Click + Drag / Arrow Keys: Move&#013;Left Click + Alt + Drag: Scale Free&#013;Right Click + Drag: Skew&#013;Mouse Wheel / - +: Scale&#013;Mouse Wheel + Alt / [ ]: Rotate&#013;Middle Click + Drag: Opacity">
+		</div>
 		<video id="frame-background" class="default" autoplay="true"></video>
 	</main>
 
