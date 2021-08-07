@@ -1584,6 +1584,8 @@ modules.viewerimpact = new function(){
 		var formData = new FormData(this);
 		console.log(...formData);
 		
+		var vfxName = module.root.getElementById('popup-input-name').value;
+		
 		fetch(module.path + '/create-vfx.php',{
 			method:'POST'
 			,body:formData
@@ -1594,8 +1596,8 @@ modules.viewerimpact = new function(){
 			
 			if(text == "")
 			{
-				module.root.querySelector('#popup-new-vfx').classList.remove('show');
-				alert("Successfully created!");
+				//module.root.querySelector('#popup-new-vfx').classList.remove('show');
+				module.root.getElementById('popup-output-message').innerHTML = 'Successfully created <strong>' + vfxName + '</strong>!';
 				
 				// Reload everything
 				load();

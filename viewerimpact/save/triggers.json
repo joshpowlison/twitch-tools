@@ -7,6 +7,14 @@
 			"userType": "Any",
 			"cooldown": "10",
 			"cooldownType": "user"
+		},
+		{
+			"heckle": "",
+			"contains": "!memes",
+			"from": "",
+			"userType": "Any",
+			"cooldown": "0.5",
+			"cooldownType": "global"
 		}
 	],
 	"points": [
@@ -14,6 +22,11 @@
 			"heckle": "yes",
 			"title": "Yes",
 			"user_input": ""
+		},
+		{
+			"heckle": "readytorollout",
+			"title": "Derail Stream",
+			"user_input": "readytorollout"
 		}
 	],
 	"bits": [
@@ -36,10 +49,15 @@
 		}
 	],
 	"effects": [
+		"adampc",
 		"awesome",
 		"cat",
+		"chocolate",
+		"comeon",
+		"cuddles",
 		"gas",
 		"goatgoat",
+		"readytorollout",
 		"yes"
 	]
 }

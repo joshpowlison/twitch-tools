@@ -16,8 +16,11 @@ Medium Update	: CHATWATCH Display unique stats from all watched channels
 
 THINGS I WANT:
 	- ViewerImpact
-		- When copy-paste VFX into folder, auto-reread and add these to the file for the Browser Source to find
-
+		- When copy-paste VFX into folder, auto-reread and add these to the file for the Browser Source to find (so that you can share these and they're automatically added)
+		- Allow zooming in and out of timeline; it's hard to see things (see "cuddles" vfx)
+		- Add way to adjust position/opacity/etc of EVERY keyframe at once (see "cuddles" vfx, where I've added opacity but would like to zoom and move Cuddles to the right without hanging opacity frames)
+		- Make final frame accessible; make sure it's not just out of view (this is annoying for making precision animations)
+		- Add a shortcut key that lets you skip to next and previous keyframes
 
 
 
@@ -205,3 +208,92 @@ Steffire name idea: StreamHeadacheGone
 
 
 
+///////////
+
+NOTES FROM STREAM
+
+
+3 AREAS OF STREAM I CAN IMPROVE:
+	1. Technical ("How is this working?"): software, hardware, the functionality
+	2. Direction ("Where is this going?"): how we go from A to B and why; making sure that is a worthwhile direction
+	3. Interactivity ("How can you get involved?"): Conversation, Channel Point Rewards, !me characters, etc
+
+3 Questions to Find the Core of Anything
+	1. What do you want?
+	2. What do you think you should want?
+	3. Is it worth it or should you change it?
+- I want connection with other critical thinkers about story theory.
+- I think I should want connection with other critical thinkers about story theory.
+- I think it's worth it.
+
+TODO:
+	ADD HECKLES
+		- itemget: for Metroid, Zelda,... random on command, but specific commands too ("itemgetmetroid" "itemgetzelda")
+		- Oregon Trail: "Josh is distracted" (maybe like "Josh has dysentary")
+		- Rollercoaster Tycoon "Josh's stream has broken" or "Josh's train of though has been broken down for a long time. Consider getting a mechanic")
+		- Kirby "Hiiii!"
+		- Math Blaster (???)
+		- Crazy Machines scientist head
+		- Chex Quest (maybe zorp or whatever my webcam out of it?)
+		- Hole punched in the stream, with code streaming behind it
+		- Untitled Goose (steals webcam? Or maybe grabs and carries my !me off the screen?)
+		- Jet Set Radio (???)
+		- Red Dead Redemption 2 greeting ("you have a kind face")
+		- Spongebob "We stink!"
+		- "What do you mean you're at soup?!" "I mean I'm at soup!" or the "WHY ARE YOU BUYING CLOTHES AT A SOUP STORE?!" some part of it
+		- Something from this: https://www.youtube.com/watch?v=58ZjxPlUxpM
+		- Metal Gear solid "GAME OVER" screen
+
+	- 1 for each past stream video as well:
+		- Paper Mario
+		- Wrecking Crew
+		- Tetris (Game Boy)
+		- Sly Cooper and the Thievius Raccoonus
+		- Bionic Commando (NES)
+		- Mario Tennis (N64)
+		- Skyrim
+		- Bases Loaded (NES)
+		- Catbird (?)
+		- Mastermind (perhaps mock the bad typos in that one?)
+
+	- If webpage is zoomed in (100% -> 110%, etc), don't zoom in EVERYTHING; have specific elements zoomed (if zoomed in, breaks !mes and general canvas, which is really confusing)
+
+	- Add face-tracking graphic overlays, accessible by clicking on an external panel (hold = on, release = off)
+		- Overlay characters' faces onto my camera w/these
+	- Create powerups
+		- Increase in size (mushroom)
+	- Add back in voice adjustment
+	- Facial tracking: https://github.com/justadudewhohacks/face-api.js
+	- Hand tracking: https://github.com/victordibia/handtrack.js
+	- Allow offsetting video timing (will be helpful for face masks)
+		- Draw canvas like film strip
+
+	- Tier 3 subs: custom effect on-stream
+		- Tier 1: New Derail Stream effects?
+		- Tier 2: New Derail Stream effects?
+		- Tier 3: New Derail Stream effects?
+
+	- Swappable cameras (might might be easier in webcode than in Streamlabs, honestly)
+	- See if can list info about replies
+	- Sections of the stream can be more watching, vs interacting; both are valid
+
+	- If we assign shortcut keys to gamepad controls, they should work from any window.
+	
+	- Allow users to change BotPowlison's voice, pitch, and speaking speed
+		- Have BotPowlison speak up more often, become a more regular part of the stream
+
+//// TODO: See what I actually need to apply "backface-visibility" to (text background and names on text seem to matter)
+
+- For chill streams, have option for viewers to pick music? (from list of pre-existing items)
+
+
+
+- AMIhalasz
+
+//////// Viewer ideas
+	- Boss battles
+	- Waiting rooms that look like different biomes (one could be a "welcome back" party)
+	- Have items that characters could collect
+
+////////
+	- Make shake not lag

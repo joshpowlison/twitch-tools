@@ -503,3 +503,8 @@ footer option{
 .popup-header > p{
 	margin:0;
 }
+
+.popup-output-message
+{
+	color:#2c582e;
+}

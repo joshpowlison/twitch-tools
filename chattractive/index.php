@@ -3,5 +3,15 @@
 
 <button id="button-clear-chat">Clear Chat</button>
 
+<form id="design">
+	<p>Text Size: <input type="number" name="font-size"></p>
+	<p>Name Color: <input type="color" name="name-color"></p>
+	<p>Text Color: <input type="color" name="body-color"></p>
+	<p>Font: <select name="font-family">
+		<option value="serif">Serif</option>
+		<option value="sans-serif">Sans-Serif</option>
+	</select></p>
+</form>
+
 <p id="is-admin" style="display:none"></p>
 <main></main>

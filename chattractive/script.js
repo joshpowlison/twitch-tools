@@ -4,6 +4,7 @@ modules.chattractive = new function(){
 	const module		= this;
 	module.name			= 'chattractive';
 	module.root			= modules[module.name];
+	module.path			= '../' + module.name;
 	module.isAdminPanel	= (module.root.querySelector('#is-admin') !=null);
 	
 	// Use Root to call elements (with getElementById, querySelector, and querySelectorAll)
@@ -18,6 +19,14 @@ modules.chattractive = new function(){
 	module.target	= module.root.querySelector('main');
 	
 	document.addEventListener('livestreamchatmessage',onChatMessage);
+	
+	// Defaults
+	var data = {
+		"font-family"	: "Arial",
+		"font-size"		: 1,
+		"name-color"	: "000",
+		"body-color"	: "000"
+	};
 	
 	function onChatMessage(event){
 		console.log('chattractive',event);
@@ -513,6 +522,25 @@ modules.chattractive = new function(){
 		return false;
 	}
 	
+	function loadData(){
+		fetch(module.path + '/save/data.json')
+		.then(response => response.text())
+		.then(text => {
+			data = JSON.parse(text);
+			
+			if(module.isAdminPanel)
+				onLoadAdminPanel();
+		})
+		.catch(error => {
+			console.log(error);
+			
+			if(module.isAdminPanel)
+				onLoadAdminPanel();
+		});
+	}
+	
+	loadData();
+	
 	// Admin settings
 	
 	if(!module.isAdminPanel)
@@ -527,5 +555,33 @@ modules.chattractive = new function(){
 		});
 	}
 	
-	module.root.querySelector('#button-clear-chat').addEventListener('click',callClearChat);
+	function saveData(){
+		// Pass the data for the animation we want to save
+		var formdata = new FormData(module.root.getElementById('design'));
+		
+		console.log(module.path);
+		
+		fetch(module.path + '/save.php',{
+			method:'POST'
+			,body:formdata
+		})
+		.then(response => response.text())
+		.then(text => {
+			console.log(text);
+		});
+	}
+	
+	
+	function onLoadAdminPanel(){
+		// Set up inputs with base values and update form on change
+		var inputs = module.root.querySelectorAll('input');
+		for(var i = 0, l = inputs.length; i < l; i ++)
+		{
+			inputs[i].addEventListener('change',saveData);
+			console.log(inputs[i], data[inputs[i].name]);
+			inputs[i].value = data[inputs[i].name];
+		}
+		
+		module.root.querySelector('#button-clear-chat').addEventListener('click',callClearChat);		
+	}
 }

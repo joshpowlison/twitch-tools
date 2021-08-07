@@ -161,7 +161,7 @@ if(!empty($_GET['audiopath'])){
 				<p class="popup-input-parent">PNG: <input name="visual" type="file" accept=".png" id="popup-input-visual"></p>
 				<p class="popup-input-parent">MP3: <input name="audio" type="file" accept=".mp3" id="popup-input-audio"></p>
 				<p class="popup-input-parent">Name: <input name="name" type="text" id="popup-input-name"></p>
-				<input type="submit" value="Create">
+				<p><input type="submit" value="Create"> <span class="popup-message" id="popup-output-message"></span></p>
 			</form>
 		</div>
 	</div>
